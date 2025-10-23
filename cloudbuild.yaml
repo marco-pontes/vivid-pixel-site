@@ -62,6 +62,8 @@ steps:
           --set-env-vars=BACKEND_API_URL=$$BACKEND_URL
           # O seu next.config.js (process.env.BACKEND_API_URL) irá agora usar esta URL
 
+options:
+  logging: CLOUD_LOGGING_ONLY
 # Lista as imagens que serão armazenadas
 images:
   - 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/api-backend:latest'

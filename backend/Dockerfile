@@ -16,4 +16,4 @@ EXPOSE 8000
 
 # 6. Comando para iniciar a aplicação
 #    O host 0.0.0.0 é essencial para que o contêiner seja acessível externamente
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["/bin/sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

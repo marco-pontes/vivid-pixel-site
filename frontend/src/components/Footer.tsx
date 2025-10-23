@@ -91,11 +91,11 @@ export const Footer = (): FunctionComponent => {
 				</div>
 				<div className="col-1-of-2">
 					<p className="footer__copyright">
-						Built by
+						Built by{" "}
 						<a className="footer__link" href="https://github.com/marco-pontes/">
 							Marco Pontes
-						</a>{" "}
-						. Copyright &copy; by
+						</a>
+						. Copyright &copy; by{" "}
 						<a
 							className="footer__link"
 							href="https://github.com/jonasschmedtmann"

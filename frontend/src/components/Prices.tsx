@@ -36,7 +36,7 @@ export const Prices = () => {
 									<p className="card__price-value">$42</p>
 								</div>
 								<a href="#popup" className="btn btn--white">
-									Book now!
+									Hire now!
 								</a>
 							</div>
 						</div>

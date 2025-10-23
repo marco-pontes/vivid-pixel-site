@@ -25,10 +25,10 @@ export const Modal = (): FunctionComponent => {
 					<a className="popup__close" href="#section-prices">
 						&times;
 					</a>
-					<h2 className="heading_secondary u-margin-bottom-small">
+					<h2 className="heading_secondary u-margin-bottom-xs">
 						Start booking now
 					</h2>
-					<h3 className="heading-tertiary u-margin-bottom-small">
+					<h3 className="heading-tertiary u-margin-bottom-xs">
 						Important &ndash; Please read these terms before booking
 					</h3>
 					<p className="popup__text">
@@ -41,8 +41,8 @@ export const Modal = (): FunctionComponent => {
 						omnis, quia quisquam quos, sed veniam vero. Lorem ipsum dolor sit
 						amet, consectetur adipisicing elit.
 					</p>
-					<a className="btn btn--green" href="#">
-						Book now
+					<a className="btn btn--green" href="#section-contact">
+						Hire now
 					</a>
 				</div>
 			</div>

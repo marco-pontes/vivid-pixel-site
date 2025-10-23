@@ -21,7 +21,7 @@ export const Contact = (): FunctionComponent => {
 	};
 
 	return (
-		<section className="section-book">
+		<section className="section-book" id="section-contact">
 			<div className="row">
 				<div className="book">
 					<div className="book__form">

@@ -35,23 +35,41 @@
     box-shadow: 0 2rem 4rem rgba(variables.$color-black, 0.2);
     border-radius: 3px;
     background-color: variables.$color-white;
-    display: table;
+    display: flex;
     overflow: hidden;
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.5);
     transition: all 0.4s 0.2s;
+    flex-direction:row;
+    flex-wrap:wrap;
+    @include mixins.query(tab-port) {
+      width: 73%;
+    }
+    @include mixins.query(tab-land) {
+      width: 83%;
+    }
   }
 
   &__left {
     width: 33.3333%;
-    display: table-cell;
+    @include mixins.query(phone) {
+      width: 100%;
+    }
   }
 
   &__right {
     width: 66.6666667%;
-    display: table-cell;
     vertical-align: middle;
     padding: 3rem 5rem;
+    @include mixins.query(phone) {
+      width: 100%;
+    }
+    @include mixins.query(tab-port) {
+      padding: 1rem 2rem;
+    }
+    @include mixins.query(tab-land) {
+      padding: 2rem 3rem;
+    }
   }
 
   &__img {
@@ -67,7 +85,14 @@
     column-gap: 4rem;
     column-rule: 1px solid variables.$color-grey-light-2;
     hyphens: auto;
+    @include mixins.query(tab-port) {
+      margin-bottom: 1rem;
+    }
+    @include mixins.query(tab-land) {
+      column-count: 1;
+    }
   }
+
 
   &__close {
     &:link,

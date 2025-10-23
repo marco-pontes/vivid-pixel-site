@@ -12,8 +12,10 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Variável de ambiente para o build (se você tiver uma)
-# ENV NEXT_PUBLIC_SOME_VAR=foo
+# --- A CORREÇÃO ESTÁ AQUI ---
+# Forneça uma URL de placeholder válida *apenas para a etapa de build*.
+# Isto permite que 'next build' valide o next.config.js.
+ENV BACKEND_API_URL="http://build-time-placeholder.com"
 
 RUN npm run build
 

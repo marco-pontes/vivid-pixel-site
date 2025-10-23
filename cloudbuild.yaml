@@ -29,7 +29,7 @@ steps:
 
   # 2.1. Construir a imagem do frontend
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', '--no-cache=true', 'us-central1-docker.pkg.dev/${PROJECT_ID}/vivid-pixel-site/app-frontend:latest', './frontend']
+    args: ['build', '--no-cache=true', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/vivid-pixel-site/app-frontend:latest', './frontend']
 
   # 2.2. Enviar a imagem do frontend para o Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'

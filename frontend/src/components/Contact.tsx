@@ -12,7 +12,6 @@ export const Contact = (): FunctionComponent => {
 	const onValidFn = (data: FieldValues): void => {
 		fetch("api/contact", {
 			method: "POST",
-
 			body: JSON.stringify(data),
 			headers: {
 				Accept: "application/json",

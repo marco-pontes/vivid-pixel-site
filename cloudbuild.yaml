@@ -1,0 +1,71 @@
+steps:
+  # --- Etapa 1: Backend (Python API) ---
+
+  # 1.1. Construir a imagem do backend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/api-backend:latest', './backend']
+
+  # 1.2. Enviar a imagem para o Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/api-backend:latest']
+
+  # 1.3. Fazer o deploy do backend no Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'api-backend-service' # O nome do seu serviço de backend
+      - '--image=us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/api-backend:latest'
+      - '--region=us-central1'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+      # --- ADICIONE ESTA LINHA ---
+      # Ela mapeia o segredo 'SENDGRID_API_KEY' (versão 'latest')
+      # para uma variável de ambiente chamada 'SENDGRID_API_KEY'.
+      - '--set-secrets=SENDGRID_API_KEY=SENDGRID_API_KEY:latest'
+
+  # --- Etapa 2: Frontend (Next.js) ---
+
+  # 2.1. Construir a imagem do frontend
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/app-frontend:latest', './frontend']
+
+  # 2.2. Enviar a imagem do frontend para o Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/app-frontend:latest']
+
+  # 2.3. Obter a URL do Backend E Fazer o Deploy do Frontend
+  # Esta é a etapa-chave. Usamos 'bash' para executar múltiplos comandos.
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # 2.3a. Obter a URL do backend que acabou de ser implantado
+        BACKEND_URL=$$(gcloud run services describe api-backend-service --platform=managed --region=us-central1 --format='value(status.url)')
+        
+        # Verifica se a URL foi obtida com sucesso
+        if [ -z "$$BACKEND_URL" ]; then
+          echo "ERRO: Não foi possível obter a URL do backend (api-backend-service)."
+          exit 1
+        fi
+        
+        echo "URL do Backend detectada: $$BACKEND_URL"
+        
+        # 2.3b. Fazer o deploy do frontend, injetando a URL do backend como variável de ambiente
+        gcloud run deploy app-frontend-service \
+          --image=us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/app-frontend:latest \
+          --region=us-central1 \
+          --platform=managed \
+          --allow-unauthenticated \
+          --set-env-vars=BACKEND_API_URL=$$BACKEND_URL
+          # O seu next.config.js (process.env.BACKEND_API_URL) irá agora usar esta URL
+
+# Lista as imagens que serão armazenadas
+images:
+  - 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/api-backend:latest'
+  - 'us-central1-docker.pkg.dev/${PROJECT_ID}/meu-repo/app-frontend:latest'
+
+# Aumenta o tempo limite, pois construir e implantar dois serviços pode demorar
+timeout: '1800s'

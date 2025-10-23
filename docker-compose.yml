@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # Serviço do Backend (Python) - Sem mudanças
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/code/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    env_file:
+      - ./.env
+
+  # Serviço do Frontend (Next.js) - Atualizado
+  frontend:
+    # Não usamos 'build:', pois queremos o servidor de desenvolvimento
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      # Monta todo o código do frontend dentro do /app no container
+      - ./frontend:/app
+    ports:
+      # O servidor 'npm run dev' roda na porta 3000
+      - "3000:3000"
+    command: npm run dev
+    depends_on:
+      - backend
+    environment:
+      - BACKEND_API_URL=http://backend:8000
+      # Esta é a URL que o 'next.config.js' (em 'rewrites') usará.
+      # 'http://backend:800version: '3.8'
+      #
+      #services:
+      #  # Serviço do Backend (Python) - Sem mudanças
+      #  backend:
+      #    build:
+      #      context: ./backend
+      #      dockerfile: Dockerfile
+      #    ports:
+      #      - "8000:8000"
+      #    volumes:
+      #      - ./backend/app:/code/app
+      #    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      #    # O backend não precisa de variável de ambiente,
+      #    # pois ele apenas recebe chamadas.
+      #
+      #  # Serviço do Frontend (Next.js) - Atualizado
+      #  frontend:
+      #    # Não usamos 'build:', pois queremos o servidor de desenvolvimento
+      #    image: node:18-alpine
+      #    working_dir: /app
+      #    volumes:
+      #      # Monta todo o código do frontend dentro do /app no container
+      #      - ./frontend:/app
+      #    ports:
+      #      # O servidor 'npm run dev' roda na porta 3000
+      #      - "3000:3000"
+      #    command: npm run dev
+      #    depends_on:
+      #      - backend
+      #    environment:
+      #      # Esta é a URL que o 'next.config.js' (em 'rewrites') usará.
+      #      # 'http://backend:8000' funciona por causa da rede interna do Docker Compose.
+      #      - BACKEND_API_URL=http://backend:8000
+      #
+      #      # Necessário para o hot-reloading do Next.js funcionar corretamente dentro do Docker
+      #      - CHOKIDAR_USEPOLLING=true0' funciona por causa da rede interna do Docker Compose.
+
+      # Necessário para o hot-reloading do Next.js funcionar corretamente dentro do Docker
+      - CHOKIDAR_USEPOLLING=true

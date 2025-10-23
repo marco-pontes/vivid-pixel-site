@@ -8,6 +8,15 @@ export const Developers = memo(function Stories(): FunctionComponent {
 	const t = useTranslations("Developers");
 	console.count("Stories Renders");
 	const size = "xl";
+	const skills = [
+		{ name: "JavaScript", id: 1 },
+		{ name: "Typescript", id: 2 },
+		{ name: "React", id: 3 },
+		{ name: "Next.js", id: 4 },
+		{ name: "HTML 5 & CSS 3", id: 5 },
+		{ name: "Python", id: 6 },
+		{ name: "Ruby", id: 7 },
+	];
 	return (
 		<section className="section-stories">
 			<div className="bg-video">
@@ -55,23 +64,16 @@ export const Developers = memo(function Stories(): FunctionComponent {
 						</p>
 						<Box mt={"5"}>
 							<HStack>
-								{[
-									"JavaScript",
-									"Typescript",
-									"React",
-									"Next.js",
-									"HTML 5 & CSS 3",
-									"Python",
-									"Ruby",
-								].map((skill) => (
+								{skills.map((skill) => (
 									<Tag.Root
+										key={skill.id}
 										size={size}
 										rounded="full"
 										p={"2"}
 										variant="solid"
 										backgroundColor={"var(--chakra-colors-red-700)"}
 									>
-										<Tag.Label>{skill}</Tag.Label>
+										<Tag.Label>{skill.name}</Tag.Label>
 									</Tag.Root>
 								))}
 							</HStack>

@@ -79,3 +79,6 @@ async def root(form: ContactForm):
         logger.error(f"Erro ao enviar email: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao enviar email: {str(e)}")
 
+@app.post("/api/ping")
+async def root():
+    return {}

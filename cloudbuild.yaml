@@ -77,7 +77,9 @@ steps:
       - '--set-env-vars=BACKEND_API_URL=$$(cat /workspace/backend_url.txt)'
     wait_for: ['push-frontend']
 
-# Lista de imagens
+options:
+  logging: CLOUD_LOGGING_ONLY
+# Lista as imagens que serão armazenadas
 images:
   - 'us-central1-docker.pkg.dev/${PROJECT_ID}/vivid-pixel-site/api-backend:${SHORT_SHA}'
   - 'us-central1-docker.pkg.dev/${PROJECT_ID}/vivid-pixel-site/app-frontend:${SHORT_SHA}'

@@ -1,5 +1,5 @@
 # 1. Usar uma imagem base oficial do Python
-FROM python:3.11-slim
+FROM python:3.13-slim
 
 # 2. Definir o diretório de trabalho
 WORKDIR /code

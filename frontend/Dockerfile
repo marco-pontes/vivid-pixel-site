@@ -1,13 +1,13 @@
 # Estágio 1: Dependências
 # Instala dependências de forma isolada para aproveitar o cache do Docker
-FROM node:18-alpine AS deps
+FROM node:22-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
 # Estágio 2: Build
 # Constrói a aplicação
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -21,16 +21,22 @@ RUN npm run build
 
 # Estágio 3: Produção (Runner)
 # Imagem final, super leve, usando a saída 'standalone'
-FROM node:18-alpine AS runner
+FROM node:22-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Copia os arquivos da 'standalone output' do estágio de build
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copia os ficheiros da 'standalone output' do estágio de build
+# Agora o comando '--chown' irá funcionar
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# Muda o utilizador para o utilizador sem privilégios que acabou de criar
+USER nextjs
 # O Next.js 'standalone' roda por padrão na porta 3000
 EXPOSE 3000
 

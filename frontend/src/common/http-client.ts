@@ -1,10 +1,24 @@
 import path from "path";
 
+export type BodyParams = string | object;
+
 export interface Client {
 	get: (path: string, init?: RequestInit) => Promise<Response>;
-	post: (path: string, body?: any, init?: RequestInit) => Promise<Response>;
-	put: (path: string, body?: any, init?: RequestInit) => Promise<Response>;
-	patch: (path: string, body?: any, init?: RequestInit) => Promise<Response>;
+	post: (
+		path: string,
+		body?: BodyParams,
+		init?: RequestInit
+	) => Promise<Response>;
+	put: (
+		path: string,
+		body?: BodyParams,
+		init?: RequestInit
+	) => Promise<Response>;
+	patch: (
+		path: string,
+		body?: BodyParams,
+		init?: RequestInit
+	) => Promise<Response>;
 	delete: (path: string, init?: RequestInit) => Promise<Response>;
 	head: (path: string, init?: RequestInit) => Promise<Response>;
 	options: (path: string, init?: RequestInit) => Promise<Response>;
@@ -23,7 +37,7 @@ export type HttpMethod =
 export type CreateOptions = { headers: Record<string, string> };
 
 /** Build RequestInit for JSON body if a plain object/string is provided. */
-const asJsonInit = (body: any, init?: RequestInit): RequestInit => {
+const asJsonInit = (body: BodyParams, init?: RequestInit): RequestInit => {
 	const headers = new Headers(init?.headers || {});
 	if (body !== undefined && body !== null && !(body instanceof FormData)) {
 		if (!headers.has("content-type"))
@@ -49,9 +63,9 @@ function create(defaultBaseUrl?: string, options?: CreateOptions): Client {
 	) => {
 		const url = path.join(envCfg.baseUrl, relativePath);
 		// Merge baseHeaders with any provided init.headers. Use Headers API to preserve existing values
-		const headers = new Headers(baseHeaders as any);
+		const headers = new Headers(baseHeaders as Record<string, string>);
 		if (init?.headers) {
-			new Headers(init.headers as any).forEach((value, key) =>
+			new Headers(init.headers as HeadersInit).forEach((value, key) =>
 				headers.set(key, value)
 			);
 		}
@@ -60,7 +74,8 @@ function create(defaultBaseUrl?: string, options?: CreateOptions): Client {
 	};
 
 	const withJson =
-		(method: HttpMethod) => (path: string, body?: any, init?: RequestInit) =>
+		(method: HttpMethod) =>
+		(path: string, body: BodyParams = {}, init?: RequestInit) =>
 			request(method, path, asJsonInit(body, init));
 
 	const client: Client = {

@@ -19,7 +19,7 @@ export const Prices = () => {
 							</h4>
 							<div className="card__details">
 								<ul>
-									<li>1 dedicated developer(Front-end specialist)</li>
+									<li>1 dedicated developer (Front-end specialist)</li>
 									<li>7 working hours</li>
 									<li>Follows your schedule</li>
 									<li>Continuous Deliveries</li>

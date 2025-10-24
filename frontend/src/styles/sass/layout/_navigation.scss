@@ -85,15 +85,20 @@
     &:link,
     &:visited {
       display: inline-block;
-      font-size: 3rem;
+      font-size: 1.8rem;
       font-weight: 300;
-      padding: 1rem 2rem;
+      padding: .5rem 1rem;
       color: variables.$color-white;
       text-decoration: none;
       text-transform: uppercase;
       background-image: linear-gradient(120deg, transparent 0%, transparent 50%, variables.$color-white 50%);
       background-size: 220%;
       transition: all 0.4s;
+
+      @include mixins.query(phone) {
+        padding: 0 .5rem;
+        font-size: 1.3rem;
+      }
 
       span {
         margin-right: 1.5rem;

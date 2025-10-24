@@ -18,7 +18,7 @@ export const Developers = memo(function Stories(): FunctionComponent {
 		{ name: "Ruby", id: 7 },
 	];
 	return (
-		<section className="section-stories">
+		<section className="section-developers" id="section-developers">
 			<div className="bg-video">
 				<video autoPlay loop muted className="bg-video__content">
 					<source src="/images/video.mp4" type="video/mp4" />

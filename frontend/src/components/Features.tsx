@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 export const Features = (): FunctionComponent => {
 	const t = useTranslations("Features");
 	return (
-		<section className="section-features">
+		<section className="section-features" id="section-features">
 			<div className="row">
 				<div className="col-1-of-4">
 					<div className="feature-box">

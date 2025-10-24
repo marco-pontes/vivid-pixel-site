@@ -19,7 +19,11 @@ export interface Client {
 		body?: BodyParams,
 		init?: RequestInit
 	) => Promise<Response>;
-	delete: (path: string, init?: RequestInit) => Promise<Response>;
+	delete: (
+		path: string,
+		body?: BodyParams,
+		init?: RequestInit
+	) => Promise<Response>;
 	head: (path: string, init?: RequestInit) => Promise<Response>;
 	options: (path: string, init?: RequestInit) => Promise<Response>;
 	baseUrl: string;

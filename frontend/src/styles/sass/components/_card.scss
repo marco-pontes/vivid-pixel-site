@@ -72,12 +72,12 @@
           variables.$color-secondary-light,
           variables.$color-secondary-dark
         ),
-        url("/images/nat-5.jpg");
+        url("/images/code-1.jpg");
     }
 
     &--2 {
       background-image: linear-gradient(to right bottom, variables.$color-primary-light, variables.$color-primary-dark),
-        url("/images/nat-6.jpg");
+        url("/images/code-2.jpg");
     }
 
     &--3 {
@@ -86,7 +86,7 @@
           variables.$color-tertiary-light,
           variables.$color-tertiary-dark
         ),
-        url("/images/nat-7.jpg");
+        url("/images/code-3.jpg");
     }
   }
 

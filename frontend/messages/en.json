@@ -10,5 +10,10 @@
   },
   "Developers": {
     "title": "Team of Developers"
+  },
+  "Features": {
+    "best_practices": {
+      "text": "best practices"
+    }
   }
 }

@@ -1,6 +1,10 @@
 "use client";
-import type { FunctionComponent } from "@/types/types.ts";
+import type { ContactForm, FunctionComponent } from "@/types/types.ts";
 import { type FieldValues, useForm } from "react-hook-form";
+import { toaster } from "@/components/ui/toaster";
+import { useSendContact } from "@/hooks/useSendContact";
+import { Button, Field, HStack, Input } from "@chakra-ui/react";
+import { RiMailLine } from "react-icons/ri";
 
 export const Contact = (): FunctionComponent => {
 	const {
@@ -8,16 +12,18 @@ export const Contact = (): FunctionComponent => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+	const { mutate, isPending } = useSendContact(successFn);
 
-	const onValidFn = (data: FieldValues): void => {
-		fetch("api/contact", {
-			method: "POST",
-			body: JSON.stringify(data),
-			headers: {
-				Accept: "application/json",
-				"Content-type": "application/json",
-			},
+	function successFn() {
+		toaster.create({
+			title: "Success",
+			type: "success",
+			description: "Email sent Sucessfully. We will contact you",
 		});
+	}
+
+	const onValidFn = async (data: FieldValues) => {
+		mutate(data as ContactForm);
 	};
 
 	return (
@@ -34,20 +40,25 @@ export const Contact = (): FunctionComponent => {
 								<h2 className="heading-secondary">Contact us!</h2>
 							</div>
 							<div className="form__group">
-								<input
-									{...register("name", {
-										required: "The name must be informed",
-									})}
-									className="form__input"
-									id="name"
-									name="name"
-									placeholder="Full name"
-									type="text"
-								/>
-								{errors["name"]?.message && <>{errors["name"]?.message}</>}
-								<label className="form__label" htmlFor="name">
-									Full name
-								</label>
+								<Field.Root invalid={!!errors["name"]}>
+									<Input
+										{...register("name", {
+											required: "The name must be informed",
+										})}
+										className="form__input"
+										id="name"
+										name="name"
+										placeholder="Full name"
+										type="text"
+									/>
+									{errors["name"]?.message && <>{errors["name"]?.message}</>}
+									<Field.Label className="form__label" htmlFor="name">
+										Full name
+									</Field.Label>
+									<Field.ErrorText>
+										<>{errors["name"]?.message}</>
+									</Field.ErrorText>
+								</Field.Root>
 							</div>
 
 							<div className="form__group">
@@ -110,7 +121,18 @@ export const Contact = (): FunctionComponent => {
 							{/*	</div>*/}
 							{/*</div>*/}
 							<div className="form__group">
-								<button className="btn btn--green">Send &rarr;</button>
+								<HStack>
+									<Button
+										disabled={isPending}
+										colorPalette="red"
+										variant="solid"
+										type="submit"
+										size="xl"
+										className="btn"
+									>
+										<RiMailLine /> Send a Message
+									</Button>
+								</HStack>
 							</div>
 						</form>
 					</div>

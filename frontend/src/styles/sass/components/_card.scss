@@ -4,10 +4,10 @@
 .card {
   perspective: 150rem;
   position: relative;
-  height: 52rem;
+  height: 32.5rem;
 
   &__side {
-    height: 52rem;
+    height: 32.5rem;
     border-radius: 3px;
     transition: all 0.8s ease;
     position: absolute;
@@ -16,7 +16,7 @@
     width: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    box-shadow: 0 1.5rem 4rem rgba(variables.$color-black, 0.15);
+    box-shadow: 0 0.7rem 2rem rgba(variables.$color-black, 0.15);
     overflow: hidden;
 
     &--front {
@@ -61,7 +61,7 @@
 
   &__picture {
     background-size: cover;
-    height: 23rem;
+    height: 14.4rem;
     background-blend-mode: screen;
     -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
     clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
@@ -91,19 +91,20 @@
   }
 
   &__heading {
-    font-size: 2.8rem;
-    font-weight: 300;
     text-transform: uppercase;
     text-align: right;
-    color: variables.$color-white;
+    width: 81%;
+    font-size: 1.7rem;
     position: absolute;
-    top: 12rem;
+    top: 7.6rem;
+    font-weight: 300;
+    color: variables.$color-white;
     right: 2rem;
-    width: 75%;
+
   }
 
   &__heading-span {
-    padding: 1rem 1.5rem;
+    padding: 0.6rem .5rem;
     -webkit-box-decoration-break: clone;
 
     &--1 {
@@ -132,15 +133,15 @@
   }
 
   &__details {
-    padding: 3rem;
+    padding: 1.8rem;
     ul {
       list-style: none;
       width: 80%;
       margin: 0 auto;
       li {
         text-align: center;
-        font-size: 1.5rem;
-        padding: 1rem;
+        font-size: 0.95rem;
+        padding: .6rem;
 
         &:not(:last-child) {
           border-bottom: 1px solid variables.$color-grey-light-2;
@@ -161,16 +162,16 @@
   &__price-box {
     text-align: center;
     color: variables.$color-white;
-    margin-bottom: 8rem;
+    margin-bottom: 3rem;
   }
 
   &__price-only {
-    font-size: 1.4rem;
+    font-size: 1rem;
     text-transform: uppercase;
   }
 
   &__price-value {
-    font-size: 6rem;
+    font-size: 3rem;
     font-weight: 100;
   }
 
@@ -178,7 +179,7 @@
     height: auto;
     border-radius: 3px;
     background-color: variables.$color-white;
-    box-shadow: 0 1.5rem 4rem rgba(variables.$color-black, 0.15);
+    box-shadow: 0 0.7rem 2rem rgba(variables.$color-black, 0.15);
 
     &__side {
       height: auto;
@@ -217,4 +218,18 @@
       font-size: 4rem;
     }
   }
+
+  @include mixins.query(tab-port-no-hover) {
+
+    &__details {
+      padding: 1rem 1rem;
+    }
+
+    &__details ul {
+      width: 95%;
+    }
+  }
+
+
+
 }

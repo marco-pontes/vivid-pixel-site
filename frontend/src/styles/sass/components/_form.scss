@@ -3,14 +3,14 @@
 
 .form {
   &__group:not(:last-child) {
-    margin-bottom: 2rem;
+    margin-bottom: .3rem;
   }
 
   &__input {
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-family: inherit;
     color: inherit;
-    padding: 1.5rem 2rem;
+    padding: 1rem 1rem;
     border-radius: 2px;
     background-color: rgba(variables.$color-white, 0.5);
     border: none;
@@ -39,10 +39,10 @@
   }
 
   &__label {
-    font-size: 1.2rem;
+    margin-top: .4rem;
+    margin-left: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    margin-left: 2rem;
-    margin-top: 0.7rem;
     display: block;
     transition: all 0.3s;
   }
@@ -71,7 +71,7 @@
     font-size: variables.$default-font-size;
     cursor: pointer;
     position: relative;
-    padding-left: 5rem;
+    padding-left: 3rem;
   }
 
   &__radio-button {

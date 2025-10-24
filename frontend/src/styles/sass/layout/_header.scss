@@ -37,12 +37,12 @@
 
   &__logo-box {
     position: absolute;
-    top: 4rem;
-    left: 4rem;
+    top: 2.5rem;
+    left: 2.5rem;
   }
 
   &__logo {
-    height: 3.5rem;
+    height: 2.2rem;
   }
 
   &__text-box {
@@ -51,5 +51,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    @include mixins.query(tab-port) {
+      top: 45%;
+    }
   }
 }

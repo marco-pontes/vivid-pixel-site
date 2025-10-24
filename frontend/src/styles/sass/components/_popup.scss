@@ -78,11 +78,11 @@
   }
 
   &__text {
-    font-size: 1.4rem;
-    margin-bottom: 4rem;
+    column-gap: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1rem;
 
     column-count: 2;
-    column-gap: 4rem;
     column-rule: 1px solid variables.$color-grey-light-2;
     hyphens: auto;
     @include mixins.query(tab-port) {

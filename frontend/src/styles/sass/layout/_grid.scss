@@ -6,8 +6,8 @@
   margin: 0 auto;
 
   @include mixins.query(tab-port) {
-    max-width: 50rem;
-    padding: 0 3rem;
+    max-width: variables.$tab-port-grid-width;
+    padding: 0 2rem;
   }
 
   &:not(:last-child) {

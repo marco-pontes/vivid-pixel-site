@@ -2,30 +2,31 @@
 @use "../abstracts/variables";
 
 .story {
-  width: 75%;
+  width: 81%;
   margin: 0 auto;
   box-shadow: 0 3rem 6rem rgba(variables.$color-black, 0.1);
   background-color: rgba(variables.$color-white, 0.6);
   border-radius: 3px;
-  padding: 6rem;
-  padding-left: 9rem;
+  padding: 4rem;
+  padding-left: 6rem;
   font-size: variables.$default-font-size;
   transform: skewX(-12deg);
 
   @include mixins.query(tab-port) {
     width: 100%;
-    padding: 4rem 4rem 4rem 7rem;
+    padding: 2rem 2rem 2rem 5rem;
   }
 
   @include mixins.query(phone) {
     transform: skewX(0);
+    padding: 3rem 2.5rem;
   }
 
   &__shape {
-    width: 15rem;
-    height: 15rem;
+    width: 9rem;
+    height: 9rem;
     float: left;
-    transform: translateX(-3rem) skewX(12deg);
+    transform: translateX(-2rem) skewX(12deg);
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -39,7 +40,7 @@
     }
 
     @include mixins.query(phone) {
-      transform: translateX(-3rem) skewX(0);
+      transform: translateX(-1rem) skewX(0);
     }
   }
 
@@ -67,7 +68,7 @@
     left: 50%;
     transform: translate(-50%, 20%);
     color: variables.$color-white;
-    font-size: 1.7rem;
+    font-size: 1rem;
     text-align: center;
     opacity: 0;
     backface-visibility: hidden;
@@ -82,5 +83,6 @@
   &:hover &__image {
     filter: blur(3px) brightness(80%);
     transform: translateX(-4rem) scale(1);
+    left: 62px;
   }
 }

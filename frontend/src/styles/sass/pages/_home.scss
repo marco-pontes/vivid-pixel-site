@@ -3,16 +3,13 @@
 
 .section-about {
   background-color: variables.$color-grey-light-1;
-  padding: 25rem 0;
-  margin-top: -20vh;
+  padding: 12rem 0;
+  margin-top: -21vh;
 
-  @include mixins.query(tab-port) {
-    padding: 20rem 0;
-  }
 }
 
 .section-features {
-  padding: 20rem 0;
+  padding: 12.5rem 0;
   background-image: linear-gradient(
       to right bottom,
       rgba(variables.$color-primary-light, 0.8),
@@ -21,10 +18,10 @@
     url("/images/nat-4.jpg");
   background-size: cover;
   transform: skewY(-7deg);
-  margin-top: -10rem;
+  margin-top: -7rem;
 
   @include mixins.query(tab-port) {
-    padding: 10rem 0;
+    padding: 6rem 0;
   }
 
   & > * {
@@ -34,29 +31,32 @@
 
 .section-prices {
   background-color: variables.$color-grey-light-1;
-  padding: 25rem 0 15rem 0;
-  margin-top: -10rem;
+  padding: 16rem 0 10rem 0;
+  margin-top: -6rem;
 
   @include mixins.query(tab-port) {
-    padding: 20rem 0 10rem 0;
+    padding: 13rem 0 6rem 0;
   }
 }
 
 .section-stories {
-  padding: 15rem 0;
+  padding: 9rem 0;
   position: relative;
 
   @include mixins.query(tab-port) {
-    padding: 10rem 0;
+    padding: 7rem 0;
   }
 }
 
 .section-book {
-  padding: 15rem 0;
+  padding: 9rem 0;
   background-image: linear-gradient(to right bottom, variables.$color-primary-light, variables.$color-primary-dark);
 
   @include mixins.query(tab-port) {
-    padding: 10rem 0;
+    padding: 7rem 0;
+  }
+  @include mixins.query(phone) {
+    padding: 5rem 0;
   }
 }
 
@@ -93,14 +93,15 @@
 
   &__form {
     width: 50%;
-    padding: 6rem;
+    padding: 3.4rem;
 
     @include mixins.query(tab-land) {
       width: 65%;
     }
 
-    @include mixins.query(tab-land) {
+    @include mixins.query(phone) {
       width: 100%;
+      padding: 2rem;
     }
   }
 }

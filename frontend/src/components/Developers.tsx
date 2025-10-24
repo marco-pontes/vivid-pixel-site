@@ -2,7 +2,7 @@ import type { FunctionComponent } from "@/types/types.ts";
 import Image from "next/image";
 import { memo } from "react";
 import { useTranslations } from "next-intl";
-import { Box, HStack, Tag } from "@chakra-ui/react";
+import { Box, Tag, Wrap } from "@chakra-ui/react";
 
 export const Developers = memo(function Stories(): FunctionComponent {
 	const t = useTranslations("Developers");
@@ -63,20 +63,18 @@ export const Developers = memo(function Stories(): FunctionComponent {
 							resulting in heightened efficiency and system stability.
 						</p>
 						<Box mt={"5"}>
-							<HStack>
+							<Wrap>
 								{skills.map((skill) => (
 									<Tag.Root
 										key={skill.id}
 										size={size}
-										rounded="full"
-										p={"2"}
-										variant="solid"
-										backgroundColor={"var(--chakra-colors-red-700)"}
+										rounded="lg"
+										colorPalette={"red"}
 									>
 										<Tag.Label>{skill.name}</Tag.Label>
 									</Tag.Root>
 								))}
-							</HStack>
+							</Wrap>
 						</Box>
 					</div>
 				</div>

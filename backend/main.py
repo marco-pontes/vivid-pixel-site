@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
+from datetime import datetime,timedelta, timezone
 import os
 import logging
 from sendgrid import SendGridAPIClient
@@ -33,6 +34,9 @@ class ContactForm(BaseModel):
 async def root(form: ContactForm):
     # 1. Obter a chave da API do ambiente (será injetada pelo Cloud Run)
     sendgrid_api_key = os.environ.get("SENDGRID_API_KEY")
+    date = datetime.now(timezone.utc)
+    offset = timedelta(hours=-3)
+    brasil_time_simples = date + offset
 
     if not sendgrid_api_key:
         logger.error("SENDGRID_API_KEY não está configurada.")
@@ -53,7 +57,7 @@ async def root(form: ContactForm):
         to_emails=To(MY_EMAIL),
 
         # O assunto
-        subject=f"[Formulário de Contato]",
+        subject=f"Formulário de Contato - {form.name} | {brasil_time_simples.strftime('%Y-%m-%d %H:%M:%S')}",
 
         # O conteúdo do email
         plain_text_content=Content("text/plain",
@@ -79,6 +83,9 @@ async def root(form: ContactForm):
         logger.error(f"Erro ao enviar email: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao enviar email: {str(e)}")
 
-@app.post("/api/ping")
+@app.get("/api/ping")
 async def root():
-    return {}
+    return {
+                        "message": "Sucesso",
+                        "status_code": response.status_code
+                    }

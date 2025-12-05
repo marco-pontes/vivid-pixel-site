@@ -1,18 +1,15 @@
 "use client";
 
 import type { FunctionComponent } from "@/types/types.ts";
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useRef } from "react";
+import Link from "next/link";
 
 export const NavBar = (): FunctionComponent => {
-	const [nav, setNav] = useState(false);
+	const ref = useRef<HTMLInputElement>(null);
 
-	const navigationClick =
-		(dest: string): MouseEventHandler =>
-		(event) => {
-			event.preventDefault();
-			setNav(!nav);
-			window.location.assign(dest);
-		};
+	const navigationClick = (): MouseEventHandler => () => {
+		if (ref.current) ref.current.checked = !ref.current?.checked;
+	};
 
 	return (
 		<div className="navigation">
@@ -20,13 +17,9 @@ export const NavBar = (): FunctionComponent => {
 				className="navigation__checkbox"
 				id="navi-toggle"
 				type="checkbox"
-				checked={nav}
+				ref={ref}
 			/>
-			<label
-				className="navigation__button"
-				onClick={() => setNav(!nav)}
-				htmlFor="navi-toggle"
-			>
+			<label className="navigation__button" htmlFor="navi-toggle">
 				<span className="navigation__icon"></span>
 			</label>
 			<div className="navigation__background">&nbsp;</div>
@@ -34,49 +27,45 @@ export const NavBar = (): FunctionComponent => {
 			<nav className="navigation__nav">
 				<ul className="navigation__list">
 					<li className="navigation__item">
-						<a
-							className="navigation__link"
-							onClick={navigationClick("about")}
-							href="#"
-						>
+						<Link className="navigation__link" href="/about">
 							<span>01</span>About Vivid Pixel{" "}
-						</a>
+						</Link>
 					</li>
 					<li className="navigation__item">
-						<a
+						<Link
 							className="navigation__link"
-							onClick={navigationClick("#section-features")}
-							href="#"
+							onClick={navigationClick()}
+							href="/#section-features"
 						>
 							<span>02</span>Technology
-						</a>
+						</Link>
 					</li>
 					<li className="navigation__item">
-						<a
+						<Link
 							className="navigation__link"
-							onClick={navigationClick("#section-prices")}
-							href="#section-prices"
+							onClick={navigationClick()}
+							href="/#section-prices"
 						>
 							<span>03</span>Prices
-						</a>
+						</Link>
 					</li>
 					<li className="navigation__item">
-						<a
+						<Link
 							className="navigation__link"
-							onClick={navigationClick("#section-developers")}
-							href="#section-developers"
+							onClick={navigationClick()}
+							href="/#section-developers"
 						>
 							<span>04</span>Developers
-						</a>
+						</Link>
 					</li>
 					<li className="navigation__item">
-						<a
+						<Link
 							className="navigation__link"
-							onClick={navigationClick("#section-contact")}
-							href="#section-contact"
+							onClick={navigationClick()}
+							href="/#section-contact"
 						>
 							<span>05</span>Hire Now
-						</a>
+						</Link>
 					</li>
 				</ul>
 			</nav>

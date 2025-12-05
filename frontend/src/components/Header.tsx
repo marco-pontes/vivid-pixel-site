@@ -1,18 +1,21 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Header = (): FunctionComponent => {
 	return (
 		<header className="header">
 			<div className="header__logo-box">
-				<Image
-					priority
-					alt="Logo"
-					className="header__logo"
-					height={35}
-					src="/images/logo-white-2x.png"
-					width={37}
-				/>
+				<Link href="/">
+					<Image
+						priority
+						alt="Logo"
+						className="header__logo"
+						height={35}
+						src="/images/logo-white-2x.png"
+						width={37}
+					/>
+				</Link>
 			</div>
 			<div className="header__text-box">
 				<h1 className="heading-primary">

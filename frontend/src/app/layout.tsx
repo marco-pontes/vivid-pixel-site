@@ -26,7 +26,10 @@ export default function RootLayout({
 						<StrictMode>{children}</StrictMode>
 						<Toaster />
 						<ReactQueryDevtools initialIsOpen={false} position="bottom" />
-						<ColorModeButton style={{ position: "fixed", right: 0, top: 0 }} />
+						<ColorModeButton
+							style={{ position: "fixed", right: 0, top: 0 }}
+							size={"2xs"}
+						/>
 					</Provider>
 				</NextIntlClientProvider>
 			</body>

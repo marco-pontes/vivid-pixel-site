@@ -13,13 +13,54 @@ import {
 	Info,
 	LayoutDashboard,
 	ChefHat,
+	LucideIcon,
 } from "lucide-react";
 
 // ============================================================================
 // 1. DADOS INICIAIS (MOCK DB) E REGRAS DE NEGÓCIO
 // ============================================================================
 
-const INITIAL_INGREDIENTS = [
+interface Ingredient {
+	id: string;
+	name: string;
+	prep: string;
+	unit: string;
+	packageSize: number;
+	price: number;
+	category: string;
+}
+
+interface CombinationItem {
+	ingredientId: string;
+	qty: number;
+}
+
+interface Combination {
+	id: string;
+	name: string;
+	type: "salada" | "fruta";
+	items: CombinationItem[];
+}
+
+interface DishIngredient {
+	ingredientId: string;
+	qty: number;
+}
+
+interface Dish {
+	id: string;
+	name: string;
+	ingredients: DishIngredient[];
+	combinations: string[];
+}
+
+interface PlanDay {
+	day: number;
+	lunch: string | null;
+	dinner: string | null;
+}
+
+const INITIAL_INGREDIENTS: Ingredient[] = [
 	// Carnes / Proteínas (Mínimo 200g base)
 	{
 		id: "i3",
@@ -227,7 +268,7 @@ const INITIAL_INGREDIENTS = [
 	},
 ];
 
-const INITIAL_COMBINATIONS = [
+const INITIAL_COMBINATIONS: Combination[] = [
 	{
 		id: "c1",
 		name: "Salada 1 (Leve)",
@@ -261,8 +302,7 @@ const INITIAL_COMBINATIONS = [
 	},
 ];
 
-// Pratos com no mínimo 200g de Proteína Base e Ovo EXCLUSIVO para Contra-filé
-const INITIAL_DISHES = [
+const INITIAL_DISHES: Dish[] = [
 	{
 		id: "d1",
 		name: "Arroz, Feijão, Sassami (Almoço)",
@@ -365,7 +405,7 @@ const INITIAL_DISHES = [
 	},
 ];
 
-const generateInitialPlan = () => {
+const generateInitialPlan = (): PlanDay[] => {
 	const weeklyPattern = [
 		{ lunch: "d1", dinner: "d2" },
 		{ lunch: "d3", dinner: "d4" },
@@ -373,18 +413,26 @@ const generateInitialPlan = () => {
 		{ lunch: "d7", dinner: "d8" },
 		{ lunch: "d9", dinner: "d10" },
 	];
-	return Array.from({ length: 20 }, (_, i) => ({
-		day: i + 1,
-		lunch: weeklyPattern[i % 5].lunch,
-		dinner: weeklyPattern[i % 5].dinner,
-	}));
+	return Array.from({ length: 20 }, (_, i) => {
+		const pattern = weeklyPattern[i % weeklyPattern.length]!;
+		return {
+			day: i + 1,
+			lunch: pattern.lunch,
+			dinner: pattern.dinner,
+		};
+	});
 };
 
 // ============================================================================
 // 2. COMPONENTES DE UI GENÉRICOS
 // ============================================================================
 
-const Card = ({ children, className = "" }) => (
+interface CardProps {
+	children: React.ReactNode;
+	className?: string;
+}
+
+const Card: React.FC<CardProps> = ({ children, className = "" }) => (
 	<div
 		className={`bg-white rounded-2xl shadow-sm border border-slate-200 p-5 ${className}`}
 	>
@@ -392,7 +440,15 @@ const Card = ({ children, className = "" }) => (
 	</div>
 );
 
-const Select = ({
+interface SelectProps {
+	value: string | null;
+	onChange: (value: string | null) => void;
+	options: { id: string; name: string }[];
+	label?: string;
+	placeholder?: string;
+}
+
+const Select: React.FC<SelectProps> = ({
 	value,
 	onChange,
 	options,
@@ -420,7 +476,23 @@ const Select = ({
 	</div>
 );
 
-const SummaryTable = ({ title, columns, data }) => (
+interface SummaryTableColumn {
+	label: string;
+	key: string;
+	align?: "right" | "left";
+}
+
+interface SummaryTableProps {
+	title: string;
+	columns: SummaryTableColumn[];
+	data: Record<string, string | number>;
+}
+
+const SummaryTable: React.FC<SummaryTableProps> = ({
+	title,
+	columns,
+	data,
+}) => (
 	<div className="mb-8 bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
 		<div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center gap-2">
 			<Info size={18} className="text-emerald-600" />
@@ -461,18 +533,26 @@ const SummaryTable = ({ title, columns, data }) => (
 // 3. APLICATIVO PRINCIPAL (NEXT.JS PAGE)
 // ============================================================================
 
+interface ShoppingItem extends Ingredient {
+	qtyNeeded: number;
+	packagesToBuy: number;
+	packageCost: number;
+	exactCost: number;
+}
+
 export default function App() {
 	const [activeTab, setActiveTab] = useState("overview");
 
-	const [ingredients, setIngredients] = useState(INITIAL_INGREDIENTS);
-	const [combinations, setCombinations] = useState(INITIAL_COMBINATIONS);
-	const [dishes, setDishes] = useState(INITIAL_DISHES);
-	const [plan, setPlan] = useState(generateInitialPlan());
+	const [ingredients] = useState<Ingredient[]>(INITIAL_INGREDIENTS);
+	const [combinations, setCombinations] =
+		useState<Combination[]>(INITIAL_COMBINATIONS);
+	const [dishes, setDishes] = useState<Dish[]>(INITIAL_DISHES);
+	const [plan, setPlan] = useState<PlanDay[]>(generateInitialPlan());
 
 	const dashboardData = useMemo(() => {
 		let totalRefeicoes = 0;
 		let diasPreenchidos = 0;
-		const requiredIngredients = {};
+		const requiredIngredients: Record<string, number> = {};
 
 		plan.forEach((day) => {
 			let hasMeal = false;
@@ -493,7 +573,8 @@ export default function App() {
 
 				dish.ingredients.forEach((ing) => {
 					requiredIngredients[ing.ingredientId] =
-						(requiredIngredients[ing.ingredientId] || 0) + parseFloat(ing.qty);
+						(requiredIngredients[ing.ingredientId] || 0) +
+						Number(ing.qty);
 				});
 
 				dish.combinations.forEach((comboId) => {
@@ -502,7 +583,7 @@ export default function App() {
 						combo.items.forEach((cItem) => {
 							requiredIngredients[cItem.ingredientId] =
 								(requiredIngredients[cItem.ingredientId] || 0) +
-								parseFloat(cItem.qty);
+								Number(cItem.qty);
 						});
 					}
 				});
@@ -513,11 +594,11 @@ export default function App() {
 		let grandExactTotal = 0;
 
 		const shoppingList = Object.keys(requiredIngredients)
-			.map((ingId) => {
+			.map((ingId): ShoppingItem | null => {
 				const ing = ingredients.find((i) => i.id === ingId);
 				if (!ing) return null;
 
-				const qtyNeeded = requiredIngredients[ingId];
+				const qtyNeeded = requiredIngredients[ingId] ?? 0;
 				const packagesToBuy = Math.ceil(qtyNeeded / ing.packageSize);
 				const packageCost = packagesToBuy * ing.price;
 				const exactCost = (qtyNeeded / ing.packageSize) * ing.price;
@@ -527,7 +608,7 @@ export default function App() {
 
 				return { ...ing, qtyNeeded, packagesToBuy, packageCost, exactCost };
 			})
-			.filter(Boolean)
+			.filter((item): item is ShoppingItem => item !== null)
 			.sort((a, b) => b.packageCost - a.packageCost);
 
 		return {
@@ -553,13 +634,23 @@ export default function App() {
 		};
 	}, [plan, dishes, combinations, ingredients]);
 
-	const handleDayChange = (dayIndex, mealType, dishId) => {
-		const newPlan = [...plan];
-		newPlan[dayIndex][mealType] = dishId;
-		setPlan(newPlan);
+	const handleDayChange = (
+		dayIndex: number,
+		mealType: "lunch" | "dinner",
+		dishId: string | null
+	) => {
+		setPlan(
+			plan.map((p, idx) =>
+				idx === dayIndex ? { ...p, [mealType]: dishId } : p
+			)
+		);
 	};
 
-	const handleDishChange = (dishId, field, value) => {
+	const handleDishChange = (
+		dishId: string,
+		field: keyof Dish,
+		value: string | DishIngredient[] | string[]
+	) => {
 		setDishes(
 			dishes.map((d) => (d.id === dishId ? { ...d, [field]: value } : d))
 		);
@@ -573,7 +664,7 @@ export default function App() {
 		]);
 	};
 
-	const removeDish = (dishId) => {
+	const removeDish = (dishId: string) => {
 		setDishes(dishes.filter((d) => d.id !== dishId));
 		setPlan(
 			plan.map((p) => ({
@@ -592,7 +683,7 @@ export default function App() {
 		]);
 	};
 
-	const removeCombination = (comboId) => {
+	const removeCombination = (comboId: string) => {
 		setCombinations(combinations.filter((c) => c.id !== comboId));
 		setDishes(
 			dishes.map((d) => ({
@@ -602,7 +693,7 @@ export default function App() {
 		);
 	};
 
-	const formatMealCell = (dishId) => {
+	const formatMealCell = (dishId: string | null) => {
 		if (!dishId)
 			return <span className="text-slate-300 italic text-xs">Pular</span>;
 		const dish = dishes.find((d) => d.id === dishId);
@@ -610,7 +701,10 @@ export default function App() {
 
 		const saladas = dish.combinations
 			.map((cid) => combinations.find((c) => c.id === cid))
-			.filter((c) => c && c.type === "salada")
+			.filter(
+				(c): c is Combination =>
+					c !== undefined && c !== null && c.type === "salada"
+			)
 			.map((c) => c.name)
 			.join(" + ");
 
@@ -628,8 +722,11 @@ export default function App() {
 		);
 	};
 
-	const formatDessertCell = (dishIdLunch, dishIdDinner) => {
-		let frutas = [];
+	const formatDessertCell = (
+		dishIdLunch: string | null,
+		dishIdDinner: string | null
+	) => {
+		const frutas: string[] = [];
 		[dishIdLunch, dishIdDinner].forEach((id) => {
 			if (!id) return;
 			const dish = dishes.find((d) => d.id === id);
@@ -647,9 +744,9 @@ export default function App() {
 
 		return (
 			<div className="flex flex-col gap-1">
-				{uniqueFrutas.map((f, i) => (
+				{uniqueFrutas.map((f) => (
 					<span
-						key={i}
+						key={f}
 						className="text-[10px] bg-orange-100 text-orange-800 px-1.5 py-0.5 rounded border border-orange-200 flex items-center gap-1 w-fit"
 					>
 						<Apple size={10} /> {f}
@@ -776,7 +873,7 @@ export default function App() {
 						<tbody className="divide-y divide-slate-100">
 							{plan.map((dayPlan, idx) => (
 								<tr
-									key={idx}
+									key={dayPlan.day}
 									className={idx % 2 === 0 ? "bg-white" : "bg-slate-50"}
 								>
 									<td className="px-4 py-4 text-center font-black text-slate-400">
@@ -823,14 +920,14 @@ export default function App() {
 								{combo.name}
 							</h3>
 							<ul className="space-y-2">
-								{combo.items.map((item, idx) => {
+								{combo.items.map((item) => {
 									const ing = ingredients.find(
 										(i) => i.id === item.ingredientId
 									);
 									if (!ing) return null;
 									return (
 										<li
-											key={idx}
+											key={item.ingredientId}
 											className="flex justify-between items-center text-sm"
 										>
 											<span className="text-slate-700 font-medium">
@@ -948,14 +1045,14 @@ export default function App() {
 								Ingredientes Base & Preparo
 							</span>
 							<ul className="space-y-1">
-								{dish.ingredients.map((ing, iIdx) => {
+								{dish.ingredients.map((ing) => {
 									const data = ingredients.find(
 										(i) => i.id === ing.ingredientId
 									);
 									if (!data) return null;
 									return (
 										<li
-											key={iIdx}
+											key={ing.ingredientId}
 											className="text-sm flex items-center justify-between text-slate-700"
 										>
 											<div className="flex items-center gap-2">
@@ -980,13 +1077,13 @@ export default function App() {
 									<Layers size={12} /> Acompanhamentos (Saladas/Frutas)
 								</span>
 								<div className="flex flex-wrap gap-2 mt-1">
-									{dish.combinations.map((cId, cIdx) => {
+									{dish.combinations.map((cId) => {
 										const data = combinations.find((c) => c.id === cId);
 										if (!data) return null;
 										const Icon = data.type === "fruta" ? Apple : Carrot;
 										return (
 											<div
-												key={cIdx}
+												key={cId}
 												className="bg-white border border-emerald-200 px-2 py-1 rounded text-xs font-medium text-emerald-800 flex items-center gap-1.5 shadow-sm"
 											>
 												<Icon size={12} className="text-emerald-500" />
@@ -1045,22 +1142,25 @@ export default function App() {
 							<input
 								value={combo.name}
 								onChange={(e) => {
-									const nc = [...combinations];
-									nc[idx].name = e.target.value;
-									setCombinations(nc);
+									const newName = e.target.value;
+									setCombinations(
+										combinations.map((c, i) =>
+											i === idx ? { ...c, name: newName } : c
+										)
+									);
 								}}
 								className="font-bold text-slate-800 border-b border-transparent hover:border-slate-300 focus:border-emerald-500 outline-none w-full bg-transparent"
 							/>
 						</div>
 						<ul className="space-y-2 mt-2">
-							{combo.items.map((item, iIdx) => {
+							{combo.items.map((item) => {
 								const data = ingredients.find(
 									(i) => i.id === item.ingredientId
 								);
 								if (!data) return null;
 								return (
 									<li
-										key={iIdx}
+										key={item.ingredientId}
 										className="text-sm text-slate-700 flex justify-between items-center bg-slate-50 px-2 py-1.5 rounded border border-slate-100"
 									>
 										<span className="flex items-center gap-1">
@@ -1080,7 +1180,7 @@ export default function App() {
 		</div>
 	);
 
-	const TABS = [
+	const TABS: { id: string; label: string; icon: LucideIcon }[] = [
 		{ id: "overview", label: "Visão Geral", icon: LayoutDashboard },
 		{ id: "planner", label: "Editar Dias", icon: CalendarDays },
 		{ id: "dishes", label: "Pratos Base", icon: Utensils },
@@ -1143,3 +1243,4 @@ export default function App() {
 		</div>
 	);
 }
+

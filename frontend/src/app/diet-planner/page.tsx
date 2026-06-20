@@ -260,9 +260,18 @@ const INITIAL_INGREDIENTS: Ingredient[] = [
 	{
 		id: "f4",
 		name: "Laranja",
-		prep: "Descascada/Suco",
+		prep: "Picada",
 		unit: "un",
 		packageSize: 10,
+		price: 10.0,
+		category: "Fruta",
+	},
+	{
+		id: "f5",
+		name: "Abacaxi",
+		prep: "Picado",
+		unit: "un",
+		packageSize: 1,
 		price: 10.0,
 		category: "Fruta",
 	},
@@ -298,6 +307,8 @@ const INITIAL_COMBINATIONS: Combination[] = [
 			{ ingredientId: "f1", qty: 0.5 },
 			{ ingredientId: "f2", qty: 120 },
 			{ ingredientId: "f3", qty: 0.25 },
+			{ ingredientId: "f4", qty: 2 },
+			{ ingredientId: "f5", qty: 0.15 },
 		],
 	},
 ];

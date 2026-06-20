@@ -81,7 +81,7 @@ export const Contact = (): FunctionComponent => {
 							<div className="form__group">
 								<textarea
 									{...register("message", {
-										required: "The email must be informed",
+										required: "The message must be informed",
 									})}
 									className="form__input"
 									id="message"

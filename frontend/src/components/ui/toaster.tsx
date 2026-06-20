@@ -1,43 +1,37 @@
 "use client";
 
-import {
-	Toaster as ChakraToaster,
-	Portal,
-	Spinner,
-	Stack,
-	Toast,
-	createToaster,
-} from "@chakra-ui/react";
+import { toast } from "sonner";
 
-export const toaster = createToaster({
-	placement: "bottom-end",
-	pauseOnPageIdle: true,
-});
+export { Toaster } from "./sonner";
 
-export const Toaster = () => {
-	return (
-		<Portal>
-			<ChakraToaster toaster={toaster} insetInline={{ mdDown: "4" }}>
-				{(toast) => (
-					<Toast.Root width={{ md: "sm" }}>
-						{toast.type === "loading" ? (
-							<Spinner size="sm" color="blue.solid" />
-						) : (
-							<Toast.Indicator />
-						)}
-						<Stack gap="1" flex="1" maxWidth="100%">
-							{toast.title && <Toast.Title>{toast.title}</Toast.Title>}
-							{toast.description && (
-								<Toast.Description>{toast.description}</Toast.Description>
-							)}
-						</Stack>
-						{toast.action && (
-							<Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>
-						)}
-						{toast.closable && <Toast.CloseTrigger />}
-					</Toast.Root>
-				)}
-			</ChakraToaster>
-		</Portal>
-	);
+type ToastType = "success" | "error" | "warning" | "info" | "loading";
+
+interface ToastOptions {
+	title?: string;
+	description?: string;
+	type?: ToastType;
+}
+
+/**
+ * Thin compatibility shim that preserves the previous `toaster.create(...)`
+ * call site while delegating to sonner under the hood.
+ */
+export const toaster = {
+	create({ title, description, type = "info" }: ToastOptions) {
+		const message = title ?? description ?? "";
+		const opts = title && description ? { description } : undefined;
+
+		switch (type) {
+			case "success":
+				return toast.success(message, opts);
+			case "error":
+				return toast.error(message, opts);
+			case "warning":
+				return toast.warning(message, opts);
+			case "loading":
+				return toast.loading(message, opts);
+			default:
+				return toast.info(message, opts);
+		}
+	},
 };

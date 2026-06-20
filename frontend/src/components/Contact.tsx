@@ -3,7 +3,9 @@ import type { ContactForm, FunctionComponent } from "@/types/types.ts";
 import { type FieldValues, useForm } from "react-hook-form";
 import { toaster } from "@/components/ui/toaster";
 import { useSendContact } from "@/hooks/useSendContact";
-import { Button, Field, HStack, Input } from "@chakra-ui/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { RiMailLine } from "react-icons/ri";
 
 export const Contact = (): FunctionComponent => {
@@ -16,9 +18,10 @@ export const Contact = (): FunctionComponent => {
 
 	function successFn() {
 		toaster.create({
-			title: "Success",
+			title: "Message sent",
 			type: "success",
-			description: "Email sent Sucessfully. We will contact you",
+			description:
+				"Thanks for reaching out! Our team will get back to you shortly.",
 		});
 	}
 
@@ -37,28 +40,28 @@ export const Contact = (): FunctionComponent => {
 							onSubmit={handleSubmit(onValidFn)}
 						>
 							<div className="u-margin-bottom-medium">
-								<h2 className="heading-secondary">Contact us!</h2>
+								<h2 className="heading-secondary">Let&rsquo;s build together</h2>
 							</div>
 							<div className="form__group">
-								<Field.Root invalid={!!errors["name"]}>
-									<Input
-										{...register("name", {
-											required: "The name must be informed",
-										})}
-										className="form__input"
-										id="name"
-										name="name"
-										placeholder="Full name"
-										type="text"
-									/>
-									{errors["name"]?.message && <>{errors["name"]?.message}</>}
-									<Field.Label className="form__label" htmlFor="name">
-										Full name
-									</Field.Label>
-									<Field.ErrorText>
-										<>{errors["name"]?.message}</>
-									</Field.ErrorText>
-								</Field.Root>
+								<Input
+									{...register("name", {
+										required: "The name must be informed",
+									})}
+									className="form__input"
+									id="name"
+									name="name"
+									placeholder="Full name"
+									type="text"
+									aria-invalid={!!errors["name"]}
+								/>
+								<Label className="form__label" htmlFor="name">
+									Full name
+								</Label>
+								{errors["name"]?.message && (
+									<span className="text-sm text-red-600">
+										{String(errors["name"]?.message)}
+									</span>
+								)}
 							</div>
 
 							<div className="form__group">
@@ -121,18 +124,16 @@ export const Contact = (): FunctionComponent => {
 							{/*	</div>*/}
 							{/*</div>*/}
 							<div className="form__group">
-								<HStack>
+								<div className="flex items-center gap-2">
 									<Button
 										disabled={isPending}
-										colorPalette="red"
-										variant="solid"
+										variant="destructive"
 										type="submit"
-										size="xl"
-										className="btn"
+										className="btn h-auto"
 									>
 										<RiMailLine /> Send a Message
 									</Button>
-								</HStack>
+								</div>
 							</div>
 						</form>
 					</div>

@@ -2,12 +2,11 @@ import type { FunctionComponent } from "@/types/types.ts";
 import Image from "next/image";
 import { memo } from "react";
 import { useTranslations } from "next-intl";
-import { Box, Tag, Wrap } from "@chakra-ui/react";
+import { Badge } from "@/components/ui/badge";
 
 export const Developers = memo(function Stories(): FunctionComponent {
 	const t = useTranslations("Developers");
 	console.count("Stories Renders");
-	const size = "xl";
 	const skills = [
 		{ name: "JavaScript", id: 1 },
 		{ name: "Typescript", id: 2 },
@@ -33,7 +32,7 @@ export const Developers = memo(function Stories(): FunctionComponent {
 				<div className="story">
 					<figure className="story__shape">
 						<Image
-							alt="Person on a tour"
+							alt="Marco Aurelio, Senior Front-end Engineer at Vivid Pixel"
 							className="story__image"
 							height={210}
 							src="/images/marco.jpg"
@@ -62,20 +61,19 @@ export const Developers = memo(function Stories(): FunctionComponent {
 							and enhance collaboration across multi-disciplinary teams,
 							resulting in heightened efficiency and system stability.
 						</p>
-						<Box mt={"5"}>
-							<Wrap>
+						<div className="mt-5">
+							<div className="flex flex-wrap gap-2">
 								{skills.map((skill) => (
-									<Tag.Root
+									<Badge
 										key={skill.id}
-										size={size}
-										rounded="lg"
-										colorPalette={"red"}
+										variant="destructive"
+										className="rounded-lg px-3 py-1 text-sm"
 									>
-										<Tag.Label>{skill.name}</Tag.Label>
-									</Tag.Root>
+										{skill.name}
+									</Badge>
 								))}
-							</Wrap>
-						</Box>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

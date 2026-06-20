@@ -1,19 +1,25 @@
 {
   "About": {
-    "title": "Experience delivering quality"
+    "title": "Frontend engineering, delivered"
   },
   "Prices": {
-    "title": "Quality That Pays Off",
+    "title": "Pricing that scales with you",
     "card1": {
       "title": "1 Developer"
+    },
+    "card2": {
+      "title": "Front-end Squad"
+    },
+    "card3": {
+      "title": "Product Team"
     }
   },
   "Developers": {
-    "title": "Team of Developers"
+    "title": "The team behind your frontend"
   },
   "Features": {
     "best_practices": {
-      "text": "best practices"
+      "text": "Clean, maintainable code built on modern frontend standards, accessibility and proven architecture patterns."
     }
   }
 }

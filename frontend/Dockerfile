@@ -1,12 +1,12 @@
 # Estágio 1: Dependências
 # Instala dependências de forma isolada para aproveitar o cache do Docker
-FROM node:20-alpine AS deps
+FROM node:26.3.1-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
 # Estágio 2: Build
-FROM node:20-alpine AS builder
+FROM node:26.3.1-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .

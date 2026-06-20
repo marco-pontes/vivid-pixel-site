@@ -19,11 +19,11 @@ export const Prices = () => {
 							</h4>
 							<div className="card__details">
 								<ul>
-									<li>1 dedicated developer (Front-end specialist)</li>
-									<li>7 working hours</li>
-									<li>Follows your schedule</li>
-									<li>Continuous Deliveries</li>
-									<li>Contract</li>
+									<li>1 dedicated front-end specialist</li>
+									<li>Senior React, Next.js &amp; TypeScript</li>
+									<li>Works in your timezone</li>
+									<li>Continuous delivery</li>
+									<li>Flexible monthly contract</li>
 								</ul>
 							</div>
 						</div>
@@ -31,7 +31,7 @@ export const Prices = () => {
 							<div className="card__cta">
 								<div className="card__price-box">
 									<p className="card__price-only">
-										Hourly Rate (140 montlhy hours)
+										Hourly rate (140 monthly hours)
 									</p>
 									<p className="card__price-value">$42</p>
 								</div>
@@ -48,27 +48,27 @@ export const Prices = () => {
 							<div className="card__picture card__picture--2"></div>
 							<h4 className="card__heading">
 								<span className="card__heading-span card__heading-span--2">
-									The forest hiker
+									{t("card2.title")}
 								</span>
 							</h4>
 							<div className="card__details">
 								<ul>
-									<li>7 day tours</li>
-									<li>Up to 40 people</li>
-									<li>6 tour guides</li>
-									<li>Sleep in provided tents</li>
-									<li>Difficulty: medium</li>
+									<li>3 dedicated front-end engineers</li>
+									<li>Shared senior tech lead</li>
+									<li>Code reviews &amp; pair programming</li>
+									<li>Continuous delivery</li>
+									<li>Scale up or down anytime</li>
 								</ul>
 							</div>
 						</div>
 						<div className="card__side card__side--back card__side--back-2">
 							<div className="card__cta">
 								<div className="card__price-box">
-									<p className="card__price-only">Only</p>
-									<p className="card__price-value">$497</p>
+									<p className="card__price-only">Hourly rate (per developer)</p>
+									<p className="card__price-value">$38</p>
 								</div>
 								<a href="#popup" className="btn btn--white">
-									Book now!
+									Hire now!
 								</a>
 							</div>
 						</div>
@@ -80,27 +80,27 @@ export const Prices = () => {
 							<div className="card__picture card__picture--3"></div>
 							<h4 className="card__heading">
 								<span className="card__heading-span card__heading-span--3">
-									The snow adventurer
+									{t("card3.title")}
 								</span>
 							</h4>
 							<div className="card__details">
 								<ul>
-									<li>5 day tours</li>
-									<li>Up to 15 people</li>
-									<li>3 tour guides</li>
-									<li>Sleep in provided tents</li>
-									<li>Difficulty: hard</li>
+									<li>Full cross-functional team</li>
+									<li>Front-end, QA &amp; tech lead</li>
+									<li>From discovery to deployment</li>
+									<li>Dedicated project manager</li>
+									<li>Fixed scope or monthly retainer</li>
 								</ul>
 							</div>
 						</div>
 						<div className="card__side card__side--back card__side--back-3">
 							<div className="card__cta">
 								<div className="card__price-box">
-									<p className="card__price-only">Only</p>
-									<p className="card__price-value">$697</p>
+									<p className="card__price-only">Hourly rate (per specialist)</p>
+									<p className="card__price-value">$36</p>
 								</div>
 								<a href="#popup" className="btn btn--white">
-									Book now!
+									Hire now!
 								</a>
 							</div>
 						</div>
@@ -108,8 +108,8 @@ export const Prices = () => {
 				</div>
 			</div>
 			<div className="u-center-text u-margin-top-huge">
-				<a href="#" className="btn btn--green">
-					Discover all tours
+				<a href="#section-contact" className="btn btn--green">
+					Book a free consultation
 				</a>
 			</div>
 		</section>

@@ -15,26 +15,27 @@ export const About = memo(function About(): FunctionComponent {
 			<div className="row">
 				<div className="col-1-of-2">
 					<h3 className="heading-tertiary u-margin-bottom-small">
-						Youre going to fall in love with nature
+						Senior frontend specialists, ready to ship
 					</h3>
 					<p className="paragraph">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci
-						dignissimos id nisi quaerat quibusdam quis reiciendis. Eos ex harum
-						ipsam, labore molestias temporibus voluptatibus. Aliquid aperiam
-						exercitationem minima neque obcaecati.
+						Vivid Pixel embeds experienced React, Next.js and TypeScript
+						engineers directly into your team. No long ramp-ups, no junior
+						guesswork &ndash; just clean, accessible, high-performance
+						interfaces built to your standards and shipped on your schedule.
 					</p>
 
 					<h3 className="heading-tertiary u-margin-bottom-small">
-						Live adventures like you never have before
+						Outsourcing without the headaches
 					</h3>
 					<p className="paragraph">
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Accusantium adipisci aperiam dignissimos harum, id incidunt,
-						inventore labore!
+						Skip the cost, overhead and risk of building an in-house frontend
+						team. You get vetted Brazilian engineers working in your timezone,
+						transparent contracts and continuous delivery &ndash; scaling up or
+						down whenever your roadmap changes.
 					</p>
 
-					<a className="btn-text" href="#">
-						Learn more &rarr;
+					<a className="btn-text" href="/about">
+						See how we work &rarr;
 					</a>
 				</div>
 				<div className="col-1-of-2">

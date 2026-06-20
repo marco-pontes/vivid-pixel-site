@@ -8,6 +8,8 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/code/app
+    networks:
+      - vivid-pixel-network
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     env_file:
       - ./.env
@@ -15,17 +17,27 @@ services:
   # Serviço do Frontend (Next.js) - Atualizado
   frontend:
     # Não usamos 'build:', pois queremos o servidor de desenvolvimento
-    image: node:18-alpine
     working_dir: /app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: deps
+    entrypoint: [ "/bin/sh", "-c", "cd /app && npm run dev" ]
     volumes:
-      # Monta todo o código do frontend dentro do /app no container
-      - ./frontend:/app
+      # Monta todo o codigo do frontend dentro do /app no container
+      - ${PROJECT_ROOT:-./}/frontend:/app
+      - /app/node_modules
+      - /app/.next
     ports:
       # O servidor 'npm run dev' roda na porta 3000
       - "3000:3000"
     command: npm run dev
+    env_file:
+      - ./.env
     depends_on:
       - backend
+    networks:
+      - vivid-pixel-network
     environment:
       - BACKEND_API_URL=http://backend:8000
       # Esta é a URL que o 'next.config.js' (em 'rewrites') usará.
@@ -69,3 +81,6 @@ services:
 
       # Necessário para o hot-reloading do Next.js funcionar corretamente dentro do Docker
       - CHOKIDAR_USEPOLLING=true
+networks:
+  vivid-pixel-network:
+    external: true

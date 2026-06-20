@@ -22,8 +22,8 @@ export const Features = (): FunctionComponent => {
 							Unit Testing
 						</h3>
 						<p className="feature-box__text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque
-							minima sit veniam.
+							Components covered with fast, reliable unit tests, so features
+							ship with confidence and refactors never break your UI.
 						</p>
 					</div>
 				</div>
@@ -34,8 +34,8 @@ export const Features = (): FunctionComponent => {
 							E2E Testing
 						</h3>
 						<p className="feature-box__text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque
-							minima sit veniam.
+							Critical user journeys validated end-to-end with Playwright,
+							catching regressions before your customers ever do.
 						</p>
 					</div>
 				</div>
@@ -46,8 +46,8 @@ export const Features = (): FunctionComponent => {
 							Code Quality Tools
 						</h3>
 						<p className="feature-box__text">
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque
-							minima sit veniam.
+							Linting, type safety and CI pipelines enforced on every commit,
+							keeping your codebase consistent and release-ready.
 						</p>
 					</div>
 				</div>

@@ -13,7 +13,7 @@ describe("Alert", () => {
 		const { container } = render(
 			<Alert message="Something went wrong" type={AlertType.error} />
 		);
-		const root = container.querySelector(".chakra-alert__root");
+		const root = container.querySelector("[data-slot='alert']");
 		expect(root).toBeTruthy();
 	});
 
@@ -21,7 +21,7 @@ describe("Alert", () => {
 		const { container } = render(
 			<Alert message="Be careful" type={AlertType.warning} />
 		);
-		const root = container.querySelector(".chakra-alert__root");
+		const root = container.querySelector("[data-slot='alert']");
 		expect(root).toBeTruthy();
 	});
 });

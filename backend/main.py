@@ -2,10 +2,11 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from datetime import datetime,timedelta, timezone
+from email.utils import formataddr
 import os
 import logging
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail, From, To, Content
+import boto3
+from botocore.exceptions import BotoCoreError, ClientError
 
 # Configura o logger
 logging.basicConfig(level=logging.INFO)
@@ -32,54 +33,60 @@ class ContactForm(BaseModel):
 
 @app.post("/api/contact")
 async def root(form: ContactForm):
-    # 1. Obter a chave da API do ambiente (será injetada pelo Cloud Run)
-    sendgrid_api_key = os.environ.get("SENDGRID_API_KEY")
+    # 1. Obter as credenciais AWS do ambiente (serão injetadas pelo Cloud Run)
+    aws_region = os.environ.get("AWS_REGION", "us-east-2")
     date = datetime.now(timezone.utc)
     offset = timedelta(hours=-3)
     brasil_time_simples = date + offset
 
-    if not sendgrid_api_key:
-        logger.error("SENDGRID_API_KEY não está configurada.")
+    if not os.environ.get("AWS_ACCESS_KEY_ID") or not os.environ.get("AWS_SECRET_ACCESS_KEY"):
+        logger.error("AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY não estão configuradas.")
         raise HTTPException(status_code=500, detail="Erro interno do servidor: configuração de email ausente.")
 
-    # 2. Criar o objeto 'Mail'
-    #    Substitua 'seu-email-verificado@dominio.com' pelo email que você
-    #    verificou no SendGrid como 'Single Sender' ou de um domínio autenticado.
-    #    Este é o email que aparecerá como O SEU EMAIL DE DESTINO (para onde o formulário vai).
+    # 2. Montar o email
+    #    O remetente ('Source') precisa ser um email ou domínio verificado no SES.
+    ADMIN_EMAIL = "admin@vivid-pixel.com.br"
     SALES_EMAIL = "sales@vivid-pixel.com.br"
-    MY_EMAIL = "aurelio.pontes@gmail.com"
-
-    mail_message = Mail(
-        # O email do remetente (quem preencheu o formulário)
-        from_email=From(SALES_EMAIL, form.name),
-
-        # O destinatário (você)
-        to_emails=To(MY_EMAIL),
-
-        # O assunto
-        subject=f"Formulário de Contato - {form.name} | {brasil_time_simples.strftime('%Y-%m-%d %H:%M:%S')}",
-
-        # O conteúdo do email
-        plain_text_content=Content("text/plain",
-            f"Nome: {form.name}\n"
-            f"Email: {form.email}\n\n"
-            f"Mensagem:\n{form.message}"
-        )
-    )
 
     # 3. Enviar o email
     try:
-        sg = SendGridAPIClient(sendgrid_api_key)
-        response = sg.send(mail_message)
+        ses = boto3.client("ses", region_name=aws_region)
+        response = ses.send_email(
+            # O remetente (email verificado no SES, com o nome de quem preencheu o formulário)
+            Source=formataddr((form.name, ADMIN_EMAIL)),
 
-        logger.info(f"Email enviado, status code: {response.status_code}")
+            # O destinatário
+            Destination={"ToAddresses": [SALES_EMAIL]},
+
+            # Responder vai direto para quem preencheu o formulário
+            ReplyToAddresses=[form.email],
+
+            Message={
+                "Subject": {
+                    "Data": f"Formulário de Contato - {form.name} | {brasil_time_simples.strftime('%Y-%m-%d %H:%M:%S')}",
+                    "Charset": "UTF-8",
+                },
+                "Body": {
+                    "Text": {
+                        "Data": (
+                            f"Nome: {form.name}\n"
+                            f"Email: {form.email}\n\n"
+                            f"Mensagem:\n{form.message}"
+                        ),
+                        "Charset": "UTF-8",
+                    }
+                },
+            },
+        )
+
+        logger.info(f"Email enviado, message id: {response['MessageId']}")
 
         return {
             "message": "Email enviado com sucesso!",
-            "status_code": response.status_code
+            "status_code": 200
         }
 
-    except Exception as e:
+    except (BotoCoreError, ClientError) as e:
         logger.error(f"Erro ao enviar email: {e}")
         raise HTTPException(status_code=500, detail=f"Erro ao enviar email: {str(e)}")
 
@@ -87,5 +94,5 @@ async def root(form: ContactForm):
 async def root():
     return {
                         "message": "Sucesso",
-                        "status_code": response.status_code
+                        "status_code": 200
                     }

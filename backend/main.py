@@ -23,12 +23,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from pydantic import BaseModel
-
-
 class ContactForm(BaseModel):
     name: str
-    email: str
+    email: EmailStr
     message: str
 
 @app.post("/api/contact")

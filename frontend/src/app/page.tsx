@@ -1,27 +1,25 @@
 import { NavBar } from "@/components/NavBar";
-import Header from "@/components/Header";
-import { About } from "@/components/About";
-import { Features } from "@/components/Features";
+import { Header } from "@/components/Header";
+import { Products } from "@/components/Products";
+import { Services } from "@/components/Services";
 import { Prices } from "@/components/Prices";
 import { Developers } from "@/components/Developers";
-import { Footer } from "@/components/Footer";
-import { Modal } from "@/components/Popup";
 import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
 	return (
 		<>
-			<NavBar></NavBar>
-			<Header></Header>
+			<NavBar />
 			<main>
-				<About></About>
-				<Features></Features>
-				<Prices></Prices>
-				<Developers></Developers>
-				<Contact></Contact>
+				<Header />
+				<Products />
+				<Services />
+				<Prices />
+				<Developers />
+				<Contact />
 			</main>
-			<Footer></Footer>
-			<Modal></Modal>
+			<Footer />
 		</>
 	);
 }

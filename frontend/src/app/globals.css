@@ -1,91 +1,247 @@
-/* Cascade layer order. Unlayered rules (the project SCSS below) intentionally
-   outrank Tailwind's layered utilities so the existing component styles win. */
-@layer theme, base, components, utilities;
+/* ============================================================================
+   VIVID PIXEL — QUIET SPECTRUM
+   Single source of truth for the design system. Tailwind v4.
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&display=swap');
+   Concept: every hue is lifted from a color the product family already ships
+   (Viva: #DC2430 / #7B4397 · Vivid Feed: #087f5b / #5f3dc4 + accents), then
+   flattened in OKLCH to whisper chroma (C ≈ 0.06). The full-chroma originals
+   stay in the system as *anchors* and surface only as punctuation: pixel-scale
+   marks, focus rings, text selection, and product-card gradients.
 
-/* Tailwind v4 without preflight — preflight is intentionally omitted so it does
-   not reset the existing SCSS-based site. shadcn components and the Tailwind
-   utility pages still get the theme + utilities layers. */
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
-@import 'tw-animate-css';
+   Rules of engagement:
+     R1  Page-level accents are always the muted spectrum. One hue per section.
+         Exception: inside a product card, the product's own hues apply.
+     R2  Saturation is punctuation — never on surfaces, never on text.
+     R3  Interaction may raise the volume (hover a pixel → its anchor).
+     R4  Violet is the only hue that may ask for a click.
 
-/* NOTE: the project SCSS (styles/sass/main.scss) and icon-font CSS are imported
-   as JS modules in src/app/layout.tsx, NOT here. Tailwind v4's PostCSS pipeline
-   bundles @import itself and cannot compile Sass, so importing the SCSS from
-   this file would silently drop it. Importing via JS lets Next's sass-loader
-   compile it. Those styles stay unlayered → they outrank Tailwind utilities. */
+   All text pairings below are WCAG AA verified programmatically, both themes.
+   ========================================================================== */
+
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
+/* ----------------------------------------------------------------------------
+   1 · RAW TOKENS — light theme
+   Neutrals carry a trace of chroma (C ≈ 0.005–0.01) at the primary's hue
+   (H 300°), so even empty space belongs to the brand.
+--------------------------------------------------------------------------- */
 :root {
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
+	/* Neutrals */
+	--background: #f6f5f8;
+	--surface: #fdfcfe;
+	--inset: #edecf0;
+	--line: #dfdde3;
+	--line-strong: #c5c2cb;
+	--foreground: #222126;
+	--muted-fg: #64626a;
+	--subtle-fg: #6b6970;
+
+	/* Primary — the violet bridge between Viva purple (313°) and Feed violet
+	   (288°): the only hue both products share, desaturated. */
+	--primary: #6a5988;
+	--primary-hover: #5a4778;
+	--primary-tint: #efe9fc;
+	--primary-fg: #ffffff;
+
+	/* Spectrum — muted hue / tint surface / AA text grade, per site section */
+	--brick: #986e6a; --brick-tint: #feebe9; --brick-text: #8d5955; /* Viva A   */
+	--plum: #867192;  --plum-tint: #f5ecfa;  --plum-text: #775d86;  /* Viva B   */
+	--sage: #5b8572;  --sage-tint: #e5f5ed;  --sage-text: #3f765f;  /* Feed A   */
+	--iris: #78759a;  --iris-tint: #efeefd;  --iris-text: #67628f;  /* Feed B   */
+	--slate: #627d9a; --slate-tint: #e7f1fe; --slate-text: #4a6c90; /* Services */
+	--clay: #977060;  --clay-tint: #fdece5;  --clay-text: #8b5c47;  /* Practices*/
+	--ochre: #8f7556; --ochre-tint: #f9eee2; --ochre-text: #82623a; /* Pricing  */
+	--rose: #976d76;  --rose-tint: #fdebee;  --rose-text: #8b5863;  /* Founder  */
+
+	/* Full-saturation anchors — the shipped product hexes. Theme-invariant.
+	   Published here (not only in @theme inline) so runtime var() lookups in
+	   inline styles resolve — @theme inline does not emit DOM custom props. */
+	--brick-full: #DC2430;  /* Viva red     */
+	--plum-full: #7B4397;   /* Viva purple  */
+	--sage-full: #087f5b;   /* Feed green   */
+	--iris-full: #5f3dc4;   /* Feed violet  */
+	--slate-full: #1c7ed6;  /* Feed blue    */
+	--clay-full: #f76707;   /* Feed orange  */
+	--ochre-full: #f59f00;  /* Feed amber   */
+	--rose-full: #d6336c;   /* Feed pink    */
+	--violet-full: #6d40ae; /* saturated bridge */
+
+	/* Focus indicator — saturated violet, lightened in dark for 1.4.11 contrast */
+	--focus: #6d40ae;
+
+	/* Semantic */
 	--destructive: oklch(0.577 0.245 27.325);
-	--destructive-foreground: oklch(0.985 0 0);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
+	--destructive-fg: #ffffff;
+
+	/* Depth — violet-tinted black, exactly two elevations */
+	--shadow-card-value: 0 1px 2px rgba(26, 22, 38, 0.06), 0 8px 24px -14px rgba(26, 22, 38, 0.16);
+	--shadow-overlay-value: 0 24px 64px -18px rgba(26, 22, 38, 0.26);
 }
 
+/* ----------------------------------------------------------------------------
+   2 · RAW TOKENS — dark theme (.dark class, managed by next-themes)
+--------------------------------------------------------------------------- */
 .dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
+	--background: #131217;
+	--surface: #1c1b21;
+	--inset: #26242b;
+	--line: #312f37;
+	--line-strong: #49464f;
+	--foreground: #e8e7eb;
+	--muted-fg: #9f9da4;
+	--subtle-fg: #8d8b93;
+
+	--primary: #ac9acd;
+	--primary-hover: #bbaadb;
+	--primary-tint: #2c243a;
+	--primary-fg: #131217;
+
+	--brick: #a57a76; --brick-tint: #34211f; --brick-text: #c89692;
+	--plum: #927d9e;  --plum-tint: #2c2231;  --plum-text: #b29ac0;
+	--sage: #67917e;  --sage-tint: #182b23;  --sage-text: #81b19b;
+	--iris: #8481a6;  --iris-tint: #262434;  --iris-text: #a29fc9;
+	--slate: #6e89a7; --slate-tint: #1b2835; --slate-text: #89a8ca;
+	--clay: #a37c6b;  --clay-tint: #33221a;  --clay-text: #c69986;
+	--ochre: #9c8162; --ochre-tint: #302416; --ochre-text: #bd9f7c;
+	--rose: #a47981;  --rose-tint: #332024;  --rose-text: #c6959f;
+
 	--destructive: oklch(0.704 0.191 22.216);
-	--destructive-foreground: oklch(0.985 0 0);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
+	--destructive-fg: #131217;
+
+	/* Viva's own dark-surface violet — saturated, and 3:1+ on dark grounds */
+	--focus: #a78bfa;
+
+	--shadow-card-value: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
+	--shadow-overlay-value: 0 24px 64px -16px rgba(0, 0, 0, 0.7);
 }
 
+/* ----------------------------------------------------------------------------
+   3 · THEME MAP — exposes tokens as Tailwind utilities.
+   Full-saturation anchors are theme-invariant: they are the product hexes.
+--------------------------------------------------------------------------- */
 @theme inline {
-	--radius-sm: calc(var(--radius) - 4px);
-	--radius-md: calc(var(--radius) - 2px);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+	/* Type. Display = Bricolage Grotesque (next/font, layout.tsx). Body = the
+	   family's system-stack convention (Feed's v1 decision; Viva's reality). */
+	--font-display: var(--font-bricolage), system-ui, sans-serif;
+	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+	/* Radii — the family scale: 6 / 8 / 10 / 14 */
+	--radius-sm: 0.375rem;
+	--radius-md: 0.5rem;
+	--radius-lg: 0.625rem;
+	--radius-xl: 0.875rem;
+
+	/* Shadows → shadow-card / shadow-overlay utilities */
+	--shadow-card: var(--shadow-card-value);
+	--shadow-overlay: var(--shadow-overlay-value);
+
+	/* Neutrals & primitives */
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--color-card: var(--card);
-	--color-card-foreground: var(--card-foreground);
-	--color-popover: var(--popover);
-	--color-popover-foreground: var(--popover-foreground);
+	--color-surface: var(--surface);
+	--color-inset: var(--inset);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-muted-fg: var(--muted-fg);
+	--color-subtle-fg: var(--subtle-fg);
+
+	/* shadcn/ui compatibility aliases */
+	--color-card: var(--surface);
+	--color-card-foreground: var(--foreground);
+	--color-popover: var(--surface);
+	--color-popover-foreground: var(--foreground);
 	--color-primary: var(--primary);
-	--color-primary-foreground: var(--primary-foreground);
-	--color-secondary: var(--secondary);
-	--color-secondary-foreground: var(--secondary-foreground);
-	--color-muted: var(--muted);
-	--color-muted-foreground: var(--muted-foreground);
-	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
+	--color-primary-foreground: var(--primary-fg);
+	--color-primary-hover: var(--primary-hover);
+	--color-primary-tint: var(--primary-tint);
+	--color-secondary: var(--inset);
+	--color-secondary-foreground: var(--foreground);
+	--color-muted: var(--inset);
+	--color-muted-foreground: var(--muted-fg);
+	--color-accent: var(--primary-tint);
+	--color-accent-foreground: var(--primary);
 	--color-destructive: var(--destructive);
-	--color-destructive-foreground: var(--destructive-foreground);
-	--color-border: var(--border);
-	--color-input: var(--input);
-	--color-ring: var(--ring);
+	--color-destructive-foreground: var(--destructive-fg);
+	--color-border: var(--line);
+	--color-input: var(--line);
+	--color-ring: var(--focus); /* saturated violet — focus is punctuation (R2) */
+
+	/* Muted spectrum */
+	--color-brick: var(--brick); --color-brick-tint: var(--brick-tint); --color-brick-text: var(--brick-text);
+	--color-plum: var(--plum);   --color-plum-tint: var(--plum-tint);   --color-plum-text: var(--plum-text);
+	--color-sage: var(--sage);   --color-sage-tint: var(--sage-tint);   --color-sage-text: var(--sage-text);
+	--color-iris: var(--iris);   --color-iris-tint: var(--iris-tint);   --color-iris-text: var(--iris-text);
+	--color-slate: var(--slate); --color-slate-tint: var(--slate-tint); --color-slate-text: var(--slate-text);
+	--color-clay: var(--clay);   --color-clay-tint: var(--clay-tint);   --color-clay-text: var(--clay-text);
+	--color-ochre: var(--ochre); --color-ochre-tint: var(--ochre-tint); --color-ochre-text: var(--ochre-text);
+	--color-rose: var(--rose);   --color-rose-tint: var(--rose-tint);   --color-rose-text: var(--rose-text);
+
+	/* Full-saturation anchors — the shipped product hexes (punctuation only) */
+	--color-brick-full: var(--brick-full);
+	--color-plum-full: var(--plum-full);
+	--color-sage-full: var(--sage-full);
+	--color-iris-full: var(--iris-full);
+	--color-slate-full: var(--slate-full);
+	--color-clay-full: var(--clay-full);
+	--color-ochre-full: var(--ochre-full);
+	--color-rose-full: var(--rose-full);
+	--color-violet-full: var(--violet-full);
+}
+
+/* ----------------------------------------------------------------------------
+   4 · BASE
+--------------------------------------------------------------------------- */
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+	body {
+		background: var(--background);
+		color: var(--foreground);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+	/* Saturation is punctuation: selection speaks at full volume (R3) */
+	::selection {
+		background: #6d40ae;
+		color: #ffffff;
+	}
+	:focus-visible {
+		outline: 2px solid var(--focus);
+		outline-offset: 2px;
+	}
+	h1, h2, h3 {
+		text-wrap: balance;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+   5 · COMPONENTS — the pixel, the one piece of bespoke CSS the identity needs.
+   Each cell declares --c (muted) and --cf (full anchor); rest state is quiet,
+   hover answers with the shipped product color (R3).
+--------------------------------------------------------------------------- */
+@layer components {
+	.pixel-cell {
+		background: var(--c);
+		border-radius: var(--radius-sm);
+		flex-shrink: 0;
+		transition: background-color 0.18s ease-out, transform 0.18s ease-out;
+	}
+	.pixel-cell:hover {
+		background: var(--cf, var(--c));
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.pixel-cell:hover {
+			transform: translateY(-3px);
+		}
+	}
 }

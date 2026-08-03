@@ -1,107 +1,73 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import Image from "next/image";
-import { memo } from "react";
-import { useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
+import { AmbientVideo } from "@/components/AmbientVideo";
+import { Eyebrow } from "@/components/brand";
 
-export const Developers = memo(function Stories(): FunctionComponent {
-	const t = useTranslations("Developers");
-	console.count("Stories Renders");
-	const skills = [
-		{ name: "JavaScript", id: 1 },
-		{ name: "Typescript", id: 2 },
-		{ name: "React", id: 3 },
-		{ name: "Next.js", id: 4 },
-		{ name: "HTML 5 & CSS 3", id: 5 },
-		{ name: "Python", id: 6 },
-		{ name: "Ruby", id: 7 },
-	];
+const SKILLS = [
+	"JavaScript",
+	"TypeScript",
+	"React",
+	"Next.js",
+	"HTML 5 & CSS 3",
+	"Python",
+	"Ruby",
+] as const;
+
+/** Founder section — boutique honesty. Rose is the team hue. */
+export const Developers = (): FunctionComponent => {
 	return (
-		<section className="section-developers" id="section-developers">
-			<div className="bg-video">
-				<video autoPlay loop muted className="bg-video__content">
-					<source src="/images/video.mp4" type="video/mp4" />
-					<source src="/images/video.webm" type="video/webm" />
-					Your browser is not supported
-				</video>
-			</div>
-			<div className="u-center-text u-margin-bottom-big">
-				<h2 className="heading-secondary">{t("title")}</h2>
-			</div>
-			<div className="row">
-				<div className="story">
-					<figure className="story__shape">
+		<section id="section-team" className="relative overflow-hidden px-6 py-20 sm:py-28">
+			{/* Ambient video, kept from the old site — its subtlest idea. */}
+			<AmbientVideo />
+			<div className="relative mx-auto w-full max-w-5xl">
+				<Eyebrow hue="rose">
+					Who you&rsquo;ll work with
+				</Eyebrow>
+				<div className="max-w-2xl rounded-xl border border-line bg-surface/90 p-6 shadow-card sm:p-8">
+					<div className="flex flex-wrap items-start gap-6">
 						<Image
-							alt="Marco Aurelio, Senior Front-end Engineer at Vivid Pixel"
-							className="story__image"
+							alt="Marco Aurelio, senior software engineer and founder of Vivid Pixel"
+							className="size-20 rounded-full object-cover"
 							height={210}
 							src="/images/marco.jpg"
 							width={210}
 						/>
-						<figcaption className="story__caption">Marco Aurelio</figcaption>
-					</figure>
-					<div className="story__text">
-						<h3 className="heading-tertiary u-margin-bottom-small">
-							<a href="Marco_Aurelio_Pontes_-_Senior_Software_Engineer_.pdf">
-								Senior Front-end Engineer
-							</a>
-						</h3>
-						<p>
-							Dynamic Senior Software Engineer with 15 years of experience
-							driving innovative solutions and enhancing product performance in
-							the software development landscape.
-						</p>
-						<p>
-							Proficient in front-end technologies, particularly React,
-							JavaScript and Typescript with a strong background in implementing
-							micro-frontend architectures and optimizing CI/CD processes.
-						</p>
-						<p>
-							Proven ability to lead technical teams, mentor junior engineers,
-							and enhance collaboration across multi-disciplinary teams,
-							resulting in heightened efficiency and system stability.
-						</p>
-						<div className="mt-5">
-							<div className="flex flex-wrap gap-2">
-								{skills.map((skill) => (
-									<Badge
-										key={skill.id}
-										variant="destructive"
-										className="rounded-lg px-3 py-1 text-sm"
+						<div className="min-w-60 flex-1">
+							<h2 className="font-display text-xl font-bold tracking-tight">
+								Marco Aurelio Pontes
+							</h2>
+							<p className="mt-0.5 text-sm text-muted-fg">
+								Senior software engineer · 15 years
+							</p>
+							<p className="mt-3 text-sm leading-relaxed text-muted-fg">
+								Micro-frontends, CI/CD, technical leadership — the engineer who
+								built both products above. When you hire Vivid Pixel, this is
+								who shows up.
+							</p>
+							<p className="mt-2 text-sm leading-relaxed text-muted-fg">
+								<a
+									className="font-medium text-primary hover:underline"
+									href="https://github.com/marco-pontes/"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									GitHub <span aria-hidden="true">&rarr;</span>
+								</a>
+							</p>
+							<div className="mt-4 flex flex-wrap gap-2">
+								{SKILLS.map((skill) => (
+									<span
+										key={skill}
+										className="rounded-full bg-rose-tint px-3 py-1 text-xs font-medium text-rose-text"
 									>
-										{skill.name}
-									</Badge>
+										{skill}
+									</span>
 								))}
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			{/*<div className="row">*/}
-			{/*	<div className="story">*/}
-			{/*		<figure className="story__shape">*/}
-			{/*			<Image*/}
-			{/*				alt="Person on a tour"*/}
-			{/*				className="story__image"*/}
-			{/*				height={400}*/}
-			{/*				src="/images/nat-9.jpg"*/}
-			{/*				width={400}*/}
-			{/*			/>*/}
-			{/*			<figcaption className="story__caption">Coming Soon</figcaption>*/}
-			{/*		</figure>*/}
-			{/*		<div className="story__text">*/}
-			{/*			<h3 className="heading-tertiary u-margin-bottom-small">*/}
-			{/*				Coming Soon*/}
-			{/*			</h3>*/}
-			{/*			<p>New developers will be added to the team soon.</p>*/}
-			{/*		</div>*/}
-			{/*	</div>*/}
-			{/*</div>*/}
-			{/*<div className="u-center-text u-margin-top-huge">*/}
-			{/*	<a className="btn-text" href="#">*/}
-			{/*		Read all stories &rarr;*/}
-			{/*	</a>*/}
-			{/*</div>*/}
 		</section>
 	);
-});
+};

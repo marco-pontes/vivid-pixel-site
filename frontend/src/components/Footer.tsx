@@ -1,106 +1,99 @@
-import Image from "next/image";
-import type { FunctionComponent } from "@/types/types";
+import type { FunctionComponent } from "@/types/types.ts";
+import Link from "next/link";
+import { SPECTRUM } from "@/components/brand";
+
+const PRODUCT_LINKS = [
+	{ label: "Viva", href: "https://viva-stage.com" },
+	{ label: "Vivid Feed", href: "https://vivid-feed.com" },
+] as const;
+
+const STUDIO_LINKS = [
+	{ label: "Services", href: "/#section-services" },
+	{ label: "Pricing", href: "/#section-pricing" },
+	{ label: "Team", href: "/#section-team" },
+	{ label: "Contact", href: "/#section-contact" },
+	{ label: "About", href: "/about" },
+] as const;
 
 export const Footer = (): FunctionComponent => {
 	return (
-		<footer className="footer">
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					gap: "20px",
-					width: "959px",
-					flexWrap: "wrap",
-				}}
-			></div>
-			<div className="footer__logo-box">
-				<picture className="footer__logo">
-					<source
-						media="(max-width: 37.5em)"
-						srcSet={`/images/logo-side-yellow-1x.png 1x, /images/logo-side-yellow-2x.png 2x`}
-					/>
-					<Image
-						alt="Full logo"
-						className="footer__logo"
-						height={200}
-						src="/images/vivid-white-2x.png"
-						width={200}
-					/>
-				</picture>
-				<div>
-					<a href="https://vite.dev" target="_blank">
-						<Image
-							alt="Vite logo"
-							className="tech-logos"
-							height={32}
-							src="/images/vite.svg"
-							width={36}
-						/>
-					</a>
-					<a href="https://nextjs.org/" target="_blank">
-						<Image
-							alt="Next logo"
-							className="tech-logos"
-							height={32}
-							src="/images/next.svg"
-							width={36}
-						/>
-					</a>
-					<a href="https://react.dev" target="_blank">
-						<Image
-							alt="React logo"
-							className="tech-logos"
-							height={32}
-							src="/images/react.svg"
-							width={36}
-						/>
-					</a>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-1-of-2">
-					<div className="footer__navigation">
-						<ul className="footer__list">
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Company
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Contact us
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Careers
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Privacy policy
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Terms
-								</a>
-							</li>
+		<footer className="border-t border-line bg-inset px-6 py-14">
+			<div className="mx-auto w-full max-w-5xl">
+				<div className="flex flex-wrap gap-x-16 gap-y-10">
+					<div>
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+							Our products
+						</h3>
+						<ul className="space-y-1.5">
+							{PRODUCT_LINKS.map((link) => (
+								<li key={link.href}>
+									<a
+										className="text-sm text-muted-fg transition-colors hover:text-foreground"
+										href={link.href}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{link.label}
+									</a>
+								</li>
+							))}
 						</ul>
 					</div>
+					<div>
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+							Studio
+						</h3>
+						<ul className="space-y-1.5">
+							{STUDIO_LINKS.map((link) => (
+								<li key={link.href}>
+									<Link
+										className="text-sm text-muted-fg transition-colors hover:text-foreground"
+										href={link.href}
+									>
+										{link.label}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div className="max-w-xs">
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+							A personal note
+						</h3>
+						<p className="text-sm leading-relaxed text-muted-fg">
+							A project close to my heart &mdash;{" "}
+							<a
+								className="font-semibold text-rose-text hover:underline"
+								href="https://help-marco-buy-a-prosthetic-hand.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Help Marco buy a prosthetic hand
+							</a>
+						</p>
+					</div>
 				</div>
-				<div className="col-1-of-2">
-					<p className="footer__copyright">
-						Built by{" "}
-						<a className="footer__link" href="https://github.com/marco-pontes/">
-							Marco Pontes
-						</a>
-						. Copyright &copy; by{" "}
+
+				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
+					<div aria-hidden="true" className="flex gap-1">
+						{SPECTRUM.map((hue) => (
+							<span
+								key={hue}
+								className="size-2 rounded-[2px]"
+								style={{
+									background:
+										hue === "violet" ? "var(--primary)" : `var(--${hue})`,
+								}}
+							/>
+						))}
+					</div>
+					<p className="font-mono text-xs text-subtle-fg">
+						&copy; {new Date().getFullYear()} Vivid Pixel &middot; Built by{" "}
 						<a
-							className="footer__link"
-							href="https://github.com/jonasschmedtmann"
+							className="hover:text-foreground"
+							href="https://github.com/marco-pontes/"
 						>
-							Jonas Schmedtmann
+							Marco Pontes
 						</a>
 					</p>
 				</div>

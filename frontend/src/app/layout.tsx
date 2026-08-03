@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
-// Project SCSS + icon font. Imported here (not via @import in globals.css) so
-// Next's sass-loader compiles the Sass; Tailwind's pipeline cannot. Loaded
-// after globals.css and kept unlayered → outranks Tailwind utility layers.
-import "@/styles/sass/main.scss";
-import "@/styles/css/icon-font.css";
 import { NextIntlClientProvider } from "next-intl";
-import { ColorModeButton } from "@/components/ui/color-mode";
-import { StrictMode } from "react";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Provider } from "@/components/ui/provider";
 import { Toaster } from "@/components/ui/toaster";
 
+// Display face — the studio's own voice. Body text stays on the family's
+// system-stack convention (see globals.css --font-sans).
+const bricolage = Bricolage_Grotesque({
+	subsets: ["latin"],
+	variable: "--font-bricolage",
+	display: "swap",
+});
+
 export const metadata: Metadata = {
-	title: "Vivid Pixel — Senior Frontend Engineering Teams On Demand",
+	title: "Vivid Pixel — The studio behind Viva and Vivid Feed",
 	description:
-		"Vivid Pixel is a frontend software development studio. Hire vetted senior React, Next.js and TypeScript engineers on flexible contracts — nearshore Brazilian talent, in your timezone, with continuous delivery.",
+		"We build vivid software. Products and senior frontend engineering from the studio behind Viva and Vivid Feed — vetted senior React, Next.js and TypeScript engineers, nearshore in your timezone.",
 };
 
 export default function RootLayout({
@@ -23,18 +24,15 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	// suppressHydrationWarning: next-themes stamps the .dark class on <html>
+	// before hydration; without this React reports a mismatch on every load.
 	return (
-		<html lang="en" className="light" style={{ colorScheme: "light" }}>
+		<html lang="en" suppressHydrationWarning className={bricolage.variable}>
 			<body>
 				<NextIntlClientProvider>
 					<Provider>
-						<StrictMode>{children}</StrictMode>
+						{children}
 						<Toaster />
-						<ReactQueryDevtools initialIsOpen={false} position="bottom" />
-						<ColorModeButton
-							style={{ position: "fixed", right: 0, top: 0 }}
-							size="icon"
-						/>
 					</Provider>
 				</NextIntlClientProvider>
 			</body>

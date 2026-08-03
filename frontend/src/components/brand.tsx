@@ -32,10 +32,10 @@ const EYEBROW_TEXT: Record<Hue, string> = {
 	violet: "text-primary",
 };
 
+/* Full saturation is the rest state now — the strip IS the voice (G3). */
 const cellVars = (hue: Hue): CSSProperties =>
 	({
-		"--c": hue === "violet" ? "var(--primary)" : `var(--${hue})`,
-		"--cf": `var(--${hue}-full)`,
+		"--c": `var(--${hue}-full)`,
 	}) as CSSProperties;
 
 export const PixelStrip = ({ size = 28 }: { size?: number }) => (
@@ -67,7 +67,7 @@ export const Eyebrow = ({
 	>
 		<span
 			aria-hidden="true"
-			className="size-2.5 rounded-[2px]"
+			className="size-2.5"
 			style={{ background: `var(--${hue}-full)` }}
 		/>
 		{children}

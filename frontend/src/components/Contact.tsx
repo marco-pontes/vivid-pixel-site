@@ -3,13 +3,14 @@ import type { ContactForm, FunctionComponent } from "@/types/types.ts";
 import { useForm } from "react-hook-form";
 import { toaster } from "@/components/ui/toaster";
 import { useSendContact } from "@/hooks/useSendContact";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { RiMailLine } from "react-icons/ri";
-import { Eyebrow, Section } from "@/components/brand";
+import { Section } from "@/components/brand";
 
+/**
+ * Contact — the Viva gradient at full bleed, corner-cut, casting a plum
+ * shadow. Light-constant fields (white paper) sit on the gradient in both
+ * themes; the send button is amber with constant ink.
+ */
 export const Contact = (): FunctionComponent => {
 	const {
 		register,
@@ -38,14 +39,28 @@ export const Contact = (): FunctionComponent => {
 		mutate(data);
 	};
 
+	const fieldClass =
+		"w-full border-2 border-transparent bg-white px-3 py-2.5 text-sm text-[#171321] placeholder:text-[#5f5872] outline-none focus-visible:border-[#f59f00] focus-visible:outline-none";
+
 	return (
 		<Section id="section-contact">
-			<div className="rounded-xl bg-primary-tint p-8 sm:p-12">
-				<Eyebrow hue="violet">Contact</Eyebrow>
-				<h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+			<div
+				className="cut-tr hard reveal p-8 sm:p-12 [--cut:28px]"
+				style={
+					{
+						background: "var(--grad-viva)",
+						"--hs": "var(--plum-full)",
+					} as React.CSSProperties
+				}
+			>
+				<div className="mb-4 flex items-center gap-2.5 font-mono text-xs font-bold tracking-[0.12em] text-white/90 uppercase">
+					<span aria-hidden="true" className="size-2.5 bg-ochre-full" />
+					Contact
+				</div>
+				<h2 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
 					Let&rsquo;s build together
 				</h2>
-				<p className="mt-3 max-w-md text-muted-fg">
+				<p className="mt-3 max-w-md text-white/90">
 					Tell us what you want to develop or support. We reply fast &mdash;
 					usually within a business day.
 				</p>
@@ -54,8 +69,10 @@ export const Contact = (): FunctionComponent => {
 					onSubmit={handleSubmit(onValidFn)}
 				>
 					<div className="grid gap-1.5">
-						<Label htmlFor="name">Full name</Label>
-						<Input
+						<label htmlFor="name" className="text-sm font-semibold text-white">
+							Full name
+						</label>
+						<input
 							{...register("name", {
 								required: "The name must be informed",
 							})}
@@ -63,20 +80,22 @@ export const Contact = (): FunctionComponent => {
 							placeholder="Full name"
 							type="text"
 							autoComplete="name"
-							className="bg-surface"
+							className={fieldClass}
 							aria-invalid={!!errors.name}
 							aria-describedby={errors.name ? "name-error" : undefined}
 						/>
 						{errors.name?.message && (
-							<span id="name-error" className="text-sm text-destructive">
+							<span id="name-error" className="text-sm font-semibold text-white">
 								{errors.name.message}
 							</span>
 						)}
 					</div>
 
 					<div className="grid gap-1.5">
-						<Label htmlFor="email">Email address</Label>
-						<Input
+						<label htmlFor="email" className="text-sm font-semibold text-white">
+							Email address
+						</label>
+						<input
 							{...register("email", {
 								required: "The email must be informed",
 								pattern: {
@@ -88,41 +107,56 @@ export const Contact = (): FunctionComponent => {
 							placeholder="you@company.com"
 							type="email"
 							autoComplete="email"
-							className="bg-surface"
+							className={fieldClass}
 							aria-invalid={!!errors.email}
 							aria-describedby={errors.email ? "email-error" : undefined}
 						/>
 						{errors.email?.message && (
-							<span id="email-error" className="text-sm text-destructive">
+							<span
+								id="email-error"
+								className="text-sm font-semibold text-white"
+							>
 								{errors.email.message}
 							</span>
 						)}
 					</div>
 
 					<div className="grid gap-1.5">
-						<Label htmlFor="message">Describe your service requirement</Label>
-						<Textarea
+						<label
+							htmlFor="message"
+							className="text-sm font-semibold text-white"
+						>
+							Describe your service requirement
+						</label>
+						<textarea
 							{...register("message", {
 								required: "The message must be informed",
 							})}
 							id="message"
 							rows={5}
 							placeholder="Explain what you want to develop or support"
-							className="bg-surface"
+							className={fieldClass}
 							aria-invalid={!!errors.message}
 							aria-describedby={errors.message ? "message-error" : undefined}
 						/>
 						{errors.message?.message && (
-							<span id="message-error" className="text-sm text-destructive">
+							<span
+								id="message-error"
+								className="text-sm font-semibold text-white"
+							>
 								{errors.message.message}
 							</span>
 						)}
 					</div>
 
 					<div>
-						<Button disabled={isPending} type="submit" className="gap-2">
+						<button
+							disabled={isPending}
+							type="submit"
+							className="cut-tr hard-sm press inline-flex items-center gap-2 bg-ochre-full px-6 py-3 text-sm font-bold text-ink disabled:pointer-events-none disabled:opacity-70 [--hs:#171321]"
+						>
 							<RiMailLine aria-hidden="true" /> Send a message
-						</Button>
+						</button>
 					</div>
 				</form>
 			</div>

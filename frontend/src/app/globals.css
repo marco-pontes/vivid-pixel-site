@@ -1,21 +1,22 @@
 /* ============================================================================
-   VIVID PIXEL — QUIET SPECTRUM
+   VIVID PIXEL — VIVID GEOMETRY
    Single source of truth for the design system. Tailwind v4.
 
-   Concept: every hue is lifted from a color the product family already ships
-   (Viva: #DC2430 / #7B4397 · Vivid Feed: #087f5b / #5f3dc4 + accents), then
-   flattened in OKLCH to whisper chroma (C ≈ 0.06). The full-chroma originals
-   stay in the system as *anchors* and surface only as punctuation: pixel-scale
-   marks, focus rings, text selection, and product-card gradients.
+   Concept: the pixel is a hard square, and vivid means vivid. The family's
+   shipped brand colors (Viva #DC2430→#7B4397 · Vivid Feed #087f5b→#5f3dc4
+   + the Feed accent set) run at full saturation. Ink outlines and hard offset
+   shadows hold the structure; diagonals cut every seam.
 
    Rules of engagement:
-     R1  Page-level accents are always the muted spectrum. One hue per section.
-         Exception: inside a product card, the product's own hues apply.
-     R2  Saturation is punctuation — never on surfaces, never on text.
-     R3  Interaction may raise the volume (hover a pixel → its anchor).
-     R4  Violet is the only hue that may ask for a click.
+     G1  Squares by default — border-radius is 0 everywhere; rounding is a
+         deliberate exception (.blob, rounded-full), never a habit.
+     G2  Corners get cut (clip-path bevels), not rounded.
+     G3  Saturation is the voice; ink (near-black / near-white) is the frame.
+         Text is always ink or an AA-verified text-grade of a family hue.
+     G4  Sections meet on diagonals. Depth is a hard offset shadow, not blur.
+     G5  Motion is loud but optional — every effect honors reduced-motion.
 
-   All text pairings below are WCAG AA verified programmatically, both themes.
+   All text pairings are WCAG AA verified programmatically, both themes.
    ========================================================================== */
 
 @import "tailwindcss";
@@ -23,42 +24,62 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Animatable conic angle for the hero ring (G5: consumed under motion-safe) */
+@property --ga {
+	syntax: "<angle>";
+	inherits: false;
+	initial-value: 0deg;
+}
+
 /* ----------------------------------------------------------------------------
-   1 · RAW TOKENS — light theme
-   Neutrals carry a trace of chroma (C ≈ 0.005–0.01) at the primary's hue
-   (H 300°), so even empty space belongs to the brand.
+   1 · RAW TOKENS — light theme ("paper with vivid ink")
 --------------------------------------------------------------------------- */
 :root {
-	/* Neutrals */
-	--background: #f6f5f8;
-	--surface: #fdfcfe;
-	--inset: #edecf0;
-	--line: #dfdde3;
-	--line-strong: #c5c2cb;
-	--foreground: #222126;
-	--muted-fg: #64626a;
-	--subtle-fg: #6b6970;
+	/* Neutrals — violet-cast paper and near-black ink */
+	--background: #f7f5fa;
+	--surface: #ffffff;
+	--inset: #edeaf2;
+	--line: #ddd8e4;
+	--line-strong: #b9b2c4;
+	--foreground: #171321;
+	--muted-fg: #4e4760;
+	--subtle-fg: #5f5872;
 
-	/* Primary — the violet bridge between Viva purple (313°) and Feed violet
-	   (288°): the only hue both products share, desaturated. */
-	--primary: #6a5988;
-	--primary-hover: #5a4778;
-	--primary-tint: #efe9fc;
+	/* Ink is the frame (G3): constant-ink tokens for borders/hard shadows and
+	   for dark text sitting on saturated fills in BOTH themes. */
+	--ink: #171321;
+	--ink-inverse: #f2eff7;
+	--hard-shadow: var(--ink);
+
+	/* Primary — the violet bridge, now at full volume */
+	--primary: #6d40ae;
+	--primary-hover: #5a3399;
+	--primary-tint: #efe6fc;
 	--primary-fg: #ffffff;
 
-	/* Spectrum — muted hue / tint surface / AA text grade, per site section */
-	--brick: #986e6a; --brick-tint: #feebe9; --brick-text: #8d5955; /* Viva A   */
-	--plum: #867192;  --plum-tint: #f5ecfa;  --plum-text: #775d86;  /* Viva B   */
-	--sage: #5b8572;  --sage-tint: #e5f5ed;  --sage-text: #3f765f;  /* Feed A   */
-	--iris: #78759a;  --iris-tint: #efeefd;  --iris-text: #67628f;  /* Feed B   */
-	--slate: #627d9a; --slate-tint: #e7f1fe; --slate-text: #4a6c90; /* Services */
-	--clay: #977060;  --clay-tint: #fdece5;  --clay-text: #8b5c47;  /* Practices*/
-	--ochre: #8f7556; --ochre-tint: #f9eee2; --ochre-text: #82623a; /* Pricing  */
-	--rose: #976d76;  --rose-tint: #fdebee;  --rose-text: #8b5863;  /* Founder  */
+	/* Family hues — saturated base / 14% tint / AA text grade.
+	   Token names kept from the previous system so component code is stable:
+	   brick=Viva red · plum=Viva purple · sage=Feed green · iris=Feed violet
+	   slate=Feed blue · clay=Feed orange · ochre=Feed amber · rose=Feed pink */
+	--brick: #dc2430; --brick-text: #da212e;
+	--plum: #7b4397;  --plum-text: #7b4397;
+	--sage: #087f5b;  --sage-text: #007f54;
+	--iris: #5f3dc4;  --iris-text: #5f3dc4;
+	--slate: #1c7ed6; --slate-text: #0272c9;
+	--clay: #f76707;  --clay-text: #c84000;
+	--ochre: #f59f00; --ochre-text: #a36000;
+	--rose: #d6336c;  --rose-text: #cf2b66;
 
-	/* Full-saturation anchors — the shipped product hexes. Theme-invariant.
-	   Published here (not only in @theme inline) so runtime var() lookups in
-	   inline styles resolve — @theme inline does not emit DOM custom props. */
+	--brick-tint: color-mix(in srgb, var(--brick) 14%, transparent);
+	--plum-tint: color-mix(in srgb, var(--plum) 14%, transparent);
+	--sage-tint: color-mix(in srgb, var(--sage) 14%, transparent);
+	--iris-tint: color-mix(in srgb, var(--iris) 14%, transparent);
+	--slate-tint: color-mix(in srgb, var(--slate) 14%, transparent);
+	--clay-tint: color-mix(in srgb, var(--clay) 14%, transparent);
+	--ochre-tint: color-mix(in srgb, var(--ochre) 14%, transparent);
+	--rose-tint: color-mix(in srgb, var(--rose) 14%, transparent);
+
+	/* Anchors — the exact shipped hexes, theme-invariant (gradients, marks) */
 	--brick-full: #DC2430;  /* Viva red     */
 	--plum-full: #7B4397;   /* Viva purple  */
 	--sage-full: #087f5b;   /* Feed green   */
@@ -69,77 +90,81 @@
 	--rose-full: #d6336c;   /* Feed pink    */
 	--violet-full: #6d40ae; /* saturated bridge */
 
-	/* Focus indicator — saturated violet, lightened in dark for 1.4.11 contrast */
+	/* Brand gradients — quoted exactly as the products ship them */
+	--grad-viva: linear-gradient(110deg, var(--brick-full), var(--plum-full));
+	--grad-feed: linear-gradient(135deg, var(--sage-full), var(--iris-full));
+	--grad-sweep: linear-gradient(90deg, #087f5b, #0ca678, #845ef7, #5f3dc4);
+
+	/* Focus indicator */
 	--focus: #6d40ae;
 
 	/* Semantic */
 	--destructive: oklch(0.577 0.245 27.325);
 	--destructive-fg: #ffffff;
-
-	/* Depth — violet-tinted black, exactly two elevations */
-	--shadow-card-value: 0 1px 2px rgba(26, 22, 38, 0.06), 0 8px 24px -14px rgba(26, 22, 38, 0.16);
-	--shadow-overlay-value: 0 24px 64px -18px rgba(26, 22, 38, 0.26);
 }
 
 /* ----------------------------------------------------------------------------
-   2 · RAW TOKENS — dark theme (.dark class, managed by next-themes)
+   2 · RAW TOKENS — dark theme ("stage black with the family lit up")
+   Hue text grades switch to the lightened dark-surface variants the products
+   themselves ship (e.g. Viva's #f0606b event red, #a78bfa performer violet).
 --------------------------------------------------------------------------- */
 .dark {
-	--background: #131217;
-	--surface: #1c1b21;
-	--inset: #26242b;
-	--line: #312f37;
-	--line-strong: #49464f;
-	--foreground: #e8e7eb;
-	--muted-fg: #9f9da4;
-	--subtle-fg: #8d8b93;
+	--background: #0d0b12;
+	--surface: #17141f;
+	--inset: #201c2a;
+	--line: #2e2839;
+	--line-strong: #453d55;
+	--foreground: #f2eff7;
+	--muted-fg: #b3abc4;
+	--subtle-fg: #9d94b0;
 
-	--primary: #ac9acd;
-	--primary-hover: #bbaadb;
-	--primary-tint: #2c243a;
-	--primary-fg: #131217;
+	--ink: #171321;
+	--ink-inverse: #f2eff7;
+	--hard-shadow: #000000;
 
-	--brick: #a57a76; --brick-tint: #34211f; --brick-text: #c89692;
-	--plum: #927d9e;  --plum-tint: #2c2231;  --plum-text: #b29ac0;
-	--sage: #67917e;  --sage-tint: #182b23;  --sage-text: #81b19b;
-	--iris: #8481a6;  --iris-tint: #262434;  --iris-text: #a29fc9;
-	--slate: #6e89a7; --slate-tint: #1b2835; --slate-text: #89a8ca;
-	--clay: #a37c6b;  --clay-tint: #33221a;  --clay-text: #c69986;
-	--ochre: #9c8162; --ochre-tint: #302416; --ochre-text: #bd9f7c;
-	--rose: #a47981;  --rose-tint: #332024;  --rose-text: #c6959f;
+	--primary: #a78bfa;
+	--primary-hover: #bca4fc;
+	--primary-tint: #241b38;
+	--primary-fg: #0d0b12;
 
-	--destructive: oklch(0.704 0.191 22.216);
-	--destructive-fg: #131217;
+	--brick: #f0606b; --brick-text: #f0606b;
+	--plum: #a78bfa;  --plum-text: #a78bfa;
+	--sage: #0ca678;  --sage-text: #0ca678;
+	--iris: #8a65fe;  --iris-text: #8a65fe;
+	--slate: #6b9df0; --slate-text: #6b9df0;
+	--clay: #f76707;  --clay-text: #f76707;
+	--ochre: #f59f00; --ochre-text: #f59f00;
+	--rose: #e34076;  --rose-text: #e34076;
 
-	/* Viva's own dark-surface violet — saturated, and 3:1+ on dark grounds */
+	--brick-tint: color-mix(in srgb, var(--brick) 18%, transparent);
+	--plum-tint: color-mix(in srgb, var(--plum) 18%, transparent);
+	--sage-tint: color-mix(in srgb, var(--sage) 18%, transparent);
+	--iris-tint: color-mix(in srgb, var(--iris) 18%, transparent);
+	--slate-tint: color-mix(in srgb, var(--slate) 18%, transparent);
+	--clay-tint: color-mix(in srgb, var(--clay) 18%, transparent);
+	--ochre-tint: color-mix(in srgb, var(--ochre) 18%, transparent);
+	--rose-tint: color-mix(in srgb, var(--rose) 18%, transparent);
+
 	--focus: #a78bfa;
 
-	--shadow-card-value: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -12px rgba(0, 0, 0, 0.6);
-	--shadow-overlay-value: 0 24px 64px -16px rgba(0, 0, 0, 0.7);
+	--destructive: oklch(0.704 0.191 22.216);
+	--destructive-fg: #0d0b12;
 }
 
 /* ----------------------------------------------------------------------------
-   3 · THEME MAP — exposes tokens as Tailwind utilities.
-   Full-saturation anchors are theme-invariant: they are the product hexes.
+   3 · THEME MAP — exposes tokens as Tailwind utilities
 --------------------------------------------------------------------------- */
 @theme inline {
-	/* Type. Display = Bricolage Grotesque (next/font, layout.tsx). Body = the
-	   family's system-stack convention (Feed's v1 decision; Viva's reality). */
 	--font-display: var(--font-bricolage), system-ui, sans-serif;
 	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-	/* Radii — the family scale: 6 / 8 / 10 / 14 */
-	--radius-sm: 0.375rem;
-	--radius-md: 0.5rem;
-	--radius-lg: 0.625rem;
-	--radius-xl: 0.875rem;
+	/* G1: squares by default. Rounding must be asked for by name. */
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
 
-	/* Shadows → shadow-card / shadow-overlay utilities */
-	--shadow-card: var(--shadow-card-value);
-	--shadow-overlay: var(--shadow-overlay-value);
-
-	/* Neutrals & primitives */
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
 	--color-surface: var(--surface);
@@ -148,6 +173,8 @@
 	--color-line-strong: var(--line-strong);
 	--color-muted-fg: var(--muted-fg);
 	--color-subtle-fg: var(--subtle-fg);
+	--color-ink: var(--ink);
+	--color-ink-inverse: var(--ink-inverse);
 
 	/* shadcn/ui compatibility aliases */
 	--color-card: var(--surface);
@@ -168,9 +195,9 @@
 	--color-destructive-foreground: var(--destructive-fg);
 	--color-border: var(--line);
 	--color-input: var(--line);
-	--color-ring: var(--focus); /* saturated violet — focus is punctuation (R2) */
+	--color-ring: var(--focus);
 
-	/* Muted spectrum */
+	/* Family hues */
 	--color-brick: var(--brick); --color-brick-tint: var(--brick-tint); --color-brick-text: var(--brick-text);
 	--color-plum: var(--plum);   --color-plum-tint: var(--plum-tint);   --color-plum-text: var(--plum-text);
 	--color-sage: var(--sage);   --color-sage-tint: var(--sage-tint);   --color-sage-text: var(--sage-text);
@@ -180,7 +207,6 @@
 	--color-ochre: var(--ochre); --color-ochre-tint: var(--ochre-tint); --color-ochre-text: var(--ochre-text);
 	--color-rose: var(--rose);   --color-rose-tint: var(--rose-tint);   --color-rose-text: var(--rose-text);
 
-	/* Full-saturation anchors — the shipped product hexes (punctuation only) */
 	--color-brick-full: var(--brick-full);
 	--color-plum-full: var(--plum-full);
 	--color-sage-full: var(--sage-full);
@@ -210,13 +236,12 @@
 		font-family: var(--font-sans);
 		-webkit-font-smoothing: antialiased;
 	}
-	/* Saturation is punctuation: selection speaks at full volume (R3) */
 	::selection {
-		background: #6d40ae;
+		background: var(--violet-full);
 		color: #ffffff;
 	}
 	:focus-visible {
-		outline: 2px solid var(--focus);
+		outline: 3px solid var(--focus);
 		outline-offset: 2px;
 	}
 	h1, h2, h3 {
@@ -225,23 +250,124 @@
 }
 
 /* ----------------------------------------------------------------------------
-   5 · COMPONENTS — the pixel, the one piece of bespoke CSS the identity needs.
-   Each cell declares --c (muted) and --cf (full anchor); rest state is quiet,
-   hover answers with the shipped product color (R3).
+   5 · GEOMETRY & EFFECTS — the toolkit (G1–G5)
 --------------------------------------------------------------------------- */
 @layer components {
-	.pixel-cell {
-		background: var(--c);
-		border-radius: var(--radius-sm);
-		flex-shrink: 0;
-		transition: background-color 0.18s ease-out, transform 0.18s ease-out;
+	/* Corner cuts (G2). --cut sets the bevel size. */
+	.cut-tr {
+		--cut: 16px;
+		clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
 	}
-	.pixel-cell:hover {
-		background: var(--cf, var(--c));
+	.cut-bl {
+		--cut: 16px;
+		clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+	}
+	.cut-tr-bl {
+		--cut: 16px;
+		clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+	}
+
+	/* Hard offset shadows (G4). --hs picks the color. */
+	.hard {
+		--hs: var(--hard-shadow);
+		box-shadow: 8px 8px 0 0 var(--hs);
+	}
+	.hard-sm {
+		--hs: var(--hard-shadow);
+		box-shadow: 4px 4px 0 0 var(--hs);
+	}
+	/* Pressable: the shadow collapses as the block moves into it. */
+	.press {
+		transition: translate 0.12s ease-out, box-shadow 0.12s ease-out;
+	}
+	.press:active {
+		translate: 4px 4px;
+		box-shadow: 0 0 0 0 var(--hs, var(--hard-shadow));
+	}
+
+	/* Gradient border via double background (--gb picks the gradient). */
+	.gborder {
+		--gb: var(--grad-viva);
+		border: 3px solid transparent;
+		background:
+			linear-gradient(var(--surface), var(--surface)) padding-box,
+			var(--gb) border-box;
+	}
+
+	/* Gradient text (--gt picks the gradient). */
+	.gtext {
+		--gt: var(--grad-sweep);
+		background: var(--gt);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	/* Organic exception to the square rule (G1): blob-masked media. */
+	.blob {
+		border-radius: 38% 62% 55% 45% / 45% 38% 62% 55%;
+	}
+
+	/* Decorative pixel-grid field, faded by mask. Position it absolutely. */
+	.pixel-field {
+		background-image:
+			linear-gradient(var(--line) 1px, transparent 1px),
+			linear-gradient(90deg, var(--line) 1px, transparent 1px);
+		background-size: 28px 28px;
+		mask-image: radial-gradient(ellipse 90% 80% at 20% 0%, black 25%, transparent 75%);
+		pointer-events: none;
+	}
+
+	/* Diagonal section seams (G4). */
+	.seam-b {
+		clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4.5rem), 0 100%);
+	}
+	.seam-b-r {
+		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 4.5rem));
+	}
+	.seam-tb {
+		clip-path: polygon(0 4.5rem, 100% 0, 100% calc(100% - 4.5rem), 0 100%);
+	}
+
+	/* Conic spectrum ring — hero ornament. A donut via radial mask. */
+	.spectrum-ring {
+		background: conic-gradient(
+			from var(--ga),
+			#DC2430, #f76707, #f59f00, #087f5b, #0ca678,
+			#1c7ed6, #5f3dc4, #7B4397, #d6336c, #DC2430
+		);
+		mask-image: radial-gradient(farthest-side, transparent calc(100% - 20px), black calc(100% - 19px));
+		border-radius: 50%; /* the round exception, earned (G1) */
 	}
 	@media (prefers-reduced-motion: no-preference) {
-		.pixel-cell:hover {
-			transform: translateY(-3px);
+		.spectrum-ring {
+			animation: ring-spin 14s linear infinite;
+		}
+		@keyframes ring-spin {
+			to {
+				--ga: 360deg;
+			}
+		}
+	}
+
+	/* Scroll-driven reveal — progressive enhancement only (G5). */
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) {
+			.reveal {
+				animation: reveal-up linear both;
+				animation-timeline: view();
+				animation-range: entry 0% entry 55%;
+			}
+			@keyframes reveal-up {
+				from {
+					opacity: 0.2;
+					transform: translateY(2rem);
+				}
+				to {
+					opacity: 1;
+					transform: none;
+				}
+			}
 		}
 	}
 }

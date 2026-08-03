@@ -17,18 +17,18 @@ const STUDIO_LINKS = [
 
 export const Footer = (): FunctionComponent => {
 	return (
-		<footer className="border-t border-line bg-inset px-6 py-14">
+		<footer className="border-t-4 border-[#6d40ae] bg-[#171321] px-6 py-14 text-[#f2eff7]">
 			<div className="mx-auto w-full max-w-5xl">
 				<div className="flex flex-wrap gap-x-16 gap-y-10">
 					<div>
-						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
 							Our products
 						</h3>
 						<ul className="space-y-1.5">
 							{PRODUCT_LINKS.map((link) => (
 								<li key={link.href}>
 									<a
-										className="text-sm text-muted-fg transition-colors hover:text-foreground"
+										className="text-sm text-[#b3abc4] transition-colors hover:text-white"
 										href={link.href}
 										target="_blank"
 										rel="noopener noreferrer"
@@ -40,14 +40,14 @@ export const Footer = (): FunctionComponent => {
 						</ul>
 					</div>
 					<div>
-						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
 							Studio
 						</h3>
 						<ul className="space-y-1.5">
 							{STUDIO_LINKS.map((link) => (
 								<li key={link.href}>
 									<Link
-										className="text-sm text-muted-fg transition-colors hover:text-foreground"
+										className="text-sm text-[#b3abc4] transition-colors hover:text-white"
 										href={link.href}
 									>
 										{link.label}
@@ -57,13 +57,13 @@ export const Footer = (): FunctionComponent => {
 						</ul>
 					</div>
 					<div className="max-w-xs">
-						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-subtle-fg uppercase">
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
 							A personal note
 						</h3>
-						<p className="text-sm leading-relaxed text-muted-fg">
+						<p className="text-sm leading-relaxed text-[#b3abc4]">
 							A project close to my heart &mdash;{" "}
 							<a
-								className="font-semibold text-rose-text hover:underline"
+								className="font-semibold text-[#f06595] hover:underline"
 								href="https://help-marco-buy-a-prosthetic-hand.com"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -74,23 +74,22 @@ export const Footer = (): FunctionComponent => {
 					</div>
 				</div>
 
-				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-line pt-6">
+				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#2e2839] pt-6">
 					<div aria-hidden="true" className="flex gap-1">
 						{SPECTRUM.map((hue) => (
 							<span
 								key={hue}
-								className="size-2 rounded-[2px]"
+								className="size-2"
 								style={{
-									background:
-										hue === "violet" ? "var(--primary)" : `var(--${hue})`,
+									background: `var(--${hue}-full)`,
 								}}
 							/>
 						))}
 					</div>
-					<p className="font-mono text-xs text-subtle-fg">
+					<p className="font-mono text-xs text-[#9d94b0]">
 						&copy; {new Date().getFullYear()} Vivid Pixel &middot; Built by{" "}
 						<a
-							className="hover:text-foreground"
+							className="hover:text-white"
 							href="https://github.com/marco-pontes/"
 						>
 							Marco Pontes

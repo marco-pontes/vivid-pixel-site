@@ -3,40 +3,47 @@ import Link from "next/link";
 import { PixelStrip } from "@/components/brand";
 
 /**
- * Hero. Products lead the story; violet keeps the paying CTA primary.
- * The single gentle diagonal at the bottom is the one piece of the old
- * site's geometry kept as heritage.
+ * Hero — the loudest block on the page. Pixel-grid field, spinning spectrum
+ * ring, gradient display word, hard-shadowed square CTAs, diagonal exit (G4).
  */
 export const Header = (): FunctionComponent => {
 	return (
 		<section
 			aria-label="Introduction"
-			className="bg-surface px-6 pt-32 pb-24 sm:pb-32 [clip-path:polygon(0_0,100%_0,100%_calc(100%-3rem),0_100%)]"
+			className="seam-b relative overflow-hidden bg-surface px-6 pt-36 pb-32"
 			id="top"
 		>
-			<div className="mx-auto w-full max-w-5xl">
+			<div aria-hidden="true" className="pixel-field absolute inset-0" />
+			<div
+				aria-hidden="true"
+				className="spectrum-ring absolute -top-28 -right-28 hidden size-[26rem] opacity-70 md:block dark:opacity-90"
+			/>
+			<div className="relative mx-auto w-full max-w-5xl">
 				<div className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700">
 					<PixelStrip />
 				</div>
-				<h1 className="mt-8 max-w-3xl font-display text-5xl font-bold tracking-tight sm:text-6xl">
-					We build vivid software<span className="text-violet-full">.</span>
+				<h1 className="mt-10 max-w-4xl font-display text-6xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl">
+					We build{" "}
+					<span className="gtext" style={{ "--gt": "var(--grad-sweep)" } as React.CSSProperties}>
+						vivid
+					</span>{" "}
+					software<span className="text-brick-text">.</span>
 				</h1>
-				{/* The functional headline: what a first-time visitor can buy. */}
-				<p className="mt-5 max-w-xl text-lg text-muted-fg sm:text-xl">
+				<p className="mt-6 max-w-xl text-lg text-muted-fg sm:text-xl">
 					Products and senior frontend engineering from the studio behind{" "}
 					<strong className="font-semibold text-foreground">Viva</strong> and{" "}
 					<strong className="font-semibold text-foreground">Vivid Feed</strong>.
 				</p>
-				<div className="mt-8 flex flex-wrap gap-3">
+				<div className="mt-10 flex flex-wrap gap-5">
 					<Link
 						href="/#section-contact"
-						className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-card transition-colors hover:bg-primary-hover"
+						className="cut-tr hard-sm press inline-block bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground"
 					>
 						Hire the studio
 					</Link>
 					<Link
 						href="/#section-products"
-						className="rounded-md border border-line-strong bg-inset px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-line"
+						className="gborder hard-sm press inline-block px-6 py-3 text-sm font-semibold text-foreground"
 					>
 						See our products
 					</Link>

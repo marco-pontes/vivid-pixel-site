@@ -38,8 +38,8 @@ export default function About() {
 					<Eyebrow hue="violet">
 						About the studio
 					</Eyebrow>
-					<h1 className="mb-6 font-display text-4xl font-bold tracking-tight sm:text-5xl">
-						Who we are
+					<h1 className="mb-6 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
+						Who we <span className="gtext" style={{ "--gt": "var(--grad-viva)" } as React.CSSProperties}>are</span>
 					</h1>
 					<div className="mb-12 max-w-md">
 						<PixelStrip size={20} />

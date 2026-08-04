@@ -1,24 +1,13 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { Eyebrow, Section } from "@/components/brand";
 
 /** Services — a diagonal inset band; blue voice, amber practice chips. */
 const SERVICES = [
-	{
-		icon: "{ }",
-		title: "Embedded senior engineers",
-		text: "Experienced React, Next.js and TypeScript specialists inside your team — your timezone, your standards, no long ramp-ups and no junior guesswork.",
-	},
-	{
-		icon: "◆",
-		title: "Product engineering",
-		text: "From scattered idea to shipped product, built the way our own products are built: tested, accessible and continuously delivered.",
-	},
-	{
-		icon: "#",
-		title: "Frontend rescue",
-		text: "Untested, slow or inaccessible UI brought back to standard — measured, not promised.",
-	},
+	{ icon: "{ }", titleKey: "embeddedTitle", textKey: "embeddedText" },
+	{ icon: "◆", titleKey: "productTitle", textKey: "productText" },
+	{ icon: "#", titleKey: "rescueTitle", textKey: "rescueText" },
 ] as const;
 
 const PRACTICES = [
@@ -34,20 +23,15 @@ export const Services = (): FunctionComponent => {
 	return (
 		<div className="bg-inset">
 			<Section id="section-services">
-				<Eyebrow hue="slate">Services</Eyebrow>
+				<Eyebrow hue="slate">{t("eyebrow")}</Eyebrow>
 				<h2 className="mb-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
 					{t("title")}
 				</h2>
-				<p className="mb-12 max-w-xl text-muted-fg">
-					Skip the cost, overhead and risk of building an in-house frontend
-					team. You get vetted Brazilian engineers working in your timezone,
-					transparent contracts and continuous delivery &mdash; scaling up or
-					down whenever your roadmap changes.
-				</p>
+				<p className="mb-12 max-w-xl text-muted-fg">{t("lead")}</p>
 				<div className="grid gap-8 sm:grid-cols-3">
 					{SERVICES.map((service) => (
 						<div
-							key={service.title}
+							key={service.titleKey}
 							className="reveal rounded-xl border border-line bg-surface p-6 shadow-sm transition-colors hover:border-line-strong"
 						>
 							<div
@@ -56,9 +40,9 @@ export const Services = (): FunctionComponent => {
 							>
 								{service.icon}
 							</div>
-							<h3 className="font-display text-lg font-bold">{service.title}</h3>
+							<h3 className="font-display text-lg font-bold">{t(service.titleKey)}</h3>
 							<p className="mt-2 text-sm leading-relaxed text-muted-fg">
-								{service.text}
+								{t(service.textKey)}
 							</p>
 						</div>
 					))}
@@ -73,12 +57,12 @@ export const Services = (): FunctionComponent => {
 						</span>
 					))}
 				</div>
-				<a
+				<Link
 					className="mt-10 inline-block font-mono text-sm font-semibold text-primary hover:underline"
 					href="/about"
 				>
-					See how we work <span aria-hidden="true">&rarr;</span>
-				</a>
+					{t("seeHow")} <span aria-hidden="true">&rarr;</span>
+				</Link>
 			</Section>
 		</div>
 	);

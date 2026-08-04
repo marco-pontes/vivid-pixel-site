@@ -11,8 +11,7 @@ const PRODUCTS = [
 	{
 		name: "Viva",
 		tagline: "“Every event happening around you”",
-		description:
-			"Location-first live-event discovery. Concerts, festivals, talks and matches near you — every event corroborated across independent sources by the Viva Stage Engine.",
+		descriptionKey: "vivaDescription" as const,
 		href: "https://viva-stage.com",
 		domain: "viva-stage.com",
 		gradient: "var(--grad-viva)",
@@ -23,8 +22,7 @@ const PRODUCTS = [
 	{
 		name: "Vivid Feed",
 		tagline: "“All your feeds, one vivid place.”",
-		description:
-			"A clean, three-pane feed reader. Follow any site with RSS or Atom, organize sources into folders, and read without the noise.",
+		descriptionKey: "feedDescription" as const,
 		href: "https://vivid-feed.com",
 		domain: "vivid-feed.com",
 		gradient: "var(--grad-feed)",
@@ -38,14 +36,11 @@ export const Products = (): FunctionComponent => {
 	const t = useTranslations("Products");
 	return (
 		<Section id="section-products">
-			<Eyebrow hue="brick">Our products &mdash; living case studies</Eyebrow>
+			<Eyebrow hue="brick">{t("eyebrow")}</Eyebrow>
 			<h2 className="mb-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
 				{t("title")}
 			</h2>
-			<p className="mb-14 max-w-xl text-muted-fg">
-				The same team you can hire builds and runs two products. They are the
-				proof behind every promise on this page.
-			</p>
+			<p className="mb-14 max-w-xl text-muted-fg">{t("lead")}</p>
 			<div className="grid gap-16">
 				{PRODUCTS.map((product) => (
 					<div
@@ -84,7 +79,7 @@ export const Products = (): FunctionComponent => {
 						</a>
 						<div>
 							<p className="text-base leading-relaxed text-muted-fg">
-								{product.description}
+								{t(product.descriptionKey)}
 							</p>
 							<a
 								href={product.href}
@@ -92,7 +87,8 @@ export const Products = (): FunctionComponent => {
 								rel="noopener noreferrer"
 								className={`mt-4 inline-block font-mono text-sm font-semibold ${product.linkClass} hover:underline`}
 							>
-								Visit {product.domain} <span aria-hidden="true">&rarr;</span>
+								{t("visit", { domain: product.domain })}{" "}
+								<span aria-hidden="true">&rarr;</span>
 							</a>
 						</div>
 					</div>

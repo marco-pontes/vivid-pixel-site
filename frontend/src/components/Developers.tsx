@@ -1,6 +1,7 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import Image from "next/image";
 import { AmbientVideo } from "@/components/AmbientVideo";
+import { useTranslations } from "next-intl";
 import { Eyebrow } from "@/components/brand";
 
 const SKILLS = [
@@ -18,6 +19,7 @@ const SKILLS = [
  * earned exception) with a hard pink drop-shadow that follows the shape.
  */
 export const Developers = (): FunctionComponent => {
+	const t = useTranslations("Team");
 	return (
 		<section
 			id="section-team"
@@ -25,7 +27,7 @@ export const Developers = (): FunctionComponent => {
 		>
 			<AmbientVideo />
 			<div className="relative mx-auto w-full max-w-5xl">
-				<Eyebrow hue="rose">Who you&rsquo;ll work with</Eyebrow>
+				<Eyebrow hue="rose">{t("eyebrow")}</Eyebrow>
 				<div
 					className="glow reveal max-w-2xl rounded-3xl border border-line bg-surface/95 p-6 backdrop-blur-sm sm:p-8"
 					style={
@@ -47,12 +49,10 @@ export const Developers = (): FunctionComponent => {
 								Marco Aurelio Pontes
 							</h2>
 							<p className="mt-0.5 font-mono text-sm text-muted-fg">
-								Senior software engineer · 15 years
+								{t("role")}
 							</p>
 							<p className="mt-3 text-sm leading-relaxed text-muted-fg">
-								Micro-frontends, CI/CD, technical leadership &mdash; the
-								engineer who built both products above. When you hire Vivid
-								Pixel, this is who shows up.
+								{t("bio")}
 							</p>
 							<p className="mt-2 text-sm leading-relaxed text-muted-fg">
 								<a

@@ -1,23 +1,26 @@
 import type { CSSProperties } from "react";
 import type { FunctionComponent } from "@/types/types.ts";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 /**
  * Hero — mesh-gradient glow blobs (the common move) under a squiggle-
  * underlined gradient word and a tagline marquee (the uncommon ones).
+ * The brand line stays in English across locales as a mark; the localized
+ * subheadline carries the meaning.
  */
-const MARQUEE_ITEMS = [
-	"Viva — every event happening around you",
-	"Vivid Feed — all your feeds, one vivid place",
-	"tested · accessible · continuously delivered",
-] as const;
-
-const MarqueeContent = ({ hidden }: { hidden?: boolean }) => (
+const MarqueeContent = ({
+	items,
+	hidden,
+}: {
+	items: string[];
+	hidden?: boolean;
+}) => (
 	<span
 		aria-hidden={hidden || undefined}
 		className="marquee-track font-mono text-xs font-semibold tracking-[0.14em] text-muted-fg uppercase"
 	>
-		{MARQUEE_ITEMS.map((item) => (
+		{items.map((item) => (
 			<span key={item} className="flex items-center gap-10">
 				{item}
 				<span aria-hidden="true" className="text-ochre-text">
@@ -29,6 +32,9 @@ const MarqueeContent = ({ hidden }: { hidden?: boolean }) => (
 );
 
 export const Header = (): FunctionComponent => {
+	const t = useTranslations("Hero");
+	const marqueeItems = [t("marquee1"), t("marquee2"), t("marquee3")];
+
 	return (
 		<section
 			aria-label="Introduction"
@@ -47,7 +53,11 @@ export const Header = (): FunctionComponent => {
 				style={{ background: "var(--grad-feed)" } as CSSProperties}
 			/>
 			<div className="relative mx-auto w-full max-w-5xl px-6 pb-24">
-				<h1 className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 max-w-4xl font-display text-6xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl">
+				{/* Brand line — intentionally English in every locale. */}
+				<h1
+					dir="ltr"
+					className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 max-w-4xl text-start font-display text-6xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl"
+				>
 					We build{" "}
 					<span className="relative inline-block">
 						<span
@@ -75,29 +85,31 @@ export const Header = (): FunctionComponent => {
 					software<span className="text-brick-text">.</span>
 				</h1>
 				<p className="mt-7 max-w-xl text-lg text-muted-fg sm:text-xl">
-					Products and senior frontend engineering from the studio behind{" "}
-					<strong className="font-semibold text-foreground">Viva</strong> and{" "}
-					<strong className="font-semibold text-foreground">Vivid Feed</strong>.
+					{t.rich("sub", {
+						s: (chunks) => (
+							<strong className="font-semibold text-foreground">{chunks}</strong>
+						),
+					})}
 				</p>
 				<div className="mt-10 flex flex-wrap items-center gap-6">
 					<Link
 						href="/#section-contact"
 						className="glow rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
 					>
-						Hire the studio
+						{t("hireStudio")}
 					</Link>
 					<Link
 						href="/#section-products"
 						className="text-sm font-semibold text-foreground underline decoration-2 underline-offset-4 hover:text-primary"
 					>
-						See our products <span aria-hidden="true">&rarr;</span>
+						{t("seeProducts")} <span aria-hidden="true">&rarr;</span>
 					</Link>
 				</div>
 			</div>
 			{/* Tagline marquee — doubles as a products teaser. */}
-			<div className="marquee relative border-y border-line bg-background py-3">
-				<MarqueeContent />
-				<MarqueeContent hidden />
+			<div className="marquee relative border-y border-line bg-background py-3" dir="ltr">
+				<MarqueeContent items={marqueeItems} />
+				<MarqueeContent items={marqueeItems} hidden />
 			</div>
 		</section>
 	);

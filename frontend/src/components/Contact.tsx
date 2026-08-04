@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { toaster } from "@/components/ui/toaster";
 import { useSendContact } from "@/hooks/useSendContact";
 import { RiMailLine } from "react-icons/ri";
+import { useTranslations } from "next-intl";
 import { Section } from "@/components/brand";
 
 /**
@@ -12,6 +13,7 @@ import { Section } from "@/components/brand";
  * the send button is an amber pill with constant ink.
  */
 export const Contact = (): FunctionComponent => {
+	const t = useTranslations("Contact");
 	const {
 		register,
 		handleSubmit,
@@ -21,17 +23,15 @@ export const Contact = (): FunctionComponent => {
 	const { mutate, isPending } = useSendContact(
 		() =>
 			toaster.create({
-				title: "Message sent",
+				title: t("successTitle"),
 				type: "success",
-				description:
-					"Thanks for reaching out! Our team will get back to you shortly.",
+				description: t("successDescription"),
 			}),
 		() =>
 			toaster.create({
-				title: "Something went wrong",
+				title: t("errorTitle"),
 				type: "error",
-				description:
-					"Your message could not be sent. Please try again in a moment.",
+				description: t("errorDescription"),
 			})
 	);
 
@@ -55,29 +55,26 @@ export const Contact = (): FunctionComponent => {
 			>
 				<div className="mb-4 flex items-center gap-2.5 font-mono text-xs font-bold tracking-[0.12em] text-white/90 uppercase">
 					<span aria-hidden="true" className="size-2.5 rounded-full bg-ochre-full" />
-					Contact
+					{t("eyebrow")}
 				</div>
 				<h2 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-					Let&rsquo;s build together
+					{t("title")}
 				</h2>
-				<p className="mt-3 max-w-md text-white/90">
-					Tell us what you want to develop or support. We reply fast &mdash;
-					usually within a business day.
-				</p>
+				<p className="mt-3 max-w-md text-white/90">{t("lead")}</p>
 				<form
 					className="mt-8 grid max-w-lg gap-5"
 					onSubmit={handleSubmit(onValidFn)}
 				>
 					<div className="grid gap-1.5">
 						<label htmlFor="name" className="text-sm font-semibold text-white">
-							Full name
+							{t("nameLabel")}
 						</label>
 						<input
 							{...register("name", {
-								required: "The name must be informed",
+								required: t("nameError"),
 							})}
 							id="name"
-							placeholder="Full name"
+							placeholder={t("namePlaceholder")}
 							type="text"
 							autoComplete="name"
 							className={fieldClass}
@@ -93,18 +90,18 @@ export const Contact = (): FunctionComponent => {
 
 					<div className="grid gap-1.5">
 						<label htmlFor="email" className="text-sm font-semibold text-white">
-							Email address
+							{t("emailLabel")}
 						</label>
 						<input
 							{...register("email", {
-								required: "The email must be informed",
+								required: t("emailError"),
 								pattern: {
 									value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-									message: "Enter a valid email address",
+									message: t("emailInvalid"),
 								},
 							})}
 							id="email"
-							placeholder="you@company.com"
+							placeholder={t("emailPlaceholder")}
 							type="email"
 							autoComplete="email"
 							className={fieldClass}
@@ -126,15 +123,15 @@ export const Contact = (): FunctionComponent => {
 							htmlFor="message"
 							className="text-sm font-semibold text-white"
 						>
-							Describe your service requirement
+							{t("messageLabel")}
 						</label>
 						<textarea
 							{...register("message", {
-								required: "The message must be informed",
+								required: t("messageError"),
 							})}
 							id="message"
 							rows={5}
-							placeholder="Explain what you want to develop or support"
+							placeholder={t("messagePlaceholder")}
 							className={fieldClass}
 							aria-invalid={!!errors.message}
 							aria-describedby={errors.message ? "message-error" : undefined}
@@ -155,7 +152,7 @@ export const Contact = (): FunctionComponent => {
 							type="submit"
 							className="inline-flex items-center gap-2 rounded-full bg-ochre-full px-7 py-3 text-sm font-bold text-ink transition-transform disabled:pointer-events-none disabled:opacity-70 motion-safe:hover:-translate-y-0.5"
 						>
-							<RiMailLine aria-hidden="true" /> Send a message
+							<RiMailLine aria-hidden="true" /> {t("send")}
 						</button>
 					</div>
 				</form>

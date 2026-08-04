@@ -65,20 +65,23 @@ export const Prices = (): FunctionComponent => {
 				{TIERS.map((tier) => (
 					<div
 						key={tier.name}
-						className={`hard reveal flex flex-col p-6 ${
+						className={`reveal relative flex flex-col rounded-xl p-6 ${
 							tier.featured
-								? "gborder"
-								: "border-3 border-ink bg-surface dark:border-line-strong"
+								? "gborder glow md:-rotate-1"
+								: "border border-line bg-surface shadow-sm"
 						}`}
 						style={
 							{
-								"--hs": tier.featured
-									? "var(--brick-full)"
-									: "var(--hard-shadow)",
 								"--gb": "var(--grad-viva)",
+								"--gl": "color-mix(in srgb, var(--brick-full) 35%, transparent)",
 							} as CSSProperties
 						}
 					>
+						{tier.featured && (
+							<span className="sticker absolute -top-4 -right-3 bg-ochre-full px-3.5 py-1.5 font-mono text-xs font-bold text-ink">
+								our favorite
+							</span>
+						)}
 						<h3 className="font-mono text-xs font-bold tracking-[0.12em] text-muted-fg uppercase">
 							{tier.name}
 						</h3>
@@ -94,7 +97,7 @@ export const Prices = (): FunctionComponent => {
 								<li key={detail} className="flex gap-2">
 									<span
 										aria-hidden="true"
-										className="mt-1.5 size-1.5 shrink-0 bg-ochre-full"
+										className="mt-1.5 size-1.5 shrink-0 rounded-full bg-ochre-full"
 									/>
 									{detail}
 								</li>
@@ -102,10 +105,10 @@ export const Prices = (): FunctionComponent => {
 						</ul>
 						<Link
 							href="/#section-contact"
-							className={`cut-tr press inline-block px-4 py-2.5 text-center text-sm font-semibold ${
+							className={`inline-block rounded-full px-4 py-2.5 text-center text-sm font-semibold transition-colors ${
 								tier.featured
-									? "hard-sm bg-primary text-primary-foreground"
-									: "border-2 border-ink bg-inset text-foreground hover:bg-line dark:border-line-strong"
+									? "bg-primary text-primary-foreground hover:bg-primary-hover"
+									: "border border-line-strong bg-inset text-foreground hover:bg-line"
 							}`}
 						>
 							Start a conversation

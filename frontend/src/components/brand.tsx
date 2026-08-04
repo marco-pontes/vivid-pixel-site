@@ -1,10 +1,6 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
-/**
- * The nine-hue spectrum, in site-section order. Each entry pairs the muted
- * page-level hue with its full-saturation anchor — the hex the product
- * actually ships. Rest state is quiet; hover answers at full volume (R3).
- */
+/** The nine family hues, in site order. Anchors are the shipped hexes. */
 export const SPECTRUM = [
 	"brick",
 	"plum",
@@ -32,29 +28,24 @@ const EYEBROW_TEXT: Record<Hue, string> = {
 	violet: "text-primary",
 };
 
-/* Full saturation is the rest state now — the strip IS the voice (G3). */
-const cellVars = (hue: Hue): CSSProperties =>
-	({
-		"--c": `var(--${hue}-full)`,
-	}) as CSSProperties;
-
-export const PixelStrip = ({ size = 28 }: { size?: number }) => (
-	<div
-		className="flex flex-wrap gap-1.5"
-		role="img"
-		aria-label="The Vivid Pixel spectrum — nine muted hues drawn from the product family's colors"
-	>
+/** Row of saturated dots — the spectrum echo, now round (less pixel). */
+export const SpectrumDots = ({ size = 8 }: { size?: number }) => (
+	<div aria-hidden="true" className="flex gap-1.5">
 		{SPECTRUM.map((hue) => (
 			<span
 				key={hue}
-				className="pixel-cell"
-				style={{ ...cellVars(hue), width: size, height: size }}
+				className="rounded-full"
+				style={{
+					width: size,
+					height: size,
+					background: `var(--${hue}-full)`,
+				}}
 			/>
 		))}
 	</div>
 );
 
-/** Mono section eyebrow. The 10px pixel is full saturation — punctuation. */
+/** Mono section eyebrow with a saturated round marker. */
 export const Eyebrow = ({
 	hue,
 	children,
@@ -67,7 +58,7 @@ export const Eyebrow = ({
 	>
 		<span
 			aria-hidden="true"
-			className="size-2.5"
+			className="size-2.5 rounded-full"
 			style={{ background: `var(--${hue}-full)` }}
 		/>
 		{children}

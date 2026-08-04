@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import Link from "next/link";
-import { SPECTRUM } from "@/components/brand";
+import { SpectrumDots } from "@/components/brand";
 
 const PRODUCT_LINKS = [
 	{ label: "Viva", href: "https://viva-stage.com" },
@@ -17,7 +17,7 @@ const STUDIO_LINKS = [
 
 export const Footer = (): FunctionComponent => {
 	return (
-		<footer className="border-t-4 border-[#6d40ae] bg-[#171321] px-6 py-14 text-[#f2eff7]">
+		<footer className="relative bg-[#171321] px-6 py-14 text-[#f2eff7] before:absolute before:inset-x-0 before:top-0 before:h-1 before:content-[''] before:[background:var(--grad-sweep)]">
 			<div className="mx-auto w-full max-w-5xl">
 				<div className="flex flex-wrap gap-x-16 gap-y-10">
 					<div>
@@ -75,17 +75,7 @@ export const Footer = (): FunctionComponent => {
 				</div>
 
 				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#2e2839] pt-6">
-					<div aria-hidden="true" className="flex gap-1">
-						{SPECTRUM.map((hue) => (
-							<span
-								key={hue}
-								className="size-2"
-								style={{
-									background: `var(--${hue}-full)`,
-								}}
-							/>
-						))}
-					</div>
+					<SpectrumDots />
 					<p className="font-mono text-xs text-[#9d94b0]">
 						&copy; {new Date().getFullYear()} Vivid Pixel &middot; Built by{" "}
 						<a

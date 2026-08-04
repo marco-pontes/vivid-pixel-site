@@ -4,8 +4,8 @@ import { useTranslations } from "next-intl";
 import { Eyebrow, Section } from "@/components/brand";
 
 /**
- * Our products — ink-framed squares with a corner cut, each casting a hard
- * shadow in its own brand color, its name set in its own shipped gradient.
+ * Our products — asymmetric editorial rows. Each product gets a full-bleed
+ * gradient panel glowing in its own color; rows alternate direction.
  */
 const PRODUCTS = [
 	{
@@ -16,8 +16,9 @@ const PRODUCTS = [
 		href: "https://viva-stage.com",
 		domain: "viva-stage.com",
 		gradient: "var(--grad-viva)",
-		shadow: "var(--brick-full)",
+		glowColor: "color-mix(in srgb, var(--brick-full) 45%, transparent)",
 		linkClass: "text-brick-text",
+		reversed: false,
 	},
 	{
 		name: "Vivid Feed",
@@ -27,8 +28,9 @@ const PRODUCTS = [
 		href: "https://vivid-feed.com",
 		domain: "vivid-feed.com",
 		gradient: "var(--grad-feed)",
-		shadow: "var(--sage-full)",
+		glowColor: "color-mix(in srgb, var(--sage-full) 45%, transparent)",
 		linkClass: "text-sage-text",
+		reversed: true,
 	},
 ] as const;
 
@@ -40,37 +42,37 @@ export const Products = (): FunctionComponent => {
 			<h2 className="mb-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
 				{t("title")}
 			</h2>
-			<p className="mb-12 max-w-xl text-muted-fg">
+			<p className="mb-14 max-w-xl text-muted-fg">
 				The same team you can hire builds and runs two products. They are the
 				proof behind every promise on this page.
 			</p>
-			<div className="grid gap-10 sm:grid-cols-2">
+			<div className="grid gap-16">
 				{PRODUCTS.map((product) => (
-					<a
+					<div
 						key={product.name}
-						href={product.href}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="group hard press reveal block border-3 border-ink bg-surface no-underline dark:border-line-strong"
-						style={{ "--hs": product.shadow } as CSSProperties}
+						className={`reveal grid items-center gap-8 md:grid-cols-[1.05fr_1fr] ${
+							product.reversed ? "md:[&>*:first-child]:order-2" : ""
+						}`}
 					>
-						<div className="h-2" style={{ background: product.gradient }} />
-						<div className="p-7">
-							<h3
-								className="gtext font-display text-2xl font-extrabold tracking-tight"
-								style={{ "--gt": product.gradient } as CSSProperties}
-							>
+						<a
+							href={product.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="glow group block rounded-3xl p-10 no-underline sm:p-12"
+							style={
+								{
+									background: product.gradient,
+									"--gl": product.glowColor,
+								} as CSSProperties
+							}
+						>
+							<h3 className="font-display text-3xl font-extrabold tracking-tight text-white">
 								{product.name}
 							</h3>
-							<p className="mt-3 font-display text-2xl font-bold tracking-tight text-foreground">
+							<p className="mt-4 font-display text-2xl font-bold tracking-tight text-white/95 sm:text-3xl">
 								{product.tagline}
 							</p>
-							<p className="mt-4 text-sm leading-relaxed text-muted-fg">
-								{product.description}
-							</p>
-							<span
-								className={`mt-5 inline-block font-mono text-sm font-semibold ${product.linkClass}`}
-							>
+							<span className="mt-8 inline-block rounded-full bg-white/15 px-4 py-1.5 font-mono text-sm font-semibold text-white backdrop-blur-sm">
 								{product.domain}{" "}
 								<span
 									aria-hidden="true"
@@ -79,8 +81,21 @@ export const Products = (): FunctionComponent => {
 									&rarr;
 								</span>
 							</span>
+						</a>
+						<div>
+							<p className="text-base leading-relaxed text-muted-fg">
+								{product.description}
+							</p>
+							<a
+								href={product.href}
+								target="_blank"
+								rel="noopener noreferrer"
+								className={`mt-4 inline-block font-mono text-sm font-semibold ${product.linkClass} hover:underline`}
+							>
+								Visit {product.domain} <span aria-hidden="true">&rarr;</span>
+							</a>
 						</div>
-					</a>
+					</div>
 				))}
 			</div>
 		</Section>

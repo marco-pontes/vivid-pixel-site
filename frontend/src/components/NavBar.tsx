@@ -12,10 +12,10 @@ const LINKS = [
 
 export const NavBar = (): FunctionComponent => {
 	return (
-		<header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/85 backdrop-blur-md before:absolute before:inset-x-0 before:top-0 before:h-[3px] before:[background:var(--grad-sweep)] before:content-['']">
+		<header className="fixed inset-x-0 top-3 z-50 px-4">
 			<nav
 				aria-label="Main"
-				className="mx-auto flex h-14 w-full max-w-5xl items-center gap-6 px-6"
+				className="mx-auto flex h-13 w-full max-w-4xl items-center gap-6 rounded-full border border-line bg-background/85 px-5 shadow-lg backdrop-blur-md"
 			>
 				<Link
 					href="/"
@@ -40,7 +40,7 @@ export const NavBar = (): FunctionComponent => {
 					<ColorModeButton />
 					<Link
 						href="/#section-contact"
-						className="cut-tr bg-primary px-3.5 py-1.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover [--cut:10px]"
+						className="rounded-full bg-primary px-4 py-1.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
 					>
 						Hire us
 					</Link>
@@ -48,19 +48,19 @@ export const NavBar = (): FunctionComponent => {
 					{/* Mobile menu — native disclosure, no JS. */}
 					<details className="relative md:hidden">
 						<summary
-							className="flex size-9 cursor-pointer list-none items-center justify-center border-2 border-line-strong text-foreground [&::-webkit-details-marker]:hidden"
+							className="flex size-9 cursor-pointer list-none items-center justify-center rounded-full border border-line-strong text-foreground [&::-webkit-details-marker]:hidden"
 							aria-label="Menu"
 						>
 							<span aria-hidden="true" className="font-mono text-sm">
 								≡
 							</span>
 						</summary>
-						<div className="hard-sm absolute right-0 mt-2 w-44 border-2 border-ink bg-surface p-2 dark:border-line-strong">
+						<div className="absolute right-0 mt-3 w-44 rounded-2xl border border-line bg-surface p-2 shadow-xl">
 							{LINKS.map((link) => (
 								<Link
 									key={link.href}
 									href={link.href}
-									className="block px-3 py-2 text-sm text-muted-fg transition-colors hover:bg-inset hover:text-foreground"
+									className="block rounded-lg px-3 py-2 text-sm text-muted-fg transition-colors hover:bg-inset hover:text-foreground"
 								>
 									{link.label}
 								</Link>

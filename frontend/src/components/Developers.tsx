@@ -27,8 +27,12 @@ export const Developers = (): FunctionComponent => {
 			<div className="relative mx-auto w-full max-w-5xl">
 				<Eyebrow hue="rose">Who you&rsquo;ll work with</Eyebrow>
 				<div
-					className="hard reveal max-w-2xl border-3 border-ink bg-surface/95 p-6 sm:p-8 dark:border-line-strong"
-					style={{ "--hs": "var(--rose-full)" } as React.CSSProperties}
+					className="glow reveal max-w-2xl rounded-3xl border border-line bg-surface/95 p-6 backdrop-blur-sm sm:p-8"
+					style={
+						{
+							"--gl": "color-mix(in srgb, var(--rose-full) 35%, transparent)",
+						} as React.CSSProperties
+					}
 				>
 					<div className="flex flex-wrap items-start gap-7">
 						<Image
@@ -64,7 +68,7 @@ export const Developers = (): FunctionComponent => {
 								{SKILLS.map((skill) => (
 									<span
 										key={skill}
-										className="border-2 border-rose-text bg-rose-tint px-2.5 py-1 font-mono text-xs font-semibold text-rose-text"
+										className="rounded-full bg-rose-tint px-3 py-1 font-mono text-xs font-semibold text-rose-text"
 									>
 										{skill}
 									</span>

@@ -32,7 +32,7 @@ const PRACTICES = [
 export const Services = (): FunctionComponent => {
 	const t = useTranslations("Services");
 	return (
-		<div className="seam-tb bg-inset py-8">
+		<div className="bg-inset">
 			<Section id="section-services">
 				<Eyebrow hue="slate">Services</Eyebrow>
 				<h2 className="mb-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
@@ -48,12 +48,11 @@ export const Services = (): FunctionComponent => {
 					{SERVICES.map((service) => (
 						<div
 							key={service.title}
-							className="hard-sm reveal border-3 border-ink bg-surface p-6 dark:border-line-strong"
-							style={{ "--hs": "var(--slate-full)" } as React.CSSProperties}
+							className="reveal rounded-xl border border-line bg-surface p-6 shadow-sm transition-colors hover:border-line-strong"
 						>
 							<div
 								aria-hidden="true"
-								className="cut-tr mb-4 flex size-11 items-center justify-center bg-slate font-mono text-sm font-bold text-white [--cut:10px] dark:text-ink"
+								className="mb-4 flex size-11 items-center justify-center rounded-full bg-slate-tint font-mono text-sm font-bold text-slate-text"
 							>
 								{service.icon}
 							</div>
@@ -68,7 +67,7 @@ export const Services = (): FunctionComponent => {
 					{PRACTICES.map((practice) => (
 						<span
 							key={practice}
-							className="cut-bl bg-ochre-full px-3.5 py-1.5 font-mono text-xs font-bold text-ink [--cut:8px]"
+							className="rounded-full bg-ochre-tint px-3.5 py-1.5 font-mono text-xs font-bold text-ochre-text"
 						>
 							{practice}
 						</span>

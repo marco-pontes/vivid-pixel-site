@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NavBar } from "@/components/NavBar";
 import { Footer } from "@/components/Footer";
-import { Eyebrow, PixelStrip, Section } from "@/components/brand";
+import { Eyebrow, Section } from "@/components/brand";
 
 export const metadata: Metadata = {
 	title: "About — Vivid Pixel",
@@ -41,9 +41,7 @@ export default function About() {
 					<h1 className="mb-6 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
 						Who we <span className="gtext" style={{ "--gt": "var(--grad-viva)" } as React.CSSProperties}>are</span>
 					</h1>
-					<div className="mb-12 max-w-md">
-						<PixelStrip size={20} />
-					</div>
+
 					<div className="grid gap-x-12 gap-y-10 sm:grid-cols-2">
 						{BLOCKS.map((block) => (
 							<div key={block.title}>
@@ -57,7 +55,7 @@ export default function About() {
 					<div className="mt-14">
 						<Link
 							href="/#section-contact"
-							className="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground shadow-card transition-colors hover:bg-primary-hover"
+							className="glow rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
 						>
 							Hire our team
 						</Link>

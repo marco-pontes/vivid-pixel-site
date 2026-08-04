@@ -7,9 +7,9 @@ import { RiMailLine } from "react-icons/ri";
 import { Section } from "@/components/brand";
 
 /**
- * Contact — the Viva gradient at full bleed, corner-cut, casting a plum
- * shadow. Light-constant fields (white paper) sit on the gradient in both
- * themes; the send button is amber with constant ink.
+ * Contact — the Viva gradient on a rounded panel with a plum glow.
+ * Light-constant fields (white paper) sit on the gradient in both themes;
+ * the send button is an amber pill with constant ink.
  */
 export const Contact = (): FunctionComponent => {
 	const {
@@ -40,21 +40,21 @@ export const Contact = (): FunctionComponent => {
 	};
 
 	const fieldClass =
-		"w-full border-2 border-transparent bg-white px-3 py-2.5 text-sm text-[#171321] placeholder:text-[#5f5872] outline-none focus-visible:border-[#f59f00] focus-visible:outline-none";
+		"w-full rounded-lg border-2 border-transparent bg-white px-3.5 py-2.5 text-sm text-[#171321] placeholder:text-[#5f5872] outline-none focus-visible:border-[#f59f00] focus-visible:outline-none";
 
 	return (
 		<Section id="section-contact">
 			<div
-				className="cut-tr hard reveal p-8 sm:p-12 [--cut:28px]"
+				className="glow reveal rounded-3xl p-8 sm:p-12"
 				style={
 					{
 						background: "var(--grad-viva)",
-						"--hs": "var(--plum-full)",
+						"--gl": "color-mix(in srgb, var(--plum-full) 50%, transparent)",
 					} as React.CSSProperties
 				}
 			>
 				<div className="mb-4 flex items-center gap-2.5 font-mono text-xs font-bold tracking-[0.12em] text-white/90 uppercase">
-					<span aria-hidden="true" className="size-2.5 bg-ochre-full" />
+					<span aria-hidden="true" className="size-2.5 rounded-full bg-ochre-full" />
 					Contact
 				</div>
 				<h2 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
@@ -153,7 +153,7 @@ export const Contact = (): FunctionComponent => {
 						<button
 							disabled={isPending}
 							type="submit"
-							className="cut-tr hard-sm press inline-flex items-center gap-2 bg-ochre-full px-6 py-3 text-sm font-bold text-ink disabled:pointer-events-none disabled:opacity-70 [--hs:#171321]"
+							className="inline-flex items-center gap-2 rounded-full bg-ochre-full px-7 py-3 text-sm font-bold text-ink transition-transform disabled:pointer-events-none disabled:opacity-70 motion-safe:hover:-translate-y-0.5"
 						>
 							<RiMailLine aria-hidden="true" /> Send a message
 						</button>

@@ -1,20 +1,20 @@
 /* ============================================================================
-   VIVID PIXEL — VIVID GEOMETRY
+   VIVID PIXEL — MIXTAPE
    Single source of truth for the design system. Tailwind v4.
 
-   Concept: the pixel is a hard square, and vivid means vivid. The family's
-   shipped brand colors (Viva #DC2430→#7B4397 · Vivid Feed #087f5b→#5f3dc4
-   + the Feed accent set) run at full saturation. Ink outlines and hard offset
-   shadows hold the structure; diagonals cut every seam.
+   Concept: vivid family color, eclectic geometry. The palette stays at full
+   saturation (Viva #DC2430→#7B4397 · Vivid Feed #087f5b→#5f3dc4 + accents),
+   but the composition deliberately mixes common moves (soft rounded cards,
+   pill nav, mesh-gradient glows) with uncommon ones (a tagline marquee, a
+   rotated sticker, a squiggle underline, a blob-masked portrait, asymmetric
+   product rows). One rule set, many textures.
 
    Rules of engagement:
-     G1  Squares by default — border-radius is 0 everywhere; rounding is a
-         deliberate exception (.blob, rounded-full), never a habit.
-     G2  Corners get cut (clip-path bevels), not rounded.
-     G3  Saturation is the voice; ink (near-black / near-white) is the frame.
-         Text is always ink or an AA-verified text-grade of a family hue.
-     G4  Sections meet on diagonals. Depth is a hard offset shadow, not blur.
-     G5  Motion is loud but optional — every effect honors reduced-motion.
+     M1  Color is loud; geometry alternates — some sections calm and round,
+         some sections strange. Never the same trick twice in a row.
+     M2  Text is always ink or an AA-verified text-grade of a family hue.
+     M3  Gradients belong to the products; glows take the product's color.
+     M4  Every animation honors prefers-reduced-motion.
 
    All text pairings are WCAG AA verified programmatically, both themes.
    ========================================================================== */
@@ -23,13 +23,6 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
-/* Animatable conic angle for the hero ring (G5: consumed under motion-safe) */
-@property --ga {
-	syntax: "<angle>";
-	inherits: false;
-	initial-value: 0deg;
-}
 
 /* ----------------------------------------------------------------------------
    1 · RAW TOKENS — light theme ("paper with vivid ink")
@@ -159,11 +152,11 @@
 	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-	/* G1: squares by default. Rounding must be asked for by name. */
-	--radius-sm: 0;
-	--radius-md: 0;
-	--radius-lg: 0;
-	--radius-xl: 0;
+	/* Soft modern radius scale — squares are no longer the default (M1). */
+	--radius-sm: 0.5rem;
+	--radius-md: 0.75rem;
+	--radius-lg: 1rem;
+	--radius-xl: 1.5rem;
 
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -250,50 +243,9 @@
 }
 
 /* ----------------------------------------------------------------------------
-   5 · GEOMETRY & EFFECTS — the toolkit (G1–G5)
+   5 · EFFECTS — the Mixtape toolkit (M1–M4)
 --------------------------------------------------------------------------- */
 @layer components {
-	/* Corner cuts (G2). --cut sets the bevel size. */
-	.cut-tr {
-		--cut: 16px;
-		clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, 0 100%);
-	}
-	.cut-bl {
-		--cut: 16px;
-		clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-	}
-	.cut-tr-bl {
-		--cut: 16px;
-		clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
-	}
-
-	/* Hard offset shadows (G4). --hs picks the color. */
-	.hard {
-		--hs: var(--hard-shadow);
-		box-shadow: 8px 8px 0 0 var(--hs);
-	}
-	.hard-sm {
-		--hs: var(--hard-shadow);
-		box-shadow: 4px 4px 0 0 var(--hs);
-	}
-	/* Pressable: the shadow collapses as the block moves into it. */
-	.press {
-		transition: translate 0.12s ease-out, box-shadow 0.12s ease-out;
-	}
-	.press:active {
-		translate: 4px 4px;
-		box-shadow: 0 0 0 0 var(--hs, var(--hard-shadow));
-	}
-
-	/* Gradient border via double background (--gb picks the gradient). */
-	.gborder {
-		--gb: var(--grad-viva);
-		border: 3px solid transparent;
-		background:
-			linear-gradient(var(--surface), var(--surface)) padding-box,
-			var(--gb) border-box;
-	}
-
 	/* Gradient text (--gt picks the gradient). */
 	.gtext {
 		--gt: var(--grad-sweep);
@@ -303,54 +255,56 @@
 		color: transparent;
 	}
 
-	/* Organic exception to the square rule (G1): blob-masked media. */
+	/* Gradient ring via double background (--gb picks the gradient). */
+	.gborder {
+		--gb: var(--grad-viva);
+		border: 3px solid transparent;
+		background:
+			linear-gradient(var(--surface), var(--surface)) padding-box,
+			var(--gb) border-box;
+	}
+
+	/* Colored soft glow (--gl picks the color, pre-mixed to alpha). */
+	.glow {
+		--gl: color-mix(in srgb, var(--violet-full) 45%, transparent);
+		box-shadow: 0 24px 70px -24px var(--gl), 0 6px 20px -12px var(--gl);
+	}
+
+	/* Organic mask for media — the portrait's shape. */
 	.blob {
 		border-radius: 38% 62% 55% 45% / 45% 38% 62% 55%;
 	}
 
-	/* Decorative pixel-grid field, faded by mask. Position it absolutely. */
-	.pixel-field {
-		background-image:
-			linear-gradient(var(--line) 1px, transparent 1px),
-			linear-gradient(90deg, var(--line) 1px, transparent 1px);
-		background-size: 28px 28px;
-		mask-image: radial-gradient(ellipse 90% 80% at 20% 0%, black 25%, transparent 75%);
-		pointer-events: none;
+	/* Rotated sticker badge. */
+	.sticker {
+		rotate: 6deg;
+		border-radius: 999px;
 	}
 
-	/* Diagonal section seams (G4). */
-	.seam-b {
-		clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4.5rem), 0 100%);
+	/* Tagline marquee. Track content must be duplicated (second copy
+	   aria-hidden); pauses to a static strip under reduced motion (M4). */
+	.marquee {
+		overflow: hidden;
+		white-space: nowrap;
 	}
-	.seam-b-r {
-		clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 4.5rem));
-	}
-	.seam-tb {
-		clip-path: polygon(0 4.5rem, 100% 0, 100% calc(100% - 4.5rem), 0 100%);
-	}
-
-	/* Conic spectrum ring — hero ornament. A donut via radial mask. */
-	.spectrum-ring {
-		background: conic-gradient(
-			from var(--ga),
-			#DC2430, #f76707, #f59f00, #087f5b, #0ca678,
-			#1c7ed6, #5f3dc4, #7B4397, #d6336c, #DC2430
-		);
-		mask-image: radial-gradient(farthest-side, transparent calc(100% - 20px), black calc(100% - 19px));
-		border-radius: 50%; /* the round exception, earned (G1) */
+	.marquee-track {
+		display: inline-flex;
+		gap: 2.5rem;
+		padding-inline-end: 2.5rem;
+		width: max-content;
 	}
 	@media (prefers-reduced-motion: no-preference) {
-		.spectrum-ring {
-			animation: ring-spin 14s linear infinite;
+		.marquee-track {
+			animation: marquee-roll 32s linear infinite;
 		}
-		@keyframes ring-spin {
+		@keyframes marquee-roll {
 			to {
-				--ga: 360deg;
+				transform: translateX(-50%);
 			}
 		}
 	}
 
-	/* Scroll-driven reveal — progressive enhancement only (G5). */
+	/* Scroll-driven reveal — progressive enhancement only (M4). */
 	@supports (animation-timeline: view()) {
 		@media (prefers-reduced-motion: no-preference) {
 			.reveal {

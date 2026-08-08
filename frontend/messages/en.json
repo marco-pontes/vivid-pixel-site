@@ -16,6 +16,7 @@
 		"language": "Language"
 	},
 	"Hero": {
+		"title": "We build <v>vivid</v> software<d>.</d>",
 		"sub": "Products and senior frontend engineering from the studio behind <s>Viva</s> and <s>Vivid Feed</s>.",
 		"hireStudio": "Hire the studio",
 		"seeProducts": "See our products",

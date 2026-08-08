@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /** The nine family hues, in site order. Anchors are the shipped hexes. */
 export const SPECTRUM = [
@@ -28,24 +28,36 @@ const EYEBROW_TEXT: Record<Hue, string> = {
 	violet: "text-primary",
 };
 
-/** Row of saturated dots — the spectrum echo, now round (less pixel). */
-export const SpectrumDots = ({ size = 8 }: { size?: number }) => (
-	<div aria-hidden="true" className="flex gap-1.5">
-		{SPECTRUM.map((hue) => (
-			<span
-				key={hue}
-				className="rounded-full"
-				style={{
-					width: size,
-					height: size,
-					background: `var(--${hue}-full)`,
-				}}
-			/>
-		))}
-	</div>
+/**
+ * The brand V, painted with any color or gradient via CSS mask (P2).
+ * `paint` accepts a CSS color/gradient; `mixed` uses the four logo
+ * colorways as hard-stop quadrants.
+ */
+export const VMark = ({
+	size = 16,
+	paint,
+	mixed = false,
+	className = "",
+}: {
+	size?: number;
+	paint?: string;
+	mixed?: boolean;
+	className?: string;
+}) => (
+	<span
+		aria-hidden="true"
+		className={`vmask inline-block shrink-0 ${mixed ? "vpaint-mixed" : ""} ${className}`}
+		style={
+			{
+				width: size,
+				height: size,
+				...(paint ? { "--vpaint": paint } : {}),
+			} as CSSProperties
+		}
+	/>
 );
 
-/** Mono section eyebrow with a saturated round marker. */
+/** Mono section eyebrow marked with a small V in the section's hue. */
 export const Eyebrow = ({
 	hue,
 	children,
@@ -54,12 +66,11 @@ export const Eyebrow = ({
 	children: ReactNode;
 }) => (
 	<div
-		className={`mb-4 flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.12em] uppercase ${EYEBROW_TEXT[hue]}`}
+		className={`mb-5 flex items-center gap-2.5 font-mono text-xs font-medium tracking-[0.14em] uppercase ${EYEBROW_TEXT[hue]}`}
 	>
-		<span
-			aria-hidden="true"
-			className="size-2.5 rounded-full"
-			style={{ background: `var(--${hue}-full)` }}
+		<VMark
+			size={14}
+			paint={hue === "violet" ? "var(--violet-full)" : `var(--${hue}-full)`}
 		/>
 		{children}
 	</div>

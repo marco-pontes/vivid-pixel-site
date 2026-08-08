@@ -1,20 +1,22 @@
 /* ============================================================================
-   VIVID PIXEL — MIXTAPE
+   VIVID PIXEL — PIXEL V
    Single source of truth for the design system. Tailwind v4.
 
-   Concept: vivid family color, eclectic geometry. The palette stays at full
-   saturation (Viva #DC2430→#7B4397 · Vivid Feed #087f5b→#5f3dc4 + accents),
-   but the composition deliberately mixes common moves (soft rounded cards,
-   pill nav, mesh-gradient glows) with uncommon ones (a tagline marquee, a
-   rotated sticker, a squiggle underline, a blob-masked portrait, asymmetric
-   product rows). One rule set, many textures.
+   Concept: the brand's own logo leads — thin modern geometric letters
+   (Jost, uppercase, tracked) beside ONE loud element: the speckled brush-
+   pixel V, painted in any primary color or all four logo colorways at once
+   (via CSS mask). Everything else is serious: ink and paper, hairlines,
+   square geometry, diagonal seams. The pixel appears only in small, exact
+   echoes — a masked V marker, a dissolving pixel patch, a hatch line.
 
    Rules of engagement:
-     M1  Color is loud; geometry alternates — some sections calm and round,
-         some sections strange. Never the same trick twice in a row.
-     M2  Text is always ink or an AA-verified text-grade of a family hue.
-     M3  Gradients belong to the products; glows take the product's color.
-     M4  Every animation honors prefers-reduced-motion.
+     P1  Squares by default — border-radius is 0; rounding and organic
+         masks (.blob, the V mask) are earned exceptions.
+     P2  The V is the loudest thing on any screen. Nothing competes.
+     P3  Type is thin, uppercase, tracked. Weight is reserved for numbers.
+     P4  Gradients live on card backs, V paint, and hairlines — not on
+         whole sections.
+     P5  Every animation honors prefers-reduced-motion.
 
    All text pairings are WCAG AA verified programmatically, both themes.
    ========================================================================== */
@@ -148,15 +150,15 @@
    3 · THEME MAP — exposes tokens as Tailwind utilities
 --------------------------------------------------------------------------- */
 @theme inline {
-	--font-display: var(--font-bricolage), system-ui, sans-serif;
+	--font-display: var(--font-jost), system-ui, sans-serif;
 	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-	/* Soft modern radius scale — squares are no longer the default (M1). */
-	--radius-sm: 0.5rem;
-	--radius-md: 0.75rem;
-	--radius-lg: 1rem;
-	--radius-xl: 1.5rem;
+	/* P1: squares by default. Rounding must be asked for by name. */
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
 
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
@@ -243,9 +245,63 @@
 }
 
 /* ----------------------------------------------------------------------------
-   5 · EFFECTS — the Mixtape toolkit (M1–M4)
+   5 · EFFECTS — the Pixel V toolkit (P1–P5)
 --------------------------------------------------------------------------- */
 @layer components {
+	/* The brand V as a paintable vector mask (P2). Set --vpaint to any
+	   color or gradient; pair with filter: drop-shadow(...) for shaped
+	   shadows that follow the speckled silhouette. */
+	.vmask {
+		--vpaint: var(--foreground);
+		background: var(--vpaint);
+		mask-image: url("/images/favicon-white-2x.png");
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+		-webkit-mask-image: url("/images/favicon-white-2x.png");
+		-webkit-mask-size: contain;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-position: center;
+	}
+	/* The four logo colorways as hard-stop quadrants — the mixed V. */
+	.vpaint-mixed {
+		--vpaint: conic-gradient(
+			from 0deg at 50% 46%,
+			#1c7ed6 0 25%,
+			#087f5b 0 50%,
+			#f59f00 0 75%,
+			#DC2430 0
+		);
+	}
+
+	/* Dissolving pixel patch — the V's speckle, abstracted. Small use only. */
+	.pixel-dissolve {
+		background-image:
+			conic-gradient(var(--pd, var(--line)) 0 25%, transparent 0 100%);
+		background-size: 10px 10px;
+		mask-image: linear-gradient(135deg, black 20%, transparent 80%);
+		-webkit-mask-image: linear-gradient(135deg, black 20%, transparent 80%);
+		pointer-events: none;
+	}
+
+	/* Technical hatch — thin 45° lines, a drafting-table texture. */
+	.hatch {
+		background-image: repeating-linear-gradient(
+			45deg,
+			var(--line) 0 1px,
+			transparent 1px 9px
+		);
+		pointer-events: none;
+	}
+
+	/* Diagonal section seams (P4). */
+	.seam-b {
+		clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4rem), 0 100%);
+	}
+	.seam-tb {
+		clip-path: polygon(0 4rem, 100% 0, 100% calc(100% - 4rem), 0 100%);
+	}
+
 	/* Gradient text (--gt picks the gradient). */
 	.gtext {
 		--gt: var(--grad-sweep);
@@ -255,56 +311,69 @@
 		color: transparent;
 	}
 
-	/* Gradient ring via double background (--gb picks the gradient). */
+	/* Gradient hairline border via double background. */
 	.gborder {
 		--gb: var(--grad-viva);
-		border: 3px solid transparent;
+		border: 2px solid transparent;
 		background:
 			linear-gradient(var(--surface), var(--surface)) padding-box,
 			var(--gb) border-box;
 	}
 
-	/* Colored soft glow (--gl picks the color, pre-mixed to alpha). */
+	/* Colored soft glow — used sparingly (P2). */
 	.glow {
-		--gl: color-mix(in srgb, var(--violet-full) 45%, transparent);
-		box-shadow: 0 24px 70px -24px var(--gl), 0 6px 20px -12px var(--gl);
+		--gl: color-mix(in srgb, var(--violet-full) 40%, transparent);
+		box-shadow: 0 24px 70px -28px var(--gl);
 	}
 
-	/* Organic mask for media — the portrait's shape. */
+	/* Organic mask for the portrait — P1's earned exception. */
 	.blob {
 		border-radius: 38% 62% 55% 45% / 45% 38% 62% 55%;
 	}
 
-	/* Rotated sticker badge. */
-	.sticker {
-		rotate: 6deg;
-		border-radius: 999px;
+	/* The original site's card flip, modernized (P5). Hover or keyboard
+	   focus turns the card; touch/no-hover devices get both faces stacked. */
+	.flip-scene {
+		perspective: 1200px;
 	}
-
-	/* Tagline marquee. Track content must be duplicated (second copy
-	   aria-hidden); pauses to a static strip under reduced motion (M4). */
-	.marquee {
-		overflow: hidden;
-		white-space: nowrap;
+	.flip-inner {
+		position: relative;
+		transform-style: preserve-3d;
+		transition: transform 0.7s cubic-bezier(0.35, 0.1, 0.2, 1);
 	}
-	.marquee-track {
-		display: inline-flex;
-		gap: 2.5rem;
-		padding-inline-end: 2.5rem;
-		width: max-content;
+	.flip-front,
+	.flip-back {
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
 	}
-	@media (prefers-reduced-motion: no-preference) {
-		.marquee-track {
-			animation: marquee-roll 32s linear infinite;
-		}
-		@keyframes marquee-roll {
-			to {
-				transform: translateX(-50%);
-			}
+	.flip-back {
+		position: absolute;
+		inset: 0;
+		transform: rotateY(180deg);
+	}
+	@media (hover: hover) {
+		.flip-scene:hover .flip-inner,
+		.flip-scene:focus-within .flip-inner {
+			transform: rotateY(180deg);
 		}
 	}
+	@media (hover: none) {
+		/* No hover: show both faces in flow, no 3D. */
+		.flip-inner {
+			transform: none !important;
+		}
+		.flip-back {
+			position: static;
+			transform: none;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.flip-inner {
+			transition: none;
+		}
+	}
 
-	/* Scroll-driven reveal — progressive enhancement only (M4). */
+	/* Scroll-driven reveal — progressive enhancement only (P5). */
 	@supports (animation-timeline: view()) {
 		@media (prefers-reduced-motion: no-preference) {
 			.reveal {

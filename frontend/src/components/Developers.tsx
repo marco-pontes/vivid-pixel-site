@@ -29,7 +29,7 @@ export const Developers = (): FunctionComponent => {
 			<div className="relative mx-auto w-full max-w-5xl">
 				<Eyebrow hue="rose">{t("eyebrow")}</Eyebrow>
 				<div
-					className="glow reveal max-w-2xl rounded-3xl border border-line bg-surface/95 p-6 backdrop-blur-sm sm:p-8"
+					className="glow reveal max-w-2xl border border-line bg-surface/95 p-6 backdrop-blur-sm sm:p-8"
 					style={
 						{
 							"--gl": "color-mix(in srgb, var(--rose-full) 35%, transparent)",
@@ -45,7 +45,7 @@ export const Developers = (): FunctionComponent => {
 							width={210}
 						/>
 						<div className="min-w-60 flex-1">
-							<h2 className="font-display text-2xl font-extrabold tracking-tight">
+							<h2 className="font-display text-2xl font-normal tracking-[0.08em] uppercase">
 								Marco Aurelio Pontes
 							</h2>
 							<p className="mt-0.5 font-mono text-sm text-muted-fg">
@@ -68,7 +68,7 @@ export const Developers = (): FunctionComponent => {
 								{SKILLS.map((skill) => (
 									<span
 										key={skill}
-										className="rounded-full bg-rose-tint px-3 py-1 font-mono text-xs font-semibold text-rose-text"
+										className="bg-rose-tint px-3 py-1 font-mono text-xs font-semibold text-rose-text"
 									>
 										{skill}
 									</span>

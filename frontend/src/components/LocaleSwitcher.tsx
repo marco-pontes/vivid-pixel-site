@@ -18,7 +18,7 @@ export const LocaleSwitcher = () => {
 				onChange={(event) =>
 					router.replace(pathname, { locale: event.target.value as Locale })
 				}
-				className="max-w-24 cursor-pointer appearance-none rounded-full border border-line bg-transparent px-3 py-1.5 text-sm text-muted-fg transition-colors hover:text-foreground"
+				className="max-w-24 cursor-pointer appearance-none border border-line bg-transparent px-2.5 py-1.5 text-sm text-muted-fg transition-colors hover:text-foreground"
 			>
 				{routing.locales.map((code) => (
 					<option key={code} value={code}>

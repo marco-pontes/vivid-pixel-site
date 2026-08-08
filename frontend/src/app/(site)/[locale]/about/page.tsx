@@ -44,7 +44,7 @@ function AboutContent() {
 	return (
 		<Section>
 			<Eyebrow hue="violet">{t("eyebrow")}</Eyebrow>
-			<h1 className="mb-6 font-display text-5xl font-extrabold tracking-tight sm:text-6xl">
+			<h1 className="mb-6 font-display text-4xl font-light tracking-[0.08em] uppercase sm:text-5xl">
 				{t.rich("title", {
 					g: (chunks) => (
 						<span
@@ -60,7 +60,7 @@ function AboutContent() {
 			<div className="grid gap-x-12 gap-y-10 sm:grid-cols-2">
 				{BLOCKS.map((block) => (
 					<div key={block}>
-						<h2 className="mb-2 font-display text-xl font-bold tracking-tight">
+						<h2 className="mb-2 font-display text-lg font-normal tracking-[0.06em] uppercase">
 							{t(`${block}Title`)}
 						</h2>
 						<p className="leading-relaxed text-muted-fg">{t(`${block}Text`)}</p>
@@ -70,7 +70,7 @@ function AboutContent() {
 			<div className="mt-14">
 				<Link
 					href="/#section-contact"
-					className="glow rounded-full bg-primary px-7 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-hover"
+					className="bg-primary px-7 py-3 font-mono text-sm font-semibold tracking-wide text-primary-foreground uppercase transition-colors hover:bg-primary-hover"
 				>
 					{t("cta")}
 				</Link>

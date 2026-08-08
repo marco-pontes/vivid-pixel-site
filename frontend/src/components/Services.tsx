@@ -21,10 +21,11 @@ const PRACTICES = [
 export const Services = (): FunctionComponent => {
 	const t = useTranslations("Services");
 	return (
-		<div className="bg-inset">
+		<div className="seam-tb relative bg-inset py-6">
+			<div aria-hidden="true" className="hatch absolute inset-y-0 right-0 w-20 opacity-70 max-lg:hidden" />
 			<Section id="section-services">
 				<Eyebrow hue="slate">{t("eyebrow")}</Eyebrow>
-				<h2 className="mb-4 font-display text-4xl font-extrabold tracking-tight sm:text-5xl">
+				<h2 className="mb-4 max-w-3xl font-display text-3xl font-light tracking-[0.08em] uppercase sm:text-4xl">
 					{t("title")}
 				</h2>
 				<p className="mb-12 max-w-xl text-muted-fg">{t("lead")}</p>
@@ -32,15 +33,15 @@ export const Services = (): FunctionComponent => {
 					{SERVICES.map((service) => (
 						<div
 							key={service.titleKey}
-							className="reveal rounded-xl border border-line bg-surface p-6 shadow-sm transition-colors hover:border-line-strong"
+							className="reveal border border-line bg-surface p-6 transition-colors hover:border-line-strong"
 						>
 							<div
 								aria-hidden="true"
-								className="mb-4 flex size-11 items-center justify-center rounded-full bg-slate-tint font-mono text-sm font-bold text-slate-text"
+								className="mb-4 flex size-11 items-center justify-center bg-slate-tint font-mono text-sm font-bold text-slate-text"
 							>
 								{service.icon}
 							</div>
-							<h3 className="font-display text-lg font-bold">{t(service.titleKey)}</h3>
+							<h3 className="font-display text-lg font-normal tracking-wide">{t(service.titleKey)}</h3>
 							<p className="mt-2 text-sm leading-relaxed text-muted-fg">
 								{t(service.textKey)}
 							</p>
@@ -51,7 +52,7 @@ export const Services = (): FunctionComponent => {
 					{PRACTICES.map((practice) => (
 						<span
 							key={practice}
-							className="rounded-full bg-ochre-tint px-3.5 py-1.5 font-mono text-xs font-bold text-ochre-text"
+							className="bg-ochre-tint px-3.5 py-1.5 font-mono text-xs font-bold text-ochre-text"
 						>
 							{practice}
 						</span>

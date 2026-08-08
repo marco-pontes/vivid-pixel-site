@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque } from "next/font/google";
+import { Jost } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -10,12 +10,13 @@ import { Toaster } from "@/components/ui/toaster";
 
 const SITE_URL = "https://vivid-pixel.com.br";
 
-// Display face — the studio's own voice. Body text stays on the family's
+// Display face — Jost, the closest free match to the logo's thin geometric
+// letterforms (Futura-like V and D). Body text stays on the family's
 // system-stack convention (see globals.css --font-sans). Non-Latin scripts
 // (zh, hi, ar, bn) fall through to their native system fonts.
-const bricolage = Bricolage_Grotesque({
+const jost = Jost({
 	subsets: ["latin"],
-	variable: "--font-bricolage",
+	variable: "--font-jost",
 	display: "swap",
 });
 
@@ -122,7 +123,7 @@ export default async function LocaleLayout({
 			lang={locale}
 			dir={dir}
 			suppressHydrationWarning
-			className={bricolage.variable}
+			className={jost.variable}
 		>
 			<body>
 				<script

@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "@/types/types.ts";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { SpectrumDots } from "@/components/brand";
+import { VMark } from "@/components/brand";
 
 const PRODUCT_LINKS = [
 	{ label: "Viva", href: "https://viva-stage.com" },
@@ -77,7 +77,7 @@ export const Footer = (): FunctionComponent => {
 				</div>
 
 				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#2e2839] pt-6">
-					<SpectrumDots />
+					<VMark mixed size={26} />
 					<p className="font-mono text-xs text-[#9d94b0]">
 						&copy; {new Date().getFullYear()} Vivid Pixel &middot; {t("builtBy")}{" "}
 						<a

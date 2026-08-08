@@ -28,20 +28,22 @@ export const Header = (): FunctionComponent => {
 			/>
 			<div className="relative mx-auto grid w-full max-w-5xl items-center gap-12 px-6 lg:grid-cols-[1.15fr_0.85fr]">
 				<div>
-					{/* Brand line — intentionally English in every locale. */}
-					<h1
-						dir="ltr"
-						className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 font-display text-5xl font-light tracking-[0.06em] uppercase sm:text-6xl lg:text-7xl"
-					>
-						We build{" "}
-						<span
-							className="gtext font-normal"
-							style={{ "--gt": "var(--grad-sweep)" } as React.CSSProperties}
-						>
-							vivid
-						</span>
-						<br />
-						software<span className="font-normal text-brick-text">.</span>
+					<h1 className="motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-700 max-w-2xl font-display text-5xl font-light tracking-[0.06em] uppercase sm:text-6xl lg:text-7xl">
+						{t.rich("title", {
+							v: (chunks) => (
+								<span
+									className="gtext font-normal"
+									style={
+										{ "--gt": "var(--grad-sweep)" } as React.CSSProperties
+									}
+								>
+									{chunks}
+								</span>
+							),
+							d: (chunks) => (
+								<span className="font-normal text-brick-text">{chunks}</span>
+							),
+						})}
 					</h1>
 					<p className="mt-7 max-w-xl text-lg text-muted-fg">
 						{t.rich("sub", {

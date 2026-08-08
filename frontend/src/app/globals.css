@@ -1,91 +1,396 @@
-/* Cascade layer order. Unlayered rules (the project SCSS below) intentionally
-   outrank Tailwind's layered utilities so the existing component styles win. */
-@layer theme, base, components, utilities;
+/* ============================================================================
+   VIVID PIXEL — PIXEL V
+   Single source of truth for the design system. Tailwind v4.
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&display=swap');
+   Concept: the brand's own logo leads — thin modern geometric letters
+   (Jost, uppercase, tracked) beside ONE loud element: the speckled brush-
+   pixel V, painted in any primary color or all four logo colorways at once
+   (via CSS mask). Everything else is serious: ink and paper, hairlines,
+   square geometry, diagonal seams. The pixel appears only in small, exact
+   echoes — a masked V marker, a dissolving pixel patch, a hatch line.
 
-/* Tailwind v4 without preflight — preflight is intentionally omitted so it does
-   not reset the existing SCSS-based site. shadcn components and the Tailwind
-   utility pages still get the theme + utilities layers. */
-@import 'tailwindcss/theme.css' layer(theme);
-@import 'tailwindcss/utilities.css' layer(utilities);
-@import 'tw-animate-css';
+   Rules of engagement:
+     P1  Squares by default — border-radius is 0; rounding and organic
+         masks (.blob, the V mask) are earned exceptions.
+     P2  The V is the loudest thing on any screen. Nothing competes.
+     P3  Type is thin, uppercase, tracked. Weight is reserved for numbers.
+     P4  Gradients live on card backs, V paint, and hairlines — not on
+         whole sections.
+     P5  Every animation honors prefers-reduced-motion.
 
-/* NOTE: the project SCSS (styles/sass/main.scss) and icon-font CSS are imported
-   as JS modules in src/app/layout.tsx, NOT here. Tailwind v4's PostCSS pipeline
-   bundles @import itself and cannot compile Sass, so importing the SCSS from
-   this file would silently drop it. Importing via JS lets Next's sass-loader
-   compile it. Those styles stay unlayered → they outrank Tailwind utilities. */
+   All text pairings are WCAG AA verified programmatically, both themes.
+   ========================================================================== */
+
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
+/* ----------------------------------------------------------------------------
+   1 · RAW TOKENS — light theme ("paper with vivid ink")
+--------------------------------------------------------------------------- */
 :root {
-	--radius: 0.625rem;
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
-	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
-	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
+	/* Neutrals — violet-cast paper and near-black ink */
+	--background: #f7f5fa;
+	--surface: #ffffff;
+	--inset: #edeaf2;
+	--line: #ddd8e4;
+	--line-strong: #b9b2c4;
+	--foreground: #171321;
+	--muted-fg: #4e4760;
+	--subtle-fg: #5f5872;
+
+	/* Ink is the frame (G3): constant-ink tokens for borders/hard shadows and
+	   for dark text sitting on saturated fills in BOTH themes. */
+	--ink: #171321;
+	--ink-inverse: #f2eff7;
+	--hard-shadow: var(--ink);
+
+	/* Primary — the violet bridge, now at full volume */
+	--primary: #6d40ae;
+	--primary-hover: #5a3399;
+	--primary-tint: #efe6fc;
+	--primary-fg: #ffffff;
+
+	/* Family hues — saturated base / 14% tint / AA text grade.
+	   Token names kept from the previous system so component code is stable:
+	   brick=Viva red · plum=Viva purple · sage=Feed green · iris=Feed violet
+	   slate=Feed blue · clay=Feed orange · ochre=Feed amber · rose=Feed pink */
+	--brick: #dc2430; --brick-text: #da212e;
+	--plum: #7b4397;  --plum-text: #7b4397;
+	--sage: #087f5b;  --sage-text: #007f54;
+	--iris: #5f3dc4;  --iris-text: #5f3dc4;
+	--slate: #1c7ed6; --slate-text: #0272c9;
+	--clay: #f76707;  --clay-text: #c84000;
+	--ochre: #f59f00; --ochre-text: #a36000;
+	--rose: #d6336c;  --rose-text: #cf2b66;
+
+	--brick-tint: color-mix(in srgb, var(--brick) 14%, transparent);
+	--plum-tint: color-mix(in srgb, var(--plum) 14%, transparent);
+	--sage-tint: color-mix(in srgb, var(--sage) 14%, transparent);
+	--iris-tint: color-mix(in srgb, var(--iris) 14%, transparent);
+	--slate-tint: color-mix(in srgb, var(--slate) 14%, transparent);
+	--clay-tint: color-mix(in srgb, var(--clay) 14%, transparent);
+	--ochre-tint: color-mix(in srgb, var(--ochre) 14%, transparent);
+	--rose-tint: color-mix(in srgb, var(--rose) 14%, transparent);
+
+	/* Anchors — the exact shipped hexes, theme-invariant (gradients, marks) */
+	--brick-full: #DC2430;  /* Viva red     */
+	--plum-full: #7B4397;   /* Viva purple  */
+	--sage-full: #087f5b;   /* Feed green   */
+	--iris-full: #5f3dc4;   /* Feed violet  */
+	--slate-full: #1c7ed6;  /* Feed blue    */
+	--clay-full: #f76707;   /* Feed orange  */
+	--ochre-full: #f59f00;  /* Feed amber   */
+	--rose-full: #d6336c;   /* Feed pink    */
+	--violet-full: #6d40ae; /* saturated bridge */
+
+	/* Brand gradients — quoted exactly as the products ship them */
+	--grad-viva: linear-gradient(110deg, var(--brick-full), var(--plum-full));
+	--grad-feed: linear-gradient(135deg, var(--sage-full), var(--iris-full));
+	--grad-sweep: linear-gradient(90deg, #087f5b, #0ca678, #845ef7, #5f3dc4);
+
+	/* Focus indicator */
+	--focus: #6d40ae;
+
+	/* Semantic */
 	--destructive: oklch(0.577 0.245 27.325);
-	--destructive-foreground: oklch(0.985 0 0);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
+	--destructive-fg: #ffffff;
 }
 
+/* ----------------------------------------------------------------------------
+   2 · RAW TOKENS — dark theme ("stage black with the family lit up")
+   Hue text grades switch to the lightened dark-surface variants the products
+   themselves ship (e.g. Viva's #f0606b event red, #a78bfa performer violet).
+--------------------------------------------------------------------------- */
 .dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
+	--background: #0d0b12;
+	--surface: #17141f;
+	--inset: #201c2a;
+	--line: #2e2839;
+	--line-strong: #453d55;
+	--foreground: #f2eff7;
+	--muted-fg: #b3abc4;
+	--subtle-fg: #9d94b0;
+
+	--ink: #171321;
+	--ink-inverse: #f2eff7;
+	--hard-shadow: #000000;
+
+	--primary: #a78bfa;
+	--primary-hover: #bca4fc;
+	--primary-tint: #241b38;
+	--primary-fg: #0d0b12;
+
+	--brick: #f0606b; --brick-text: #f0606b;
+	--plum: #a78bfa;  --plum-text: #a78bfa;
+	--sage: #0ca678;  --sage-text: #0ca678;
+	--iris: #8a65fe;  --iris-text: #8a65fe;
+	--slate: #6b9df0; --slate-text: #6b9df0;
+	--clay: #f76707;  --clay-text: #f76707;
+	--ochre: #f59f00; --ochre-text: #f59f00;
+	--rose: #e34076;  --rose-text: #e34076;
+
+	--brick-tint: color-mix(in srgb, var(--brick) 18%, transparent);
+	--plum-tint: color-mix(in srgb, var(--plum) 18%, transparent);
+	--sage-tint: color-mix(in srgb, var(--sage) 18%, transparent);
+	--iris-tint: color-mix(in srgb, var(--iris) 18%, transparent);
+	--slate-tint: color-mix(in srgb, var(--slate) 18%, transparent);
+	--clay-tint: color-mix(in srgb, var(--clay) 18%, transparent);
+	--ochre-tint: color-mix(in srgb, var(--ochre) 18%, transparent);
+	--rose-tint: color-mix(in srgb, var(--rose) 18%, transparent);
+
+	--focus: #a78bfa;
+
 	--destructive: oklch(0.704 0.191 22.216);
-	--destructive-foreground: oklch(0.985 0 0);
-	--border: oklch(1 0 0 / 10%);
-	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
+	--destructive-fg: #0d0b12;
 }
 
+/* ----------------------------------------------------------------------------
+   3 · THEME MAP — exposes tokens as Tailwind utilities
+--------------------------------------------------------------------------- */
 @theme inline {
-	--radius-sm: calc(var(--radius) - 4px);
-	--radius-md: calc(var(--radius) - 2px);
-	--radius-lg: var(--radius);
-	--radius-xl: calc(var(--radius) + 4px);
+	--font-display: var(--font-jost), system-ui, sans-serif;
+	--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+	/* P1: squares by default. Rounding must be asked for by name. */
+	--radius-sm: 0;
+	--radius-md: 0;
+	--radius-lg: 0;
+	--radius-xl: 0;
+
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--color-card: var(--card);
-	--color-card-foreground: var(--card-foreground);
-	--color-popover: var(--popover);
-	--color-popover-foreground: var(--popover-foreground);
+	--color-surface: var(--surface);
+	--color-inset: var(--inset);
+	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
+	--color-muted-fg: var(--muted-fg);
+	--color-subtle-fg: var(--subtle-fg);
+	--color-ink: var(--ink);
+	--color-ink-inverse: var(--ink-inverse);
+
+	/* shadcn/ui compatibility aliases */
+	--color-card: var(--surface);
+	--color-card-foreground: var(--foreground);
+	--color-popover: var(--surface);
+	--color-popover-foreground: var(--foreground);
 	--color-primary: var(--primary);
-	--color-primary-foreground: var(--primary-foreground);
-	--color-secondary: var(--secondary);
-	--color-secondary-foreground: var(--secondary-foreground);
-	--color-muted: var(--muted);
-	--color-muted-foreground: var(--muted-foreground);
-	--color-accent: var(--accent);
-	--color-accent-foreground: var(--accent-foreground);
+	--color-primary-foreground: var(--primary-fg);
+	--color-primary-hover: var(--primary-hover);
+	--color-primary-tint: var(--primary-tint);
+	--color-secondary: var(--inset);
+	--color-secondary-foreground: var(--foreground);
+	--color-muted: var(--inset);
+	--color-muted-foreground: var(--muted-fg);
+	--color-accent: var(--primary-tint);
+	--color-accent-foreground: var(--primary);
 	--color-destructive: var(--destructive);
-	--color-destructive-foreground: var(--destructive-foreground);
-	--color-border: var(--border);
-	--color-input: var(--input);
-	--color-ring: var(--ring);
+	--color-destructive-foreground: var(--destructive-fg);
+	--color-border: var(--line);
+	--color-input: var(--line);
+	--color-ring: var(--focus);
+
+	/* Family hues */
+	--color-brick: var(--brick); --color-brick-tint: var(--brick-tint); --color-brick-text: var(--brick-text);
+	--color-plum: var(--plum);   --color-plum-tint: var(--plum-tint);   --color-plum-text: var(--plum-text);
+	--color-sage: var(--sage);   --color-sage-tint: var(--sage-tint);   --color-sage-text: var(--sage-text);
+	--color-iris: var(--iris);   --color-iris-tint: var(--iris-tint);   --color-iris-text: var(--iris-text);
+	--color-slate: var(--slate); --color-slate-tint: var(--slate-tint); --color-slate-text: var(--slate-text);
+	--color-clay: var(--clay);   --color-clay-tint: var(--clay-tint);   --color-clay-text: var(--clay-text);
+	--color-ochre: var(--ochre); --color-ochre-tint: var(--ochre-tint); --color-ochre-text: var(--ochre-text);
+	--color-rose: var(--rose);   --color-rose-tint: var(--rose-tint);   --color-rose-text: var(--rose-text);
+
+	--color-brick-full: var(--brick-full);
+	--color-plum-full: var(--plum-full);
+	--color-sage-full: var(--sage-full);
+	--color-iris-full: var(--iris-full);
+	--color-slate-full: var(--slate-full);
+	--color-clay-full: var(--clay-full);
+	--color-ochre-full: var(--ochre-full);
+	--color-rose-full: var(--rose-full);
+	--color-violet-full: var(--violet-full);
+}
+
+/* ----------------------------------------------------------------------------
+   4 · BASE
+--------------------------------------------------------------------------- */
+@layer base {
+	html {
+		scroll-behavior: smooth;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+	}
+	body {
+		background: var(--background);
+		color: var(--foreground);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+	::selection {
+		background: var(--violet-full);
+		color: #ffffff;
+	}
+	:focus-visible {
+		outline: 3px solid var(--focus);
+		outline-offset: 2px;
+	}
+	h1, h2, h3 {
+		text-wrap: balance;
+	}
+}
+
+/* ----------------------------------------------------------------------------
+   5 · EFFECTS — the Pixel V toolkit (P1–P5)
+--------------------------------------------------------------------------- */
+@layer components {
+	/* The brand V as a paintable vector mask (P2). Set --vpaint to any
+	   color or gradient; pair with filter: drop-shadow(...) for shaped
+	   shadows that follow the speckled silhouette. */
+	.vmask {
+		--vpaint: var(--foreground);
+		background: var(--vpaint);
+		mask-image: url("/images/favicon-white-2x.png");
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
+		-webkit-mask-image: url("/images/favicon-white-2x.png");
+		-webkit-mask-size: contain;
+		-webkit-mask-repeat: no-repeat;
+		-webkit-mask-position: center;
+	}
+	/* The four logo colorways as hard-stop quadrants — the mixed V. */
+	.vpaint-mixed {
+		--vpaint: conic-gradient(
+			from 0deg at 50% 46%,
+			#1c7ed6 0 25%,
+			#087f5b 0 50%,
+			#f59f00 0 75%,
+			#DC2430 0
+		);
+	}
+
+	/* Dissolving pixel patch — the V's speckle, abstracted. Small use only. */
+	.pixel-dissolve {
+		background-image:
+			conic-gradient(var(--pd, var(--line)) 0 25%, transparent 0 100%);
+		background-size: 10px 10px;
+		mask-image: linear-gradient(135deg, black 20%, transparent 80%);
+		-webkit-mask-image: linear-gradient(135deg, black 20%, transparent 80%);
+		pointer-events: none;
+	}
+
+	/* Technical hatch — thin 45° lines, a drafting-table texture. */
+	.hatch {
+		background-image: repeating-linear-gradient(
+			45deg,
+			var(--line) 0 1px,
+			transparent 1px 9px
+		);
+		pointer-events: none;
+	}
+
+	/* Diagonal section seams (P4). */
+	.seam-b {
+		clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4rem), 0 100%);
+	}
+	.seam-tb {
+		clip-path: polygon(0 4rem, 100% 0, 100% calc(100% - 4rem), 0 100%);
+	}
+
+	/* Gradient text (--gt picks the gradient). */
+	.gtext {
+		--gt: var(--grad-sweep);
+		background: var(--gt);
+		-webkit-background-clip: text;
+		background-clip: text;
+		color: transparent;
+	}
+
+	/* Gradient hairline border via double background. */
+	.gborder {
+		--gb: var(--grad-viva);
+		border: 2px solid transparent;
+		background:
+			linear-gradient(var(--surface), var(--surface)) padding-box,
+			var(--gb) border-box;
+	}
+
+	/* Colored soft glow — used sparingly (P2). */
+	.glow {
+		--gl: color-mix(in srgb, var(--violet-full) 40%, transparent);
+		box-shadow: 0 24px 70px -28px var(--gl);
+	}
+
+	/* Organic mask for the portrait — P1's earned exception. */
+	.blob {
+		border-radius: 38% 62% 55% 45% / 45% 38% 62% 55%;
+	}
+
+	/* The original site's card flip, modernized (P5). Hover or keyboard
+	   focus turns the card; touch/no-hover devices get both faces stacked. */
+	.flip-scene {
+		perspective: 1200px;
+	}
+	.flip-inner {
+		position: relative;
+		transform-style: preserve-3d;
+		transition: transform 0.7s cubic-bezier(0.35, 0.1, 0.2, 1);
+	}
+	.flip-front,
+	.flip-back {
+		backface-visibility: hidden;
+		-webkit-backface-visibility: hidden;
+	}
+	.flip-back {
+		position: absolute;
+		inset: 0;
+		transform: rotateY(180deg);
+	}
+	@media (hover: hover) {
+		.flip-scene:hover .flip-inner,
+		.flip-scene:focus-within .flip-inner {
+			transform: rotateY(180deg);
+		}
+	}
+	@media (hover: none) {
+		/* No hover: show both faces in flow, no 3D. */
+		.flip-inner {
+			transform: none !important;
+		}
+		.flip-back {
+			position: static;
+			transform: none;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.flip-inner {
+			transition: none;
+		}
+	}
+
+	/* Scroll-driven reveal — progressive enhancement only (P5). */
+	@supports (animation-timeline: view()) {
+		@media (prefers-reduced-motion: no-preference) {
+			.reveal {
+				animation: reveal-up linear both;
+				animation-timeline: view();
+				animation-range: entry 0% entry 55%;
+			}
+			@keyframes reveal-up {
+				from {
+					opacity: 0.2;
+					transform: translateY(2rem);
+				}
+				to {
+					opacity: 1;
+					transform: none;
+				}
+			}
+		}
+	}
 }

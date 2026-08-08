@@ -1,74 +1,82 @@
-"use client";
-
 import type { FunctionComponent } from "@/types/types.ts";
-import { MouseEventHandler, useRef } from "react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { ColorModeButton } from "@/components/ui/color-mode";
+import { LocaleSwitcher } from "@/components/LocaleSwitcher";
+import { VMark } from "@/components/brand";
+
+const LINKS = [
+	{ href: "/#section-products", key: "products" },
+	{ href: "/#section-services", key: "services" },
+	{ href: "/#section-pricing", key: "pricing" },
+	{ href: "/#section-team", key: "team" },
+	{ href: "/about", key: "about" },
+] as const;
 
 export const NavBar = (): FunctionComponent => {
-	const ref = useRef<HTMLInputElement>(null);
-
-	const navigationClick = (): MouseEventHandler => () => {
-		if (ref.current) ref.current.checked = !ref.current?.checked;
-	};
-
+	const t = useTranslations("Nav");
 	return (
-		<div className="navigation">
-			<input
-				className="navigation__checkbox"
-				id="navi-toggle"
-				type="checkbox"
-				ref={ref}
-			/>
-			<label className="navigation__button" htmlFor="navi-toggle">
-				<span className="navigation__icon"></span>
-			</label>
-			<div className="navigation__background">&nbsp;</div>
+		<header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/90 backdrop-blur-md">
+			<nav
+				aria-label="Main"
+				className="mx-auto flex h-14 w-full max-w-5xl items-center gap-6 px-6"
+			>
+				<Link
+					href="/"
+					className="flex items-center gap-2.5 no-underline"
+				>
+					<VMark mixed size={22} />
+					<span className="font-display text-sm font-normal tracking-[0.22em] text-foreground uppercase">
+						Vivid&nbsp;<span className="font-light tracking-[0.3em]">Pixel</span>
+					</span>
+				</Link>
 
-			<nav className="navigation__nav">
-				<ul className="navigation__list">
-					<li className="navigation__item">
-						<Link className="navigation__link" href="/about">
-							<span>01</span>About Vivid Pixel{" "}
-						</Link>
-					</li>
-					<li className="navigation__item">
+				<div className="hidden flex-1 items-center gap-5 lg:flex">
+					{LINKS.map((link) => (
 						<Link
-							className="navigation__link"
-							onClick={navigationClick()}
-							href="/#section-features"
+							key={link.key}
+							href={link.href}
+							className="text-sm text-muted-fg transition-colors hover:text-foreground"
 						>
-							<span>02</span>Technology
+							{t(link.key)}
 						</Link>
-					</li>
-					<li className="navigation__item">
-						<Link
-							className="navigation__link"
-							onClick={navigationClick()}
-							href="/#section-prices"
+					))}
+				</div>
+
+				<div className="ms-auto flex items-center gap-2">
+					<LocaleSwitcher />
+					<ColorModeButton />
+					<Link
+						href="/#section-contact"
+						className="hidden bg-primary px-4 py-1.5 font-mono text-xs font-semibold tracking-wide text-primary-foreground uppercase transition-colors hover:bg-primary-hover sm:inline-block"
+					>
+						{t("hireUs")}
+					</Link>
+
+					{/* Mobile menu — native disclosure, no JS. */}
+					<details className="relative lg:hidden">
+						<summary
+							className="flex size-9 cursor-pointer list-none items-center justify-center border border-line-strong text-foreground [&::-webkit-details-marker]:hidden"
+							aria-label={t("menu")}
 						>
-							<span>03</span>Prices
-						</Link>
-					</li>
-					<li className="navigation__item">
-						<Link
-							className="navigation__link"
-							onClick={navigationClick()}
-							href="/#section-developers"
-						>
-							<span>04</span>Developers
-						</Link>
-					</li>
-					<li className="navigation__item">
-						<Link
-							className="navigation__link"
-							onClick={navigationClick()}
-							href="/#section-contact"
-						>
-							<span>05</span>Hire Now
-						</Link>
-					</li>
-				</ul>
+							<span aria-hidden="true" className="font-mono text-sm">
+								&#8801;
+							</span>
+						</summary>
+						<div className="absolute end-0 mt-3 w-44 border border-line bg-surface p-2 shadow-xl">
+							{LINKS.map((link) => (
+								<Link
+									key={link.key}
+									href={link.href}
+									className="block px-3 py-2 text-sm text-muted-fg transition-colors hover:bg-inset hover:text-foreground"
+								>
+									{t(link.key)}
+								</Link>
+							))}
+						</div>
+					</details>
+				</div>
 			</nav>
-		</div>
+		</header>
 	);
 };

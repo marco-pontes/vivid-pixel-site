@@ -1,25 +1,124 @@
 {
-  "About": {
-    "title": "Frontend engineering, delivered"
-  },
-  "Prices": {
-    "title": "Pricing that scales with you",
-    "card1": {
-      "title": "1 Developer"
-    },
-    "card2": {
-      "title": "Front-end Squad"
-    },
-    "card3": {
-      "title": "Product Team"
-    }
-  },
-  "Developers": {
-    "title": "The team behind your frontend"
-  },
-  "Features": {
-    "best_practices": {
-      "text": "Clean, maintainable code built on modern frontend standards, accessibility and proven architecture patterns."
-    }
-  }
+	"Meta": {
+		"title": "Vivid Pixel — The studio behind Viva and Vivid Feed",
+		"description": "We build vivid software. Products and senior frontend engineering from the studio behind Viva and Vivid Feed — vetted senior React, Next.js and TypeScript engineers, nearshore in your timezone.",
+		"aboutTitle": "About — Vivid Pixel",
+		"aboutDescription": "Vivid Pixel is a software studio focused exclusively on the frontend — the team behind Viva and Vivid Feed."
+	},
+	"Nav": {
+		"products": "Products",
+		"services": "Services",
+		"pricing": "Pricing",
+		"team": "Team",
+		"about": "About",
+		"hireUs": "Hire us",
+		"menu": "Menu",
+		"language": "Language"
+	},
+	"Hero": {
+		"sub": "Products and senior frontend engineering from the studio behind <s>Viva</s> and <s>Vivid Feed</s>.",
+		"hireStudio": "Hire the studio",
+		"seeProducts": "See our products",
+		"marquee1": "Viva — every event happening around you",
+		"marquee2": "Vivid Feed — all your feeds, one vivid place",
+		"marquee3": "tested · accessible · continuously delivered"
+	},
+	"Products": {
+		"eyebrow": "Our products — living case studies",
+		"title": "We ship our own software",
+		"lead": "The same team you can hire builds and runs two products. They are the proof behind every promise on this page.",
+		"vivaDescription": "Location-first live-event discovery. Concerts, festivals, talks and matches near you — every event corroborated across independent sources by the Viva Stage Engine.",
+		"feedDescription": "A clean, three-pane feed reader. Follow any site with RSS or Atom, organize sources into folders, and read without the noise.",
+		"visit": "Visit {domain}"
+	},
+	"Services": {
+		"eyebrow": "Services",
+		"title": "The team that ships Viva and Vivid Feed, embedded in yours",
+		"lead": "Skip the cost, overhead and risk of building an in-house frontend team. You get vetted Brazilian engineers working in your timezone, transparent contracts and continuous delivery — scaling up or down whenever your roadmap changes.",
+		"embeddedTitle": "Embedded senior engineers",
+		"embeddedText": "Experienced React, Next.js and TypeScript specialists inside your team — your timezone, your standards, no long ramp-ups and no junior guesswork.",
+		"productTitle": "Product engineering",
+		"productText": "From scattered idea to shipped product, built the way our own products are built: tested, accessible and continuously delivered.",
+		"rescueTitle": "Frontend rescue",
+		"rescueText": "Untested, slow or inaccessible UI brought back to standard — measured, not promised.",
+		"seeHow": "See how we work"
+	},
+	"Pricing": {
+		"eyebrow": "Pricing",
+		"title": "Engagement models",
+		"sticker": "our favorite",
+		"cta": "Start a conversation",
+		"smallprint": "Public hourly rates on purpose — nearshore transparency you can budget against. Marco leads every engagement, drawing on a vetted circle of senior contractors assembled per project. Everything ships with tests, CI and documentation — the same bar as our products.",
+		"embeddedName": "Embedded Senior",
+		"embeddedUnit": "/h",
+		"embeddedMeta": "One engineer · 140 monthly hours",
+		"embeddedD1": "1 dedicated front-end specialist",
+		"embeddedD2": "Senior React, Next.js & TypeScript",
+		"embeddedD3": "Works in your timezone",
+		"embeddedD4": "Continuous delivery",
+		"embeddedD5": "Flexible monthly contract",
+		"squadName": "Front-end Squad",
+		"squadUnit": "/h · per dev",
+		"squadMeta": "Marco + vetted senior bench, one lead",
+		"squadD1": "2–4 dedicated front-end engineers",
+		"squadD2": "Shared senior tech lead",
+		"squadD3": "Code reviews & pair programming",
+		"squadD4": "Continuous delivery",
+		"squadD5": "Scale up or down anytime",
+		"buildName": "Product Build",
+		"buildFigure": "Scoped",
+		"buildUnit": "per project",
+		"buildMeta": "Design + build + ship, the way our products are made",
+		"buildD1": "From discovery to deployment",
+		"buildD2": "Front-end, QA & tech lead",
+		"buildD3": "Tested and accessible by default",
+		"buildD4": "Fixed scope or monthly retainer",
+		"buildD5": "You own everything we ship"
+	},
+	"Team": {
+		"eyebrow": "Who you'll work with",
+		"role": "Senior software engineer · 15 years",
+		"bio": "Micro-frontends, CI/CD, technical leadership — the engineer who built both products above. When you hire Vivid Pixel, this is who shows up."
+	},
+	"Contact": {
+		"eyebrow": "Contact",
+		"title": "Let's build together",
+		"lead": "Tell us what you want to develop or support. We reply fast — usually within a business day.",
+		"nameLabel": "Full name",
+		"namePlaceholder": "Full name",
+		"nameError": "The name must be informed",
+		"emailLabel": "Email address",
+		"emailPlaceholder": "you@company.com",
+		"emailError": "The email must be informed",
+		"emailInvalid": "Enter a valid email address",
+		"messageLabel": "Describe your service requirement",
+		"messagePlaceholder": "Explain what you want to develop or support",
+		"messageError": "The message must be informed",
+		"send": "Send a message",
+		"successTitle": "Message sent",
+		"successDescription": "Thanks for reaching out! Our team will get back to you shortly.",
+		"errorTitle": "Something went wrong",
+		"errorDescription": "Your message could not be sent. Please try again in a moment."
+	},
+	"Footer": {
+		"products": "Our products",
+		"studio": "Studio",
+		"personalNote": "A personal note",
+		"noteText": "A project close to my heart —",
+		"noteLink": "Help Marco buy a prosthetic hand",
+		"builtBy": "Built by"
+	},
+	"About": {
+		"eyebrow": "About the studio",
+		"title": "Who we <g>are</g>",
+		"b1Title": "Frontend is all we do",
+		"b1Text": "Vivid Pixel is a software studio focused exclusively on the frontend. While generalist agencies spread themselves thin, we go deep on the part of your product your customers actually see and touch – building fast, accessible, pixel-perfect interfaces with React, Next.js and TypeScript.",
+		"b2Title": "A team that plugs into yours",
+		"b2Text": "We're a nearshore team of senior Brazilian engineers who work as an extension of your own. We adopt your tools, your rituals and your definition of done – so collaboration feels in-house, not outsourced.",
+		"b3Title": "Why companies outsource to us",
+		"b3Text": "Hiring senior frontend talent is slow and expensive. With Vivid Pixel you skip the recruitment, overhead and risk: get vetted engineers working in your timezone within days, on a flexible contract you can scale up or down as your roadmap shifts.",
+		"b4Title": "Our promise",
+		"b4Text": "Production-grade code, tested and reviewed, delivered continuously. Clear communication, transparent pricing and no long-term lock-in. We measure our success by the features you ship – not the hours we bill.",
+		"cta": "Hire our team"
+	}
 }

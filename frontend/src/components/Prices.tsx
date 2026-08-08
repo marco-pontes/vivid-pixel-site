@@ -1,117 +1,123 @@
+import type { CSSProperties } from "react";
+import type { FunctionComponent } from "@/types/types.ts";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { Eyebrow, Section, VMark } from "@/components/brand";
 
-export const Prices = () => {
-	const t = useTranslations("Prices");
+/**
+ * Engagement models — the original site's 3D card flip, kept as heritage
+ * and modernized (P5). Fronts are quiet paper: thin uppercase name, big
+ * price, details. Hover or keyboard focus turns the card to a full-bleed
+ * brand-gradient back with a ghost V and the CTA — the way the old flip
+ * cards hid their price behind the turn, inverted: here the front informs,
+ * the back asks. Touch devices get both faces stacked, no 3D.
+ */
+const TIERS = [
+	{
+		key: "embedded",
+		figure: "$42",
+		back: "linear-gradient(135deg, #1c7ed6, #5f3dc4)",
+		featured: false,
+	},
+	{
+		key: "squad",
+		figure: "$38",
+		back: "var(--grad-feed)",
+		featured: false,
+	},
+	{
+		key: "build",
+		figure: null,
+		back: "var(--grad-viva)",
+		featured: true,
+	},
+] as const;
+
+const DETAILS = ["D1", "D2", "D3", "D4", "D5"] as const;
+
+export const Prices = (): FunctionComponent => {
+	const t = useTranslations("Pricing");
 	return (
-		<section className="section-prices" id="section-prices">
-			<div className="u-center-text u-margin-bottom-big">
-				<h2 className="heading-secondary">{t("title")}</h2>
-			</div>
-			<div className="row">
-				<div className="col-1-of-3">
-					<div className="card">
-						<div className="card__side card__side--front">
-							<div className="card__picture card__picture--1"></div>
-							<h4 className="card__heading">
-								<span className="card__heading-span card__heading-span--1">
-									{t("card1.title")}
-								</span>
-							</h4>
-							<div className="card__details">
-								<ul>
-									<li>1 dedicated front-end specialist</li>
-									<li>Senior React, Next.js &amp; TypeScript</li>
-									<li>Works in your timezone</li>
-									<li>Continuous delivery</li>
-									<li>Flexible monthly contract</li>
-								</ul>
-							</div>
-						</div>
-						<div className="card__side card__side--back card__side--back-1">
-							<div className="card__cta">
-								<div className="card__price-box">
-									<p className="card__price-only">
-										Hourly rate (140 monthly hours)
-									</p>
-									<p className="card__price-value">$42</p>
+		<Section id="section-pricing">
+			<Eyebrow hue="ochre">{t("eyebrow")}</Eyebrow>
+			<h2 className="mb-12 font-display text-3xl font-light tracking-[0.08em] uppercase sm:text-4xl">
+				{t("title")}
+			</h2>
+			<div className="grid gap-10 md:grid-cols-3">
+				{TIERS.map((tier) => (
+					<div key={tier.key} className="flip-scene reveal">
+						<div className="flip-inner h-full">
+							{/* FRONT — paper */}
+							<div
+								className={`flip-front flex h-full flex-col border bg-surface p-6 ${
+									tier.featured ? "border-ochre-text" : "border-line"
+								}`}
+							>
+								<h3 className="font-mono text-xs font-bold tracking-[0.14em] text-muted-fg uppercase">
+									{t(`${tier.key}Name`)}
+								</h3>
+								<div className="mt-3 font-display text-5xl font-light tracking-tight tabular-nums">
+									{tier.figure ?? (
+										<span className="text-4xl">{t("buildFigure")}</span>
+									)}{" "}
+									<span className="font-sans text-sm text-muted-fg">
+										{t(`${tier.key}Unit`)}
+									</span>
 								</div>
-								<a href="#popup" className="btn btn--white">
-									Hire now!
-								</a>
+								<p className="mt-2 text-xs text-muted-fg">
+									{t(`${tier.key}Meta`)}
+								</p>
+								<ul className="mt-5 flex-1 space-y-2 border-t border-line pt-5 text-sm text-muted-fg">
+									{DETAILS.map((detail) => (
+										<li key={detail} className="flex gap-2">
+											<span
+												aria-hidden="true"
+												className="mt-1.5 size-1.5 shrink-0 bg-ochre-full"
+											/>
+											{t(`${tier.key}${detail}`)}
+										</li>
+									))}
+								</ul>
+								<p
+									aria-hidden="true"
+									className="mt-4 hidden font-mono text-[0.65rem] tracking-[0.14em] text-subtle-fg uppercase [@media(hover:hover)]:block"
+								>
+									&#8635;
+								</p>
+							</div>
+							{/* BACK — the brand gradient asks for the conversation */}
+							<div
+								className="flip-back flex flex-col items-start justify-end overflow-hidden p-6"
+								style={{ background: tier.back } as CSSProperties}
+							>
+								<VMark
+									size={230}
+									paint="rgba(255,255,255,0.12)"
+									className="pointer-events-none absolute -end-10 -top-10"
+								/>
+								<h3 className="relative font-mono text-xs font-bold tracking-[0.14em] text-white/85 uppercase">
+									{t(`${tier.key}Name`)}
+								</h3>
+								<div className="relative mt-2 mb-6 font-display text-6xl font-light tracking-tight text-white tabular-nums">
+									{tier.figure ?? (
+										<span className="text-4xl">{t("buildFigure")}</span>
+									)}
+									<span className="ms-2 align-middle font-sans text-sm text-white/85">
+										{t(`${tier.key}Unit`)}
+									</span>
+								</div>
+								<Link
+									href="/#section-contact"
+									className="relative bg-white px-5 py-2.5 text-center font-mono text-sm font-bold tracking-wide text-[#171321] uppercase transition-transform motion-safe:hover:-translate-y-0.5"
+								>
+									{t("cta")}
+								</Link>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div className="col-1-of-3">
-					<div className="card">
-						<div className="card__side card__side--front">
-							<div className="card__picture card__picture--2"></div>
-							<h4 className="card__heading">
-								<span className="card__heading-span card__heading-span--2">
-									{t("card2.title")}
-								</span>
-							</h4>
-							<div className="card__details">
-								<ul>
-									<li>3 dedicated front-end engineers</li>
-									<li>Shared senior tech lead</li>
-									<li>Code reviews &amp; pair programming</li>
-									<li>Continuous delivery</li>
-									<li>Scale up or down anytime</li>
-								</ul>
-							</div>
-						</div>
-						<div className="card__side card__side--back card__side--back-2">
-							<div className="card__cta">
-								<div className="card__price-box">
-									<p className="card__price-only">Hourly rate (per developer)</p>
-									<p className="card__price-value">$38</p>
-								</div>
-								<a href="#popup" className="btn btn--white">
-									Hire now!
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className="col-1-of-3">
-					<div className="card">
-						<div className="card__side card__side--front">
-							<div className="card__picture card__picture--3"></div>
-							<h4 className="card__heading">
-								<span className="card__heading-span card__heading-span--3">
-									{t("card3.title")}
-								</span>
-							</h4>
-							<div className="card__details">
-								<ul>
-									<li>Full cross-functional team</li>
-									<li>Front-end, QA &amp; tech lead</li>
-									<li>From discovery to deployment</li>
-									<li>Dedicated project manager</li>
-									<li>Fixed scope or monthly retainer</li>
-								</ul>
-							</div>
-						</div>
-						<div className="card__side card__side--back card__side--back-3">
-							<div className="card__cta">
-								<div className="card__price-box">
-									<p className="card__price-only">Hourly rate (per specialist)</p>
-									<p className="card__price-value">$36</p>
-								</div>
-								<a href="#popup" className="btn btn--white">
-									Hire now!
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
+				))}
 			</div>
-			<div className="u-center-text u-margin-top-huge">
-				<a href="#section-contact" className="btn btn--green">
-					Book a free consultation
-				</a>
-			</div>
-		</section>
+			<p className="mt-8 max-w-2xl text-sm text-subtle-fg">{t("smallprint")}</p>
+		</Section>
 	);
 };

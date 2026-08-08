@@ -13,7 +13,8 @@ const sendEmail = async (variables: ContactForm): Promise<Response> => {
 };
 
 export const useSendContact = (
-	successFn: () => void
+	successFn: () => void,
+	errorFn?: (error: Error) => void
 ): UseMutationResult<Response, Error, ContactForm> => {
 	const queryClient = useQueryClient();
 
@@ -25,7 +26,8 @@ export const useSendContact = (
 				.then(successFn);
 		},
 		onError: (error) => {
-			console.error("Erro ao completar o todo:", error);
+			console.error("Failed to send contact message:", error);
+			errorFn?.(error);
 		},
 	});
 };

@@ -1,106 +1,90 @@
-import Image from "next/image";
-import type { FunctionComponent } from "@/types/types";
+import type { FunctionComponent } from "@/types/types.ts";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { VMark } from "@/components/brand";
+
+const PRODUCT_LINKS = [
+	{ label: "Viva", href: "https://viva-stage.com" },
+	{ label: "Vivid Feed", href: "https://vivid-feed.com" },
+] as const;
+
+const STUDIO_LINKS = [
+	{ key: "services", href: "/#section-services" },
+	{ key: "pricing", href: "/#section-pricing" },
+	{ key: "team", href: "/#section-team" },
+	{ key: "about", href: "/about" },
+] as const;
 
 export const Footer = (): FunctionComponent => {
+	const t = useTranslations("Footer");
+	const tNav = useTranslations("Nav");
 	return (
-		<footer className="footer">
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					gap: "20px",
-					width: "959px",
-					flexWrap: "wrap",
-				}}
-			></div>
-			<div className="footer__logo-box">
-				<picture className="footer__logo">
-					<source
-						media="(max-width: 37.5em)"
-						srcSet={`/images/logo-side-yellow-1x.png 1x, /images/logo-side-yellow-2x.png 2x`}
-					/>
-					<Image
-						alt="Full logo"
-						className="footer__logo"
-						height={200}
-						src="/images/vivid-white-2x.png"
-						width={200}
-					/>
-				</picture>
-				<div>
-					<a href="https://vite.dev" target="_blank">
-						<Image
-							alt="Vite logo"
-							className="tech-logos"
-							height={32}
-							src="/images/vite.svg"
-							width={36}
-						/>
-					</a>
-					<a href="https://nextjs.org/" target="_blank">
-						<Image
-							alt="Next logo"
-							className="tech-logos"
-							height={32}
-							src="/images/next.svg"
-							width={36}
-						/>
-					</a>
-					<a href="https://react.dev" target="_blank">
-						<Image
-							alt="React logo"
-							className="tech-logos"
-							height={32}
-							src="/images/react.svg"
-							width={36}
-						/>
-					</a>
-				</div>
-			</div>
-			<div className="row">
-				<div className="col-1-of-2">
-					<div className="footer__navigation">
-						<ul className="footer__list">
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Company
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Contact us
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Careers
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Privacy policy
-								</a>
-							</li>
-							<li className="footer__item">
-								<a className="footer__link" href="#">
-									Terms
-								</a>
-							</li>
+		<footer className="relative bg-[#171321] px-6 py-14 text-[#f2eff7] before:absolute before:inset-x-0 before:top-0 before:h-1 before:content-[''] before:[background:var(--grad-sweep)]">
+			<div className="mx-auto w-full max-w-5xl">
+				<div className="flex flex-wrap gap-x-16 gap-y-10">
+					<div>
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
+							{t("products")}
+						</h3>
+						<ul className="space-y-1.5">
+							{PRODUCT_LINKS.map((link) => (
+								<li key={link.href}>
+									<a
+										className="text-sm text-[#b3abc4] transition-colors hover:text-white"
+										href={link.href}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										{link.label}
+									</a>
+								</li>
+							))}
 						</ul>
 					</div>
+					<div>
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
+							{t("studio")}
+						</h3>
+						<ul className="space-y-1.5">
+							{STUDIO_LINKS.map((link) => (
+								<li key={link.href}>
+									<Link
+										className="text-sm text-[#b3abc4] transition-colors hover:text-white"
+										href={link.href}
+									>
+										{tNav(link.key)}
+									</Link>
+								</li>
+							))}
+						</ul>
+					</div>
+					<div className="max-w-xs">
+						<h3 className="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-[#9d94b0] uppercase">
+							{t("personalNote")}
+						</h3>
+						<p className="text-sm leading-relaxed text-[#b3abc4]">
+							{t("noteText")}{" "}
+							<a
+								className="font-semibold text-[#f06595] hover:underline"
+								href="https://help-marco-buy-a-prosthetic-hand.com"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								{t("noteLink")}
+							</a>
+						</p>
+					</div>
 				</div>
-				<div className="col-1-of-2">
-					<p className="footer__copyright">
-						Built by{" "}
-						<a className="footer__link" href="https://github.com/marco-pontes/">
-							Marco Pontes
-						</a>
-						. Copyright &copy; by{" "}
+
+				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#2e2839] pt-6">
+					<VMark mixed size={26} />
+					<p className="font-mono text-xs text-[#9d94b0]">
+						&copy; {new Date().getFullYear()} Vivid Pixel &middot; {t("builtBy")}{" "}
 						<a
-							className="footer__link"
-							href="https://github.com/jonasschmedtmann"
+							className="hover:text-white"
+							href="https://github.com/marco-pontes/"
 						>
-							Jonas Schmedtmann
+							Marco Pontes
 						</a>
 					</p>
 				</div>

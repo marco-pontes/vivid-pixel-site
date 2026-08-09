@@ -27,9 +27,10 @@
 	"Products": {
 		"eyebrow": "Our products — living case studies",
 		"title": "We ship our own software",
-		"lead": "The same team you can hire builds and runs two products. They are the proof behind every promise on this page.",
+		"lead": "The same team you can hire builds and runs three products. They are the proof behind every promise on this page.",
 		"vivaDescription": "Location-first live-event discovery. Concerts, festivals, talks and matches near you — every event corroborated across independent sources by the Viva Stage Engine.",
 		"feedDescription": "A clean, three-pane feed reader. Follow any site with RSS or Atom, organize sources into folders, and read without the noise.",
+		"loveDescription": "Matchmaking that is honest about the numbers — real demographic data and transparent match probabilities that genuinely raise your chances of finding a partner.",
 		"visit": "Visit {domain}"
 	},
 	"Services": {

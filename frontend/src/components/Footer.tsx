@@ -6,6 +6,7 @@ import { VMark } from "@/components/brand";
 const PRODUCT_LINKS = [
 	{ label: "Viva", href: "https://viva-stage.com" },
 	{ label: "Vivid Feed", href: "https://vivid-feed.com" },
+	{ label: "Vivid Love", href: "https://vivid-love.com" },
 ] as const;
 
 const STUDIO_LINKS = [

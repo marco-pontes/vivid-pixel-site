@@ -27,9 +27,10 @@
 	"Products": {
 		"eyebrow": "Nuestros productos — casos de estudio vivos",
 		"title": "Lanzamos nuestro propio software",
-		"lead": "El mismo equipo que puedes contratar construye y opera dos productos. Son la prueba detrás de cada promesa en esta página.",
+		"lead": "El mismo equipo que puedes contratar construye y opera tres productos. Son la prueba detrás de cada promesa en esta página.",
 		"vivaDescription": "Descubrimiento de eventos en vivo según tu ubicación. Conciertos, festivales, charlas y partidos cerca de ti — cada evento corroborado en fuentes independientes por el Viva Stage Engine.",
 		"feedDescription": "Un lector de feeds limpio, de tres paneles. Sigue cualquier sitio con RSS o Atom, organiza tus fuentes en carpetas y lee sin ruido.",
+		"loveDescription": "Matchmaking honesto con los números: datos demográficos reales y probabilidades de match transparentes que realmente aumentan tus posibilidades de encontrar pareja.",
 		"visit": "Visita {domain}"
 	},
 	"Services": {

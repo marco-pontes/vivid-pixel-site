@@ -31,6 +31,17 @@ const PRODUCTS = [
 		dissolve: "color-mix(in srgb, var(--sage-full) 45%, transparent)",
 		linkClass: "text-sage-text",
 	},
+	{
+		name: "Vivid Love",
+		tagline: "\u201cThe real numbers of love\u201d",
+		descriptionKey: "loveDescription" as const,
+		href: "https://vivid-love.com",
+		domain: "vivid-love.com",
+		gradient: "linear-gradient(135deg, #91a7ff, #f783ac)",
+		glowColor: "color-mix(in srgb, #f783ac 30%, transparent)",
+		dissolve: "color-mix(in srgb, #f783ac 45%, transparent)",
+		linkClass: "text-rose-text",
+	},
 ] as const;
 
 export const Products = (): FunctionComponent => {
@@ -42,7 +53,7 @@ export const Products = (): FunctionComponent => {
 				{t("title")}
 			</h2>
 			<p className="mb-12 max-w-xl text-muted-fg">{t("lead")}</p>
-			<div className="grid gap-10 md:grid-cols-2">
+			<div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
 				{PRODUCTS.map((product) => (
 					<a
 						key={product.name}

@@ -72,7 +72,7 @@ export const Header = (): FunctionComponent => {
 					<VMark
 						colored
 						size={340}
-						className="motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-1000  max-sm:size-56!"
+						className="motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-1000 max-sm:size-56!"
 					/>
 				</div>
 			</div>

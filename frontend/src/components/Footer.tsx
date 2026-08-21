@@ -20,7 +20,7 @@ export const Footer = (): FunctionComponent => {
 	const t = useTranslations("Footer");
 	const tNav = useTranslations("Nav");
 	return (
-		<footer className="relative bg-[#171321] px-6 py-14 text-[#f2eff7] before:absolute before:inset-x-0 before:top-0 before:h-1 before:content-[''] before:[background:var(--grad-sweep)]">
+		<footer className="relative bg-[#100e2c] px-6 py-14 text-[#f2eff7] before:absolute before:inset-x-0 before:top-0 before:h-1 before:content-[''] before:[background:var(--grad-sweep)]">
 			<div className="mx-auto w-full max-w-5xl">
 				<div className="flex flex-wrap gap-x-16 gap-y-10">
 					<div>

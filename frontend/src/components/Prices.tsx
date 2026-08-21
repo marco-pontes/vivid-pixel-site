@@ -108,7 +108,7 @@ export const Prices = (): FunctionComponent => {
 								</div>
 								<Link
 									href="/#section-contact"
-									className="relative bg-white px-5 py-2.5 text-center font-mono text-sm font-bold tracking-wide text-[#171321] uppercase transition-transform motion-safe:hover:-translate-y-0.5"
+									className="relative bg-white px-5 py-2.5 text-center font-mono text-sm font-bold tracking-wide text-[#100e2c] uppercase transition-transform motion-safe:hover:-translate-y-0.5"
 								>
 									{t("cta")}
 								</Link>

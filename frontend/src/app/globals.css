@@ -36,13 +36,13 @@
 	--inset: #edeaf2;
 	--line: #ddd8e4;
 	--line-strong: #b9b2c4;
-	--foreground: #171321;
+	--foreground: #100e2c;
 	--muted-fg: #4e4760;
 	--subtle-fg: #5f5872;
 
 	/* Ink is the frame (G3): constant-ink tokens for borders/hard shadows and
 	   for dark text sitting on saturated fills in BOTH themes. */
-	--ink: #171321;
+	--ink: #100e2c;
 	--ink-inverse: #f2eff7;
 	--hard-shadow: var(--ink);
 
@@ -88,7 +88,8 @@
 	/* Brand gradients — quoted exactly as the products ship them */
 	--grad-viva: linear-gradient(110deg, var(--brick-full), var(--plum-full));
 	--grad-feed: linear-gradient(135deg, var(--sage-full), var(--iris-full));
-	--grad-sweep: linear-gradient(90deg, #087f5b, #0ca678, #845ef7, #5f3dc4);
+	/* The logo's own gradient — text-grade stops in light, raw in dark */
+	--grad-sweep: linear-gradient(90deg, #d86e4d, #e454b4, #ce7737, #779533, #0095cd);
 
 	/* Focus indicator */
 	--focus: #6d40ae;
@@ -104,23 +105,23 @@
    themselves ship (e.g. Viva's #f0606b event red, #a78bfa performer violet).
 --------------------------------------------------------------------------- */
 .dark {
-	--background: #0d0b12;
-	--surface: #17141f;
-	--inset: #201c2a;
-	--line: #2e2839;
-	--line-strong: #453d55;
+	--background: #0c0a1f;
+	--surface: #14122a;
+	--inset: #1d1a35;
+	--line: #2c2845;
+	--line-strong: #443e63;
 	--foreground: #f2eff7;
 	--muted-fg: #b3abc4;
 	--subtle-fg: #9d94b0;
 
-	--ink: #171321;
+	--ink: #100e2c;
 	--ink-inverse: #f2eff7;
 	--hard-shadow: #000000;
 
 	--primary: #a78bfa;
 	--primary-hover: #bca4fc;
 	--primary-tint: #241b38;
-	--primary-fg: #0d0b12;
+	--primary-fg: #0c0a1f;
 
 	--brick: #f0606b; --brick-text: #f0606b;
 	--plum: #a78bfa;  --plum-text: #a78bfa;
@@ -142,8 +143,10 @@
 
 	--focus: #a78bfa;
 
+	--grad-sweep: linear-gradient(90deg, #fc805a, #e454b4, #fc9244, #abd64a, #00aeef);
+
 	--destructive: oklch(0.704 0.191 22.216);
-	--destructive-fg: #0d0b12;
+	--destructive-fg: #0c0a1f;
 }
 
 /* ----------------------------------------------------------------------------

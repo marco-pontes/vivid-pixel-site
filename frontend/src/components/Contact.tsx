@@ -40,7 +40,7 @@ export const Contact = (): FunctionComponent => {
 	};
 
 	const fieldClass =
-		"w-full border-2 border-transparent bg-white px-3.5 py-2.5 text-sm text-[#171321] placeholder:text-[#5f5872] outline-none focus-visible:border-[#f59f00] focus-visible:outline-none";
+		"w-full border-2 border-transparent bg-white px-3.5 py-2.5 text-sm text-[#100e2c] placeholder:text-[#5f5872] outline-none focus-visible:border-[#f59f00] focus-visible:outline-none";
 
 	return (
 		<Section id="section-contact">

@@ -105,11 +105,11 @@
    themselves ship (e.g. Viva's #f0606b event red, #a78bfa performer violet).
 --------------------------------------------------------------------------- */
 .dark {
-	--background: #0c0a1f;
-	--surface: #14122a;
-	--inset: #1d1a35;
-	--line: #2c2845;
-	--line-strong: #443e63;
+	--background: #0d0b12;
+	--surface: #17141f;
+	--inset: #201c2a;
+	--line: #2e2839;
+	--line-strong: #453d55;
 	--foreground: #f2eff7;
 	--muted-fg: #b3abc4;
 	--subtle-fg: #9d94b0;
@@ -121,7 +121,7 @@
 	--primary: #a78bfa;
 	--primary-hover: #bca4fc;
 	--primary-tint: #241b38;
-	--primary-fg: #0c0a1f;
+	--primary-fg: #0d0b12;
 
 	--brick: #f0606b; --brick-text: #f0606b;
 	--plum: #a78bfa;  --plum-text: #a78bfa;
@@ -146,7 +146,7 @@
 	--grad-sweep: linear-gradient(90deg, #fc805a, #e454b4, #fc9244, #abd64a, #00aeef);
 
 	--destructive: oklch(0.704 0.191 22.216);
-	--destructive-fg: #0c0a1f;
+	--destructive-fg: #0d0b12;
 }
 
 /* ----------------------------------------------------------------------------

@@ -15,13 +15,13 @@ import { Eyebrow, Section, VMark } from "@/components/brand";
 const TIERS = [
 	{
 		key: "embedded",
-		figure: "$42",
+		figure: "$52",
 		back: "linear-gradient(135deg, #1c7ed6, #5f3dc4)",
 		featured: false,
 	},
 	{
 		key: "squad",
-		figure: "$38",
+		figure: "$46",
 		back: "var(--grad-feed)",
 		featured: false,
 	},

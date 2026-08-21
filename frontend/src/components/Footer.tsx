@@ -78,7 +78,7 @@ export const Footer = (): FunctionComponent => {
 				</div>
 
 				<div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-[#2e2839] pt-6">
-					<VMark mixed size={26} />
+					<VMark colored size={26} />
 					<p className="font-mono text-xs text-[#9d94b0]">
 						&copy; {new Date().getFullYear()} Vivid Pixel &middot; {t("builtBy")}{" "}
 						<a

@@ -254,26 +254,15 @@
 	.vmask {
 		--vpaint: var(--foreground);
 		background: var(--vpaint);
-		mask-image: url("/images/favicon-white-2x.png");
+		mask-image: url("/images/brand/v-white.svg");
 		mask-size: contain;
 		mask-repeat: no-repeat;
 		mask-position: center;
-		-webkit-mask-image: url("/images/favicon-white-2x.png");
+		-webkit-mask-image: url("/images/brand/v-white.svg");
 		-webkit-mask-size: contain;
 		-webkit-mask-repeat: no-repeat;
 		-webkit-mask-position: center;
 	}
-	/* The four logo colorways as hard-stop quadrants — the mixed V. */
-	.vpaint-mixed {
-		--vpaint: conic-gradient(
-			from 0deg at 50% 46%,
-			#1c7ed6 0 25%,
-			#087f5b 0 50%,
-			#f59f00 0 75%,
-			#DC2430 0
-		);
-	}
-
 	/* Dissolving pixel patch — the V's speckle, abstracted. Small use only. */
 	.pixel-dissolve {
 		background-image:

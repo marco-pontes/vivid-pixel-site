@@ -25,7 +25,7 @@ export const NavBar = (): FunctionComponent => {
 					href="/"
 					className="flex items-center gap-2.5 no-underline"
 				>
-					<VMark mixed size={22} />
+					<VMark colored size={22} />
 					<span className="font-display text-sm font-normal tracking-[0.22em] text-foreground uppercase">
 						Vivid&nbsp;<span className="font-light tracking-[0.3em]">Pixel</span>
 					</span>

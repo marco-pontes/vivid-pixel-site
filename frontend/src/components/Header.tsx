@@ -72,7 +72,7 @@ export const Header = (): FunctionComponent => {
 				{/* The mixed-color V — the pixel lives here. */}
 				<div className="relative mx-auto max-lg:mt-4">
 					<VMark
-						mixed
+						colored
 						size={340}
 						className="motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:duration-1000 [filter:drop-shadow(10px_10px_0_color-mix(in_srgb,var(--foreground)_18%,transparent))] max-sm:!size-56"
 					/>

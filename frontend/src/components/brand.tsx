@@ -29,33 +29,44 @@ const EYEBROW_TEXT: Record<Hue, string> = {
 };
 
 /**
- * The brand V, painted with any color or gradient via CSS mask (P2).
- * `paint` accepts a CSS color/gradient; `mixed` uses the four logo
- * colorways as hard-stop quadrants.
+ * The brand V (P2). `colored` renders the official colored logo SVG
+ * as-is — never repainted. Otherwise the official silhouette is a CSS
+ * mask painted with exactly one color via `paint`.
  */
 export const VMark = ({
 	size = 16,
 	paint,
-	mixed = false,
+	colored = false,
 	className = "",
 }: {
 	size?: number;
 	paint?: string;
-	mixed?: boolean;
+	colored?: boolean;
 	className?: string;
-}) => (
-	<span
-		aria-hidden="true"
-		className={`vmask inline-block shrink-0 ${mixed ? "vpaint-mixed" : ""} ${className}`}
-		style={
-			{
-				width: size,
-				height: size,
-				...(paint ? { "--vpaint": paint } : {}),
-			} as CSSProperties
-		}
-	/>
-);
+}) =>
+	colored ? (
+		// eslint-disable-next-line @next/next/no-img-element
+		<img
+			src="/images/brand/v-colored.svg"
+			alt=""
+			aria-hidden="true"
+			width={size}
+			height={size}
+			className={`inline-block shrink-0 select-none ${className}`}
+		/>
+	) : (
+		<span
+			aria-hidden="true"
+			className={`vmask inline-block shrink-0 ${className}`}
+			style={
+				{
+					width: size,
+					height: size,
+					...(paint ? { "--vpaint": paint } : {}),
+				} as CSSProperties
+			}
+		/>
+	);
 
 /** Mono section eyebrow marked with a small V in the section's hue. */
 export const Eyebrow = ({
